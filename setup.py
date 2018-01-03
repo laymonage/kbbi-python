@@ -5,7 +5,7 @@ File setup untuk modul KBBI.
 from setuptools import setup
 setup(
     name='kbbi',
-    version='0.1.1',
+    version='0.2.1',
     py_modules=['kbbi'],
     install_requires=[
         'requests',
@@ -17,7 +17,7 @@ setup(
     author_email='laymonage@gmail.com',
     url='https://github.com/laymonage/kbbi-python',
     download_url=('https://github.com/laymonage/kbbi-python/'
-                  'archive/0.1.1.tar.gz'),
+                  'archive/0.2.1.tar.gz'),
     keywords=['kbbi', 'kamus', 'indonesia'],
     classifiers=[],
 )
