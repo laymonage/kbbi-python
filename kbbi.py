@@ -22,14 +22,14 @@ class KBBI:
         '''
         Galat yang menunjukkan bahwa entri tidak ditemukan dalam KBBI.
         '''
-        def __init__(self):
-            Exception.__init__(self, 'Entri tidak ditemukan dalam KBBI!')
+        def __init__(self, keyword):
+            Exception.__init__(self, keyword + ' tidak ditemukan dalam KBBI!')
 
     def __init__(self, keyword):
-        url = 'https://kbbi.kemdikbud.go.id/entri/{}'.format(quote(keyword))
+        url = 'https://kbbi.kemdikbud.go.id/entri/' + quote(keyword)
         raw = requests.get(url).text
         if "Entri tidak ditemukan." in raw:
-            raise self.TidakDitemukan
+            raise self.TidakDitemukan(keyword)
         self.arti = []
         self.arti_contoh = []
         isolasi = raw[raw.find('<h2>'):raw.find('<h4>')]
