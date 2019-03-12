@@ -2,22 +2,34 @@
 File setup untuk modul KBBI.
 '''
 
-from setuptools import setup
+from setuptools import find_packages, setup
+
+with open('README.md') as readme:
+    long_description = readme.read()
+
 setup(
     name='kbbi',
     version='0.2.1',
-    py_modules=['kbbi'],
+    description=(
+        "A module that scraps a page in the online Indonesian dictionary (KBBI)"
+    ),
+    long_description=long_description,
+    long_description_content_type='text/markdown',
+    url='https://github.com/laymonage/kbbi-python',
+    author='sage',
+    author_email='laymonage@gmail.com',
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+        "Natural Language :: Indonesian",
+    ],
+    keywords=(
+        'kbbi kamus bahasa indonesia indonesian natural language scraper'
+    ),
+    packages=find_packages(),
     install_requires=[
         'requests',
         'beautifulsoup4',
     ],
-    description=('A Python module that scraps an entry in KBBI'
-                 '(https://kbbi.kemdikbud.go.id)'),
-    author='sage',
-    author_email='laymonage@gmail.com',
-    url='https://github.com/laymonage/kbbi-python',
-    download_url=('https://github.com/laymonage/kbbi-python/'
-                  'archive/0.2.1.tar.gz'),
-    keywords=['kbbi', 'kamus', 'indonesia'],
-    classifiers=[],
 )
