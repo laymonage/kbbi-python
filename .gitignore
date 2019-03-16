@@ -1,0 +1,5 @@
+.vscode/
+**__pycache__/
+build/
+dist/
+kbbi.egg-info/
