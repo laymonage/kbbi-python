@@ -2,7 +2,7 @@
 kbbi-python
 https://kbbi.kemdikbud.go.id
 
-Mengambil laman sebuah kata/frasa dalam KBBI Daring.
+Mengambil sebuah laman untuk kata/frasa dalam KBBI Daring.
 
 Penggunaan:
 kata = KBBI('kata')
@@ -66,33 +66,42 @@ class Entri:
     def __init__(self, entri_html):
         entri = BeautifulSoup(entri_html, 'html.parser')
         judul = entri.find('h2')
-        dasar = judul.find(class_='rootword')
+        dasar = judul.find_all(class_='rootword')
         nomor = judul.find('sup', recursive=False)
         lafal = judul.find(class_='syllable')
-        bentuk_tidak_baku = judul.find('small')
-        makna = entri.find_all('li')
+        varian = judul.find('small')
+        if entri.find(color='darkgreen'):
+            makna = [entri]
+        else:
+            makna = entri.find_all('li')
 
         self.nama = ambil_teks_dalam_label(judul)
         self.nomor = nomor.text.strip() if nomor else ''
-        self.kata_dasar = ''
+        self.kata_dasar = []
         self._init_kata_dasar(dasar)
         self.pelafalan = lafal.text.strip() if lafal else ''
 
         self.bentuk_tidak_baku = []
-        if bentuk_tidak_baku:
-            bentuk_tidak_baku = bentuk_tidak_baku.find_all('b')
-            self.bentuk_tidak_baku = ''.join(
-                e.text.strip() for e in bentuk_tidak_baku
-            ).split(', ')
+        self.varian = []
+        if varian:
+            bentuk_tidak_baku = varian.find_all('b')
+            if bentuk_tidak_baku:
+                self.bentuk_tidak_baku = ''.join(
+                    e.text.strip() for e in bentuk_tidak_baku
+                ).split(', ')
+            else:
+                self.varian = varian.text[len('varian: '):].strip().split(', ')
 
         self.makna = [Makna(m) for m in makna]
 
     def _init_kata_dasar(self, dasar):
-        if dasar:
-            dasar = dasar.find('a')
-            dasar_no = dasar.find('sup')
-            self.kata_dasar = ambil_teks_dalam_label(dasar)
-            if dasar_no: self.kata_dasar += ' [{}]'.format(dasar_no.text.strip())
+        for d in dasar:
+            kata = d.find('a')
+            dasar_no = kata.find('sup')
+            kata = ambil_teks_dalam_label(kata)
+            self.kata_dasar.append(
+                kata + ' [{}]'.format(dasar_no.text.strip()) if dasar_no else kata
+            )
 
     def serialisasi(self):
         return {
@@ -101,6 +110,7 @@ class Entri:
             "kata_dasar": self.kata_dasar,
             "pelafalan": self.pelafalan,
             "bentuk_tidak_baku": self.bentuk_tidak_baku,
+            "varian": self.varian,
             "makna": [makna.serialisasi() for makna in self.makna]
         }
 
@@ -114,20 +124,24 @@ class Entri:
 
     def _nama(self):
         hasil = self.nama
-        hasil += " [{}]".format(self.nomor) if self.nomor else ''
-        hasil = self.kata_dasar + " » " + hasil if self.kata_dasar else hasil
+        if self.nomor: hasil += " [{}]".format(self.nomor)
+        if self.kata_dasar: hasil = " » ".join(self.kata_dasar) + " » " + hasil
         return hasil
 
-    def _bentuk_tidak_baku(self):
-        return (
-            'Bentuk tidak baku: ' + ', '.join(self.bentuk_tidak_baku)
-            if self.bentuk_tidak_baku else ''
-        )
+    def _varian(self, varian):
+        if varian == self.bentuk_tidak_baku:
+            nama = "Bentuk tidak baku"
+        elif varian == self.varian:
+            nama = "Varian"
+        else:
+            return ''
+        return nama + ': ' + ', '.join(varian)
 
     def __str__(self):
         hasil = self._nama()
         if self.pelafalan: hasil += '  ' + self.pelafalan
-        if self.bentuk_tidak_baku: hasil += '\n' + self._bentuk_tidak_baku()
+        for var in (self.bentuk_tidak_baku, self.varian):
+            if var: hasil += '\n' + self._varian(var)
         return hasil + '\n' + self._makna()
 
     def __repr__(self):
@@ -136,15 +150,30 @@ class Entri:
 
 class Makna:
     def __init__(self, makna_label):
+        self.submakna = ambil_teks_dalam_label(makna_label).rstrip(':')
         baku = makna_label.find('a')
-        kelas = makna_label.find(color='red').find_all('span')
-        submakna = ambil_teks_dalam_label(makna_label).rstrip(':')
-
-        if baku: submakna += ' ' + baku.text.strip()
-
-        self.kelas = {k.text.strip(): k['title'] for k in kelas}
-        self.submakna = submakna.split('; ')
+        if baku:
+            self.submakna += ' ' + ambil_teks_dalam_label(baku)
+            nomor = baku.find('sup')
+            if nomor:
+                nomor = nomor.text.strip()
+                self.submakna += ' [{}]'.format(nomor)
+        self._init_kelas(makna_label)
+        self.submakna = self.submakna.split('; ')
         self._init_contoh(makna_label)
+
+    def _init_kelas(self, makna_label):
+        kelas = makna_label.find(color='red')
+        lain = makna_label.find(color='darkgreen')
+        if kelas: kelas = kelas.find_all('span')
+        if lain:
+            self.kelas = {lain.text.strip(): lain['title'].strip()}
+            self.submakna = lain.next_sibling.strip()
+            self.submakna += ' ' + makna_label.find(color='grey').text.strip()
+        else:
+            self.kelas = {
+                k.text.strip(): k['title'].strip() for k in kelas
+            } if kelas else {}
 
     def _init_contoh(self, makna_label):
         indeks = makna_label.text.find(': ')
@@ -152,7 +181,7 @@ class Makna:
             contoh = makna_label.text[indeks + 2:].strip()
             self.contoh = contoh.split('; ')
         else:
-            self.contoh = ''
+            self.contoh = []
 
     def serialisasi(self):
         return {
