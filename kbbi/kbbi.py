@@ -158,7 +158,7 @@ class Entri:
         :rtype: str
         """
 
-        if (len(self.makna) > 1):
+        if len(self.makna) > 1:
             return '\n'.join(
                 str(i) + ". " + str(makna)
                 for i, makna in enumerate(self.makna, 1)
@@ -173,8 +173,10 @@ class Entri:
         """
 
         hasil = self.nama
-        if self.nomor: hasil += " [{}]".format(self.nomor)
-        if self.kata_dasar: hasil = " » ".join(self.kata_dasar) + " » " + hasil
+        if self.nomor:
+            hasil += " [{}]".format(self.nomor)
+        if self.kata_dasar:
+            hasil = " » ".join(self.kata_dasar) + " » " + hasil
         return hasil
 
     def _varian(self, varian):
@@ -197,9 +199,11 @@ class Entri:
 
     def __str__(self):
         hasil = self._nama()
-        if self.pelafalan: hasil += '  ' + self.pelafalan
+        if self.pelafalan:
+            hasil += '  ' + self.pelafalan
         for var in (self.bentuk_tidak_baku, self.varian):
-            if var: hasil += '\n' + self._varian(var)
+            if var:
+                hasil += '\n' + self._varian(var)
         return hasil + '\n' + self._makna()
 
     def __repr__(self):
@@ -237,7 +241,8 @@ class Makna:
 
         kelas = makna_label.find(color='red')
         lain = makna_label.find(color='darkgreen')
-        if kelas: kelas = kelas.find_all('span')
+        if kelas:
+            kelas = kelas.find_all('span')
         if lain:
             self.kelas = {lain.text.strip(): lain['title'].strip()}
             self.submakna = lain.next_sibling.strip()
