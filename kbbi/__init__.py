@@ -1,3 +1,11 @@
-from .kbbi import KBBI
+"""
+:mod:`kbbi` -- Modul KBBI Python
+================================
 
-name = 'kbbi'
+.. module:: kbbi
+   :platform: Unix, Windows, Mac
+   :synopsis: Mengambil sebuah laman untuk kata/frasa dalam KBBI Daring.
+.. moduleauthor:: sage <laymonage@gmail.com>
+"""
+
+from .kbbi import KBBI
