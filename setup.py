@@ -9,7 +9,7 @@ with open('README.md') as readme:
 
 setup(
     name='kbbi',
-    version='0.2.1',
+    version='0.3.0',
     description=(
         "A module that scraps a page in the online Indonesian dictionary (KBBI)"
     ),
