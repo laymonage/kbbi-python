@@ -8,6 +8,7 @@
 .. moduleauthor:: sage <laymonage@gmail.com>
 """
 
+from re import sub
 from urllib.parse import quote
 
 import requests
@@ -72,8 +73,11 @@ class KBBI:
             self.nama: [entri.serialisasi() for entri in self.entri]
         }
 
-    def __str__(self):
-        return '\n\n'.join(str(entri) for entri in self.entri)
+    def __str__(self, contoh=True):
+        result = '\n\n'.join(str(entri) for entri in self.entri)
+        if not contoh:
+            result = sub(':.*', '', result)
+        return result
 
     def __repr__(self):
         return "<KBBI: {}>".format(self.nama)
@@ -241,6 +245,7 @@ class Makna:
 
         kelas = makna_label.find(color='red')
         lain = makna_label.find(color='darkgreen')
+        info = makna_label.find(color='green')
         if kelas:
             kelas = kelas.find_all('span')
         if lain:
@@ -251,6 +256,7 @@ class Makna:
             self.kelas = {
                 k.text.strip(): k['title'].strip() for k in kelas
             } if kelas else {}
+        self.info = info.text.strip() if info else ''
 
     def _init_contoh(self, makna_label):
         """Memproses contoh yang ada dalam makna.
@@ -276,6 +282,7 @@ class Makna:
         return {
             "kelas": self.kelas,
             "submakna": self.submakna,
+            "info": self.info,
             "contoh": self.contoh
         }
 
@@ -306,6 +313,7 @@ class Makna:
     def __str__(self):
         hasil = self._kelas() + '  ' if self.kelas else ''
         hasil += self._submakna()
+        hasil += ' ' + self.info if self.info else ''
         hasil += ': ' + self._contoh() if self.contoh else ''
         return hasil
 
