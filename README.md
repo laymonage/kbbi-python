@@ -35,6 +35,12 @@ cin.ta
 2. (a)  kasih sekali; terpikat (antara laki-laki dan perempuan): sebenarnya dia tidak -- kepada lelaki itu, tetapi hanya menginginkan hartanya
 3. (a)  ingin sekali; berharap sekali; rindu: makin ditindas makin terasa betapa --nya akan kemerdekaan
 4. (a) (kl)  susah hati (khawatir); risau: tiada terperikan lagi --nya ditinggalkan ayahnya itu
+>>> print(cinta.__str__(contoh=False))
+cin.ta
+1. (a)  suka sekali; sayang benar
+2. (a)  kasih sekali; terpikat (antara laki-laki dan perempuan)
+3. (a)  ingin sekali; berharap sekali; rindu
+4. (a) (kl)  susah hati (khawatir); risau
 ```
 
 ```python

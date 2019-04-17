@@ -76,7 +76,7 @@ class KBBI:
     def __str__(self, contoh=True):
         result = '\n\n'.join(str(entri) for entri in self.entri)
         if not contoh:
-            result = sub(':.*', '', result)
+            result = sub(':.*--.*', '', result)
         return result
 
     def __repr__(self):
