@@ -21,7 +21,8 @@ pip install kbbi
 
 Buat objek `KBBI` baru (contoh: `kata = KBBI('kata kunci')`), lalu manfaatkan
 representasi `str`-nya dengan memanggil `str(kata)` atau ambil `dict` hasil
-serialisasinya dengan memanggil `kata.serialisasi()`.
+serialisasinya dengan memanggil `kata.serialisasi()`. Apabila ingin memanfaatkan
+representasi `str`-nya tanpa contoh (jika ada), gunakan `__str__(contoh=False)`.
 
 Untuk lebih jelasnya, lihat contoh berikut.
 

@@ -8,6 +8,7 @@
 .. moduleauthor:: sage <laymonage@gmail.com>
 """
 
+from re import sub
 from urllib.parse import quote
 
 import requests
@@ -72,8 +73,11 @@ class KBBI:
             self.nama: [entri.serialisasi() for entri in self.entri]
         }
 
-    def __str__(self):
-        return '\n\n'.join(str(entri) for entri in self.entri)
+    def __str__(self, contoh=True):
+        result = '\n\n'.join(str(entri) for entri in self.entri)
+        if not contoh:
+            result = sub(':.*', '', result)
+        return result
 
     def __repr__(self):
         return "<KBBI: {}>".format(self.nama)
