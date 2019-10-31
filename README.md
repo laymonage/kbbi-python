@@ -12,8 +12,7 @@ pip install kbbi
 
 ### Manual
 
-1. Lakukan instalasi untuk paket-paket prasyarat ([`requests`][requests]
-   dan [`BeautifulSoup4`][beautifulsoup4]).
+1. Lakukan instalasi untuk paket-paket prasyarat ([`requests`][requests], [`BeautifulSoup4`][beautifulsoup4], dan [`Abseil`][abseil]).
 2. Klonakan repositori ini atau unduh [`kbbi.py`][kbbi-py].
 3. Letakkan `kbbi.py` dalam direktori yang Anda inginkan.
 
@@ -113,6 +112,22 @@ tak.sir [2]
 }
 ```
 
+Penggunaan melalui CLI.
+```
+$ python kbbi.py --kata=cinta
+```
+
+Pencarian frasa yang dipisahkan oleh spasi harus diapit oleh tanda petik.
+```
+$ python kbbi.py --kata="tanggung jawab"
+```
+
+Menambahkan contoh kalimat.
+```
+$ python kbbi.py --kata="tanggung jawab" --contoh
+```
+
+
 ## Lisensi
 
 Proyek ini didistribusikan dengan lisensi [MIT][license].
@@ -131,6 +146,7 @@ penyalahgunaan yang mungkin muncul dari proyek ini.
 [kbbi]: https://kbbi.kemdikbud.go.id
 [requests]: https://pypi.org/project/requests
 [beautifulsoup4]: https://pypi.org/project/requests/beautifulsoup4
+[abseil]: https://github.com/abseil/abseil-py
 [kbbi-py]: kbbi/kbbi.py
 [license]: LICENSE
 [hukum]: https://kbbi.kemdikbud.go.id/Beranda/Hukum

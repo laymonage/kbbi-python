@@ -13,6 +13,16 @@ from urllib.parse import quote
 import requests
 from bs4 import BeautifulSoup
 
+from absl import app
+from absl import flags
+
+
+FLAGS = flags.FLAGS
+
+flags.DEFINE_string("kata", None, "Kata yang dicari.")
+flags.DEFINE_boolean("contoh", False, 'Menampilkan contoh kalimat.')
+
+flags.mark_flag_as_required('kata')
 
 class KBBI:
     """Sebuah laman dalam KBBI daring."""
@@ -397,3 +407,17 @@ class BatasSehari(Exception):
         super().__init__(
             "Pencarian Anda telah mencapai batas maksimum dalam sehari."
         )
+
+
+def main(argv):
+
+    kata = KBBI(FLAGS.kata)
+    contoh = False
+    if FLAGS.contoh:
+        contoh = True
+
+    print(kata.__str__(contoh=contoh))
+
+
+if __name__ == '__main__':
+  app.run(main)

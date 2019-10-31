@@ -28,6 +28,9 @@ setup(
         "kbbi kamus bahasa indonesia indonesian natural language scraper"
     ),
     packages=find_packages(),
-    install_requires=["requests", "beautifulsoup4",],
-    python_requires=">=3.6",
+    install_requires=[
+        'requests',
+        'beautifulsoup4',
+        'absl-py',
+    ],
 )
