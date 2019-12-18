@@ -26,6 +26,15 @@ class KBBI:
         def __init__(self, kata_kunci):
             super().__init__(f"{kata_kunci} tidak ditemukan dalam KBBI!")
 
+    class TerjadiKesalahan(Exception):
+        """
+        Galat yang menunjukkan bahwa terjadi kesalahan dari pihak KBBI.
+        Laman: https://kbbi.kemdikbud.go.id/Beranda/Error
+        """
+
+        def __init__(self):
+            super().__init__('Terjadi kesalahan saat memproses permintaan Anda.')
+
     def __init__(self, kata_kunci):
         """Membuat objek KBBI baru berdasarkan kata_kunci yang diberikan.
 
@@ -35,6 +44,9 @@ class KBBI:
 
         url = f"https://kbbi.kemdikbud.go.id/entri/{quote(kata_kunci)}"
         laman = requests.get(url)
+
+        if "Beranda/Error" in laman.url:
+            raise self.TerjadiKesalahan()
 
         if "Entri tidak ditemukan." in laman.text:
             raise self.TidakDitemukan(kata_kunci)
@@ -54,9 +66,18 @@ class KBBI:
         estr = ""
         for label in sup.find("hr").next_siblings:
             if label.name == "hr":
-                self.entri.append(Entri(estr))
-                break
+                try:
+                    label["style"]
+                    continue
+                except KeyError:
+                    self.entri.append(Entri(estr))
+                    break
             if label.name == "h2":
+                try:
+                    if label["style"] == "color:gray":
+                        continue
+                except KeyError:
+                    pass
                 if estr:
                     self.entri.append(Entri(estr))
                 estr = ""
@@ -103,6 +124,8 @@ class Entri:
             makna = entri.find_all("li")
 
         self.nama = ambil_teks_dalam_label(judul)
+        if not self.nama:
+            self.nama = judul.find_all(text=True)[0].strip()
         self.nomor = nomor.text.strip() if nomor else ""
         self.kata_dasar = []
         self._init_kata_dasar(dasar)
@@ -162,7 +185,9 @@ class Entri:
 
         if len(self.makna) > 1:
             return "\n".join(f"{i}. {makna}" for i, makna in enumerate(self.makna, 1))
-        return str(self.makna[0])
+        if len(self.makna) == 1:
+            return str(self.makna[0])
+        return ""
 
     def _nama(self):
         """Mengembalikan representasi string untuk nama entri ini.
@@ -218,17 +243,17 @@ class Makna:
         :param makna_label: BeautifulSoup untuk makna yang ingin diproses.
         :type makna_label: BeautifulSoup
         """
-
-        self.submakna = ambil_teks_dalam_label(makna_label).rstrip(":")
+        self.submakna = makna_label.get_text().strip()
+        self.orig_submakna = self.submakna
         baku = makna_label.find("a")
         if baku:
-            self.submakna += f" {ambil_teks_dalam_label(baku)}"
+            self.submakna = f"→ {ambil_teks_dalam_label(baku)}"
             nomor = baku.find("sup")
             if nomor:
                 self.submakna += f" [{nomor.text.strip()}]"
         self._init_kelas(makna_label)
-        self.submakna = self.submakna.split("; ")
         self._init_contoh(makna_label)
+        self._bersihkan_submakna()
 
     def _init_kelas(self, makna_label):
         """Memproses kelas kata yang ada dalam makna.
@@ -245,7 +270,7 @@ class Makna:
         if lain:
             self.kelas = {lain.text.strip(): lain["title"].strip()}
             self.submakna = lain.next_sibling.strip()
-            self.submakna += f" {makna_label.find(color='grey').text.strip()}"
+            self.submakna += f" {makna_label.find(color='grey').get_text().strip()}"
         else:
             self.kelas = (
                 {k.text.strip(): k["title"].strip() for k in kelas} if kelas else {}
@@ -265,6 +290,24 @@ class Makna:
             self.contoh = contoh.split("; ")
         else:
             self.contoh = []
+
+    def _bersihkan_submakna(self):
+        """Membersihkan hasil submakna dari teks kelas dan contoh"""
+        if self.submakna == self.orig_submakna:
+            for k in self.kelas:
+                if self.submakna.find(k) != -1:
+                    self.submakna = self.submakna[len(k)+1:]
+
+            indeks = self.submakna.find(': ')
+            if indeks != -1:
+                self.submakna = self.submakna[:indeks]
+
+            if self.info:
+                self.submakna = self.submakna[
+                    :self.submakna.find(self.info)
+                ]
+            self.submakna = self.submakna.rstrip(':')
+        self.submakna = self.submakna.split('; ')
 
     def serialisasi(self):
         """Mengembalikan hasil serialisasi objek Makna ini.
