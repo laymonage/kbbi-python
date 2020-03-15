@@ -24,7 +24,7 @@ class KBBI:
         """
 
         def __init__(self, kata_kunci):
-            super().__init__(f'{kata_kunci} tidak ditemukan dalam KBBI!')
+            super().__init__(f"{kata_kunci} tidak ditemukan dalam KBBI!")
 
     def __init__(self, kata_kunci):
         """Membuat objek KBBI baru berdasarkan kata_kunci yang diberikan.
@@ -33,10 +33,10 @@ class KBBI:
         :type kata_kunci: str
         """
 
-        url = f'https://kbbi.kemdikbud.go.id/entri/{quote(kata_kunci)}'
+        url = f"https://kbbi.kemdikbud.go.id/entri/{quote(kata_kunci)}"
         laman = requests.get(url)
 
-        if 'Entri tidak ditemukan.' in laman.text:
+        if "Entri tidak ditemukan." in laman.text:
             raise self.TidakDitemukan(kata_kunci)
 
         self.nama = kata_kunci.lower()
@@ -50,16 +50,16 @@ class KBBI:
         :type laman: Response
         """
 
-        sup = BeautifulSoup(laman.text, 'html.parser')
-        estr = ''
-        for label in sup.find('hr').next_siblings:
-            if label.name == 'hr':
+        sup = BeautifulSoup(laman.text, "html.parser")
+        estr = ""
+        for label in sup.find("hr").next_siblings:
+            if label.name == "hr":
                 self.entri.append(Entri(estr))
                 break
-            if label.name == 'h2':
+            if label.name == "h2":
                 if estr:
                     self.entri.append(Entri(estr))
-                estr = ''
+                estr = ""
             estr += str(label).strip()
 
     def serialisasi(self):
@@ -69,18 +69,16 @@ class KBBI:
         :rtype: dict
         """
 
-        return {
-            self.nama: [entri.serialisasi() for entri in self.entri]
-        }
+        return {self.nama: [entri.serialisasi() for entri in self.entri]}
 
     def __str__(self, contoh=True):
-        result = '\n\n'.join(str(entri) for entri in self.entri)
+        result = "\n\n".join(str(entri) for entri in self.entri)
         if not contoh:
-            result = sub(':.*--.*', '', result)
+            result = sub(":.*--.*", "", result)
         return result
 
     def __repr__(self):
-        return f'<KBBI: {self.nama}>'
+        return f"<KBBI: {self.nama}>"
 
 
 class Entri:
@@ -93,33 +91,33 @@ class Entri:
         :type entri_html: str
         """
 
-        entri = BeautifulSoup(entri_html, 'html.parser')
-        judul = entri.find('h2')
-        dasar = judul.find_all(class_='rootword')
-        nomor = judul.find('sup', recursive=False)
-        lafal = judul.find(class_='syllable')
-        varian = judul.find('small')
-        if entri.find(color='darkgreen'):
+        entri = BeautifulSoup(entri_html, "html.parser")
+        judul = entri.find("h2")
+        dasar = judul.find_all(class_="rootword")
+        nomor = judul.find("sup", recursive=False)
+        lafal = judul.find(class_="syllable")
+        varian = judul.find("small")
+        if entri.find(color="darkgreen"):
             makna = [entri]
         else:
-            makna = entri.find_all('li')
+            makna = entri.find_all("li")
 
         self.nama = ambil_teks_dalam_label(judul)
-        self.nomor = nomor.text.strip() if nomor else ''
+        self.nomor = nomor.text.strip() if nomor else ""
         self.kata_dasar = []
         self._init_kata_dasar(dasar)
-        self.pelafalan = lafal.text.strip() if lafal else ''
+        self.pelafalan = lafal.text.strip() if lafal else ""
 
         self.bentuk_tidak_baku = []
         self.varian = []
         if varian:
-            bentuk_tidak_baku = varian.find_all('b')
+            bentuk_tidak_baku = varian.find_all("b")
             if bentuk_tidak_baku:
-                self.bentuk_tidak_baku = ''.join(
+                self.bentuk_tidak_baku = "".join(
                     e.text.strip() for e in bentuk_tidak_baku
-                ).split(', ')
+                ).split(", ")
             else:
-                self.varian = varian.text[len('varian: '):].strip().split(', ')
+                self.varian = varian.text[len("varian: ") :].strip().split(", ")
 
         self.makna = [Makna(m) for m in makna]
 
@@ -131,11 +129,11 @@ class Entri:
         """
 
         for tiap in dasar:
-            kata = tiap.find('a')
-            dasar_no = kata.find('sup')
+            kata = tiap.find("a")
+            dasar_no = kata.find("sup")
             kata = ambil_teks_dalam_label(kata)
             self.kata_dasar.append(
-                f'{kata} [{dasar_no.text.strip()}]' if dasar_no else kata
+                f"{kata} [{dasar_no.text.strip()}]" if dasar_no else kata
             )
 
     def serialisasi(self):
@@ -152,7 +150,7 @@ class Entri:
             "pelafalan": self.pelafalan,
             "bentuk_tidak_baku": self.bentuk_tidak_baku,
             "varian": self.varian,
-            "makna": [makna.serialisasi() for makna in self.makna]
+            "makna": [makna.serialisasi() for makna in self.makna],
         }
 
     def _makna(self):
@@ -163,9 +161,7 @@ class Entri:
         """
 
         if len(self.makna) > 1:
-            return '\n'.join(
-                f'{i}. {makna}' for i, makna in enumerate(self.makna, 1)
-            )
+            return "\n".join(f"{i}. {makna}" for i, makna in enumerate(self.makna, 1))
         return str(self.makna[0])
 
     def _nama(self):
@@ -177,7 +173,7 @@ class Entri:
 
         hasil = self.nama
         if self.nomor:
-            hasil += f' [{self.nomor}]'
+            hasil += f" [{self.nomor}]"
         if self.kata_dasar:
             hasil = f"{' » '.join(self.kata_dasar)} » {hasil}"
         return hasil
@@ -193,24 +189,24 @@ class Entri:
         """
 
         if varian == self.bentuk_tidak_baku:
-            nama = 'Bentuk tidak baku'
+            nama = "Bentuk tidak baku"
         elif varian == self.varian:
-            nama = 'Varian'
+            nama = "Varian"
         else:
-            return ''
-        return f'{nama}: {', '.join(varian)}'
+            return ""
+        return f"{nama}: {', '.join(varian)}"
 
     def __str__(self):
         hasil = self._nama()
         if self.pelafalan:
-            hasil += f'  {self.pelafalan}'
+            hasil += f"  {self.pelafalan}"
         for var in (self.bentuk_tidak_baku, self.varian):
             if var:
-                hasil += f'\n{self._varian(var)}'
-        return f'{hasil}\n{self._makna()}'
+                hasil += f"\n{self._varian(var)}"
+        return f"{hasil}\n{self._makna()}"
 
     def __repr__(self):
-        return f'<Entri: {self._nama()}>'
+        return f"<Entri: {self._nama()}>"
 
 
 class Makna:
@@ -223,15 +219,15 @@ class Makna:
         :type makna_label: BeautifulSoup
         """
 
-        self.submakna = ambil_teks_dalam_label(makna_label).rstrip(':')
-        baku = makna_label.find('a')
+        self.submakna = ambil_teks_dalam_label(makna_label).rstrip(":")
+        baku = makna_label.find("a")
         if baku:
-            self.submakna += f' {ambil_teks_dalam_label(baku)}'
-            nomor = baku.find('sup')
+            self.submakna += f" {ambil_teks_dalam_label(baku)}"
+            nomor = baku.find("sup")
             if nomor:
-                self.submakna += f' [{nomor.text.strip()}]'
+                self.submakna += f" [{nomor.text.strip()}]"
         self._init_kelas(makna_label)
-        self.submakna = self.submakna.split('; ')
+        self.submakna = self.submakna.split("; ")
         self._init_contoh(makna_label)
 
     def _init_kelas(self, makna_label):
@@ -241,20 +237,20 @@ class Makna:
         :type makna_label: BeautifulSoup
         """
 
-        kelas = makna_label.find(color='red')
-        lain = makna_label.find(color='darkgreen')
-        info = makna_label.find(color='green')
+        kelas = makna_label.find(color="red")
+        lain = makna_label.find(color="darkgreen")
+        info = makna_label.find(color="green")
         if kelas:
-            kelas = kelas.find_all('span')
+            kelas = kelas.find_all("span")
         if lain:
-            self.kelas = {lain.text.strip(): lain['title'].strip()}
+            self.kelas = {lain.text.strip(): lain["title"].strip()}
             self.submakna = lain.next_sibling.strip()
-            self.submakna += f' {makna_label.find(color='grey').text.strip()}'
+            self.submakna += f" {makna_label.find(color='grey').text.strip()}"
         else:
-            self.kelas = {
-                k.text.strip(): k['title'].strip() for k in kelas
-            } if kelas else {}
-        self.info = info.text.strip() if info else ''
+            self.kelas = (
+                {k.text.strip(): k["title"].strip() for k in kelas} if kelas else {}
+            )
+        self.info = info.text.strip() if info else ""
 
     def _init_contoh(self, makna_label):
         """Memproses contoh yang ada dalam makna.
@@ -263,10 +259,10 @@ class Makna:
         :type makna_label: BeautifulSoup
         """
 
-        indeks = makna_label.text.find(': ')
+        indeks = makna_label.text.find(": ")
         if indeks != -1:
-            contoh = makna_label.text[indeks + 2:].strip()
-            self.contoh = contoh.split('; ')
+            contoh = makna_label.text[indeks + 2 :].strip()
+            self.contoh = contoh.split("; ")
         else:
             self.contoh = []
 
@@ -281,7 +277,7 @@ class Makna:
             "kelas": self.kelas,
             "submakna": self.submakna,
             "info": self.info,
-            "contoh": self.contoh
+            "contoh": self.contoh,
         }
 
     def _kelas(self):
@@ -290,7 +286,7 @@ class Makna:
         :returns: String representasi semua kelas kata
         :rtype: str
         """
-        return ' '.join(f'({k})' for k in self.kelas)
+        return " ".join(f"({k})" for k in self.kelas)
 
     def _submakna(self):
         """Mengembalikan representasi string untuk semua submakna makna ini.
@@ -298,7 +294,7 @@ class Makna:
         :returns: String representasi semua submakna
         :rtype: str
         """
-        return '; '.join(self.submakna)
+        return "; ".join(self.submakna)
 
     def _contoh(self):
         """Mengembalikan representasi string untuk semua contoh makna ini.
@@ -306,13 +302,13 @@ class Makna:
         :returns: String representasi semua contoh
         :rtype: str
         """
-        return '; '.join(self.contoh)
+        return "; ".join(self.contoh)
 
     def __str__(self):
-        hasil = f'{self._kelas()}  ' if self.kelas else ''
+        hasil = f"{self._kelas()}  " if self.kelas else ""
         hasil += self._submakna()
-        hasil += f' {self.info}' if self.info else ''
-        hasil += f': {self._contoh()}' if self.contoh else ''
+        hasil += f" {self.info}" if self.info else ""
+        hasil += f": {self._contoh()}" if self.contoh else ""
         return hasil
 
     def __repr__(self):
@@ -327,4 +323,4 @@ def ambil_teks_dalam_label(sup):
     :returns: String semua teks dalam sup label HTML
     :rtype: str
     """
-    return ''.join(i.strip() for i in sup.find_all(text=True, recursive=False))
+    return "".join(i.strip() for i in sup.find_all(text=True, recursive=False))
