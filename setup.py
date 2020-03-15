@@ -32,4 +32,5 @@ setup(
         'requests',
         'beautifulsoup4',
     ],
+    python_requires='>=3.6',
 )
