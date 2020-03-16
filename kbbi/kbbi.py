@@ -19,32 +19,6 @@ class KBBI:
     """Sebuah laman dalam KBBI daring."""
     host = "https://kbbi.kemdikbud.go.id"
 
-    class TidakDitemukan(Exception):
-        """
-        Galat yang menunjukkan bahwa laman tidak ditemukan dalam KBBI.
-        """
-
-        def __init__(self, kata_kunci):
-            super().__init__(f"{kata_kunci} tidak ditemukan dalam KBBI!")
-
-    class TerjadiKesalahan(Exception):
-        """
-        Galat yang menunjukkan bahwa terjadi kesalahan dari pihak KBBI.
-        Laman: https://kbbi.kemdikbud.go.id/Beranda/Error
-        """
-
-        def __init__(self):
-            super().__init__('Terjadi kesalahan saat memproses permintaan Anda.')
-
-    class BatasSehari(Exception):
-        """
-        Galat yang menunjukkan bahwa pencarian telah mencapai batas maksimum dalam sehari.
-        Laman: https://kbbi.kemdikbud.go.id/Beranda/BatasSehari
-        """
-
-        def __init__(self):
-            super().__init__("Pencarian Anda telah mencapai batas maksimum dalam sehari.")
-
     def __init__(self, kata_kunci):
         """Membuat objek KBBI baru berdasarkan kata_kunci yang diberikan.
 
@@ -61,16 +35,15 @@ class KBBI:
             url = f"{self.host}/Cari/Hasil?frasa={quote(kata_kunci)}"
         else:
             url = f"{self.host}/entri/{quote(kata_kunci)}"
+
         laman = requests.get(url)
 
         if "Beranda/Error" in laman.url:
-            raise self.TerjadiKesalahan()
-
+            raise TerjadiKesalahan()
         if "Beranda/BatasSehari" in laman.url:
-            raise self.BatasSehari()
-
+            raise BatasSehari()
         if "Entri tidak ditemukan." in laman.text:
-            raise self.TidakDitemukan(kata_kunci)
+            raise TidakDitemukan(kata_kunci)
 
         self.nama = kata_kunci.lower()
         self.entri = []
@@ -381,3 +354,30 @@ def ambil_teks_dalam_label(sup, ambil_italic=False):
         if italic:
             sup = italic
     return "".join(i.strip() for i in sup.find_all(text=True, recursive=False))
+
+
+class TidakDitemukan(Exception):
+    """
+    Galat yang menunjukkan bahwa laman tidak ditemukan dalam KBBI.
+    """
+
+    def __init__(self, kata_kunci):
+        super().__init__(f"{kata_kunci} tidak ditemukan dalam KBBI!")
+
+class TerjadiKesalahan(Exception):
+    """
+    Galat yang menunjukkan bahwa terjadi kesalahan dari pihak KBBI.
+    Laman: https://kbbi.kemdikbud.go.id/Beranda/Error
+    """
+
+    def __init__(self):
+        super().__init__('Terjadi kesalahan saat memproses permintaan Anda.')
+
+class BatasSehari(Exception):
+    """
+    Galat yang menunjukkan bahwa pencarian telah mencapai batas maksimum dalam sehari.
+    Laman: https://kbbi.kemdikbud.go.id/Beranda/BatasSehari
+    """
+
+    def __init__(self):
+        super().__init__("Pencarian Anda telah mencapai batas maksimum dalam sehari.")
