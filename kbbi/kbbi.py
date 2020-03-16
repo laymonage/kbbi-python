@@ -75,18 +75,14 @@ class KBBI:
         estr = ""
         for label in sup.find("hr").next_siblings:
             if label.name == "hr":
-                try:
-                    label["style"]
-                    continue
-                except KeyError:
+                if label.get('style') is None:
                     self.entri.append(Entri(estr))
                     break
+                else:
+                    continue
             if label.name == "h2":
-                try:
-                    if label["style"] == "color:gray":
-                        continue
-                except KeyError:
-                    pass
+                if label.get('style') == "color:gray":
+                    continue
                 if estr:
                     self.entri.append(Entri(estr))
                 estr = ""
