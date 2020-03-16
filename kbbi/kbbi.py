@@ -132,7 +132,7 @@ class Entri:
         else:
             makna = entri.find_all("li")
 
-        self.nama = ambil_teks_dalam_label(judul)
+        self.nama = ambil_teks_dalam_label(judul, ambil_italic=True)
         if not self.nama:
             self.nama = judul.find_all(text=True)[0].strip()
         self.nomor = nomor.text.strip() if nomor else ""
@@ -367,7 +367,7 @@ class Makna:
         return f"<Makna: {'; '.join(self.submakna)}>"
 
 
-def ambil_teks_dalam_label(sup):
+def ambil_teks_dalam_label(sup, ambil_italic=False):
     """Mengambil semua teks dalam sup label HTML (tanpa anak-anaknya).
 
     :param sup: BeautifulSoup dari suatu label HTML
@@ -375,4 +375,8 @@ def ambil_teks_dalam_label(sup):
     :returns: String semua teks dalam sup label HTML
     :rtype: str
     """
+    if ambil_italic:
+        italic = sup.find('i')
+        if italic:
+            sup = italic
     return "".join(i.strip() for i in sup.find_all(text=True, recursive=False))
