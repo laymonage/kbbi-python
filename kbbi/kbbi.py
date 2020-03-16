@@ -248,17 +248,28 @@ class Makna:
         :param makna_label: BeautifulSoup untuk makna yang ingin diproses.
         :type makna_label: BeautifulSoup
         """
-        self.submakna = makna_label.get_text().strip()
-        self.orig_submakna = self.submakna
+        self._init_submakna(makna_label)
+        self._init_kelas(makna_label)
+        self._init_contoh(makna_label)
+        self.submakna = self.submakna.split('; ')
+
+    def _init_submakna(self, makna_label):
+        """Memproses submakna yang ada dalam makna.
+
+        :param makna_label: BeautifulSoup untuk makna yang ingin diproses.
+        :type makna_label: BeautifulSoup
+        """
         baku = makna_label.find("a")
         if baku:
             self.submakna = f"→ {ambil_teks_dalam_label(baku)}"
             nomor = baku.find("sup")
             if nomor:
                 self.submakna += f" [{nomor.text.strip()}]"
-        self._init_kelas(makna_label)
-        self._init_contoh(makna_label)
-        self._bersihkan_submakna()
+        else:
+            self.submakna = "".join(
+                i.string for i in makna_label.contents if i.name != 'font'
+            ).strip().rstrip(':')
+
 
     def _init_kelas(self, makna_label):
         """Memproses kelas kata yang ada dalam makna.
@@ -295,24 +306,6 @@ class Makna:
             self.contoh = contoh.split("; ")
         else:
             self.contoh = []
-
-    def _bersihkan_submakna(self):
-        """Membersihkan hasil submakna dari teks kelas dan contoh"""
-        if self.submakna == self.orig_submakna:
-            for k in self.kelas:
-                if self.submakna.find(k) != -1:
-                    self.submakna = self.submakna[len(k)+1:]
-
-            indeks = self.submakna.find(': ')
-            if indeks != -1:
-                self.submakna = self.submakna[:indeks]
-
-            if self.info:
-                self.submakna = self.submakna[
-                    :self.submakna.find(self.info)
-                ]
-            self.submakna = self.submakna.rstrip(':')
-        self.submakna = self.submakna.split('; ')
 
     def serialisasi(self):
         """Mengembalikan hasil serialisasi objek Makna ini.
