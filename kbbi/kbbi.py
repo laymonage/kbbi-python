@@ -8,7 +8,6 @@
 .. moduleauthor:: sage <laymonage@gmail.com>
 """
 
-from re import sub
 from urllib.parse import quote
 
 import requests
@@ -84,12 +83,9 @@ class KBBI:
         return {self.nama: [entri.serialisasi() for entri in self.entri]}
 
     def __str__(self, contoh=True):
-        result = "\n\n".join(str(entri) for entri in self.entri)
-        if not contoh:
-            result = sub(":.*--.*", "", result)
-            result = sub(":.*~.*", "", result)
-            result = sub(":.*;.*", "", result)
-        return result
+        return "\n\n".join(
+            entri.__str__(contoh=contoh) for entri in self.entri
+        )
 
     def __repr__(self):
         return f"<KBBI: {self.nama}>"
@@ -171,7 +167,7 @@ class Entri:
             "makna": [makna.serialisasi() for makna in self.makna],
         }
 
-    def _makna(self):
+    def _makna(self, contoh=True):
         """Mengembalikan representasi string untuk semua makna entri ini.
 
         :returns: String representasi makna-makna
@@ -180,7 +176,8 @@ class Entri:
 
         if len(self.makna) > 1:
             return "\n".join(
-                f"{i}. {makna}" for i, makna in enumerate(self.makna, 1)
+                f"{i}. {makna.__str__(contoh=contoh)}"
+                for i, makna in enumerate(self.makna, 1)
             )
         if len(self.makna) == 1:
             return str(self.makna[0])
@@ -218,14 +215,14 @@ class Entri:
             return ""
         return f"{nama}: {', '.join(varian)}"
 
-    def __str__(self):
+    def __str__(self, contoh=True):
         hasil = self._nama()
         if self.pelafalan:
             hasil += f"  {self.pelafalan}"
         for var in (self.bentuk_tidak_baku, self.varian):
             if var:
                 hasil += f"\n{self._varian(var)}"
-        return f"{hasil}\n{self._makna()}"
+        return f"{hasil}\n{self._makna(contoh)}"
 
     def __repr__(self):
         return f"<Entri: {self._nama()}>"
@@ -344,11 +341,11 @@ class Makna:
         """
         return "; ".join(self.contoh)
 
-    def __str__(self):
+    def __str__(self, contoh=True):
         hasil = f"{self._kelas()}  " if self.kelas else ""
         hasil += self._submakna()
         hasil += f" {self.info}" if self.info else ""
-        hasil += f": {self._contoh()}" if self.contoh else ""
+        hasil += f": {self._contoh()}" if contoh and self.contoh else ""
         return hasil
 
     def __repr__(self):
