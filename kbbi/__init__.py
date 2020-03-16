@@ -8,4 +8,4 @@
 .. moduleauthor:: sage <laymonage@gmail.com>
 """
 
-from .kbbi import KBBI
+from .kbbi import *  # NOQA

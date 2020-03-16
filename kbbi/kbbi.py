@@ -131,7 +131,9 @@ class Entri:
                     e.text.strip() for e in bentuk_tidak_baku
                 ).split(", ")
             else:
-                self.varian = varian.text[len("varian: ") :].strip().split(", ")
+                self.varian = (
+                    varian.text[len("varian: ") :].strip().split(", ")
+                )
 
         self.makna = [Makna(m) for m in makna]
 
@@ -175,7 +177,9 @@ class Entri:
         """
 
         if len(self.makna) > 1:
-            return "\n".join(f"{i}. {makna}" for i, makna in enumerate(self.makna, 1))
+            return "\n".join(
+                f"{i}. {makna}" for i, makna in enumerate(self.makna, 1)
+            )
         if len(self.makna) == 1:
             return str(self.makna[0])
         return ""
@@ -253,7 +257,9 @@ class Makna:
                 self.submakna += f" [{nomor.text.strip()}]"
         else:
             self.submakna = (
-                "".join(i.string for i in makna_label.contents if i.name != "font")
+                "".join(
+                    i.string for i in makna_label.contents if i.name != "font"
+                )
                 .strip()
                 .rstrip(":")
             )
@@ -273,10 +279,14 @@ class Makna:
         if lain:
             self.kelas = {lain.text.strip(): lain["title"].strip()}
             self.submakna = lain.next_sibling.strip()
-            self.submakna += f" {makna_label.find(color='grey').get_text().strip()}"
+            self.submakna += (
+                f" {makna_label.find(color='grey').get_text().strip()}"
+            )
         else:
             self.kelas = (
-                {k.text.strip(): k["title"].strip() for k in kelas} if kelas else {}
+                {k.text.strip(): k["title"].strip() for k in kelas}
+                if kelas
+                else {}
             )
         self.info = info.text.strip() if info else ""
 
@@ -379,9 +389,12 @@ class TerjadiKesalahan(Exception):
 
 class BatasSehari(Exception):
     """
-    Galat yang menunjukkan bahwa pencarian telah mencapai batas maksimum dalam sehari.
+    Galat yang menunjukkan bahwa pencarian telah mencapai
+    batas maksimum dalam sehari.
     Laman: https://kbbi.kemdikbud.go.id/Beranda/BatasSehari
     """
 
     def __init__(self):
-        super().__init__("Pencarian Anda telah mencapai batas maksimum dalam sehari.")
+        super().__init__(
+            "Pencarian Anda telah mencapai batas maksimum dalam sehari."
+        )

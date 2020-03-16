@@ -24,7 +24,9 @@ setup(
         "Operating System :: OS Independent",
         "Natural Language :: Indonesian",
     ],
-    keywords=("kbbi kamus bahasa indonesia indonesian natural language scraper"),
+    keywords=(
+        "kbbi kamus bahasa indonesia indonesian natural language scraper"
+    ),
     packages=find_packages(),
     install_requires=["requests", "beautifulsoup4",],
     python_requires=">=3.6",
