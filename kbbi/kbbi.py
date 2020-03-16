@@ -17,6 +17,7 @@ from bs4 import BeautifulSoup
 
 class KBBI:
     """Sebuah laman dalam KBBI daring."""
+
     host = "https://kbbi.kemdikbud.go.id"
 
     def __init__(self, kata_kunci):
@@ -26,10 +27,10 @@ class KBBI:
         :type kata_kunci: str
         """
         kasus_khusus = [
-            '.' in kata_kunci,
-            '?' in kata_kunci,
-            kata_kunci.lower() == 'nul',
-            kata_kunci.lower() == 'bin',
+            "." in kata_kunci,
+            "?" in kata_kunci,
+            kata_kunci.lower() == "nul",
+            kata_kunci.lower() == "bin",
         ]
         if any(kasus_khusus):
             url = f"{self.host}/Cari/Hasil?frasa={quote(kata_kunci)}"
@@ -60,13 +61,13 @@ class KBBI:
         estr = ""
         for label in sup.find("hr").next_siblings:
             if label.name == "hr":
-                if label.get('style') is None:
+                if label.get("style") is None:
                     self.entri.append(Entri(estr))
                     break
                 else:
                     continue
             if label.name == "h2":
-                if label.get('style') == "color:gray":
+                if label.get("style") == "color:gray":
                     continue
                 if estr:
                     self.entri.append(Entri(estr))
@@ -236,7 +237,7 @@ class Makna:
         self._init_submakna(makna_label)
         self._init_kelas(makna_label)
         self._init_contoh(makna_label)
-        self.submakna = self.submakna.split('; ')
+        self.submakna = self.submakna.split("; ")
 
     def _init_submakna(self, makna_label):
         """Memproses submakna yang ada dalam makna.
@@ -251,10 +252,11 @@ class Makna:
             if nomor:
                 self.submakna += f" [{nomor.text.strip()}]"
         else:
-            self.submakna = "".join(
-                i.string for i in makna_label.contents if i.name != 'font'
-            ).strip().rstrip(':')
-
+            self.submakna = (
+                "".join(i.string for i in makna_label.contents if i.name != "font")
+                .strip()
+                .rstrip(":")
+            )
 
     def _init_kelas(self, makna_label):
         """Memproses kelas kata yang ada dalam makna.
@@ -350,7 +352,7 @@ def ambil_teks_dalam_label(sup, ambil_italic=False):
     :rtype: str
     """
     if ambil_italic:
-        italic = sup.find('i')
+        italic = sup.find("i")
         if italic:
             sup = italic
     return "".join(i.strip() for i in sup.find_all(text=True, recursive=False))
@@ -364,6 +366,7 @@ class TidakDitemukan(Exception):
     def __init__(self, kata_kunci):
         super().__init__(f"{kata_kunci} tidak ditemukan dalam KBBI!")
 
+
 class TerjadiKesalahan(Exception):
     """
     Galat yang menunjukkan bahwa terjadi kesalahan dari pihak KBBI.
@@ -371,7 +374,8 @@ class TerjadiKesalahan(Exception):
     """
 
     def __init__(self):
-        super().__init__('Terjadi kesalahan saat memproses permintaan Anda.')
+        super().__init__("Terjadi kesalahan saat memproses permintaan Anda.")
+
 
 class BatasSehari(Exception):
     """
