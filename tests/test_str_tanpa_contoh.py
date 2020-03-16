@@ -62,7 +62,7 @@ def test_menjadikan(menjadikan):
     assert str(menjadikan) == result
 
 
-def test_lampir(lampir):
+def test_prakategorial_lampir(lampir):
     result = (
         "lam.pir\n"
         "(prakategorial)  cari: lampiran, melampiri, melampirkan, terlampir"
@@ -92,7 +92,7 @@ def test_kan(kan):
     assert str(kan) == result
 
 
-def test_me_(me_):
+def test_awalan_me(awalan_me):
     result = (
         "me-  /mê-/\n"
         "→ meng-\n"
@@ -110,14 +110,14 @@ def test_me_(me_):
         "9. (prefiks pembentuk verba)  membuat; menghasilkan\n"
         "10. (prefiks pembentuk verba)  menyatakan"
     )
-    assert str(me_) == result
+    assert str(awalan_me) == result
 
 
-def test__kan(_kan):
+def test_akhiran_kan(akhiran_kan):
     result = (
         "-kan [5]\n"
         "1. (sufiks pembentuk verba)  menjadikan\n"
         "2. (sufiks pembentuk verba)  sungguh-sungguh\n"
         "3. (sufiks pembentuk verba)  untuk; kepada orang lain"
     )
-    assert str(_kan) == result
+    assert str(akhiran_kan) == result
