@@ -17,6 +17,7 @@ from bs4 import BeautifulSoup
 
 class KBBI:
     """Sebuah laman dalam KBBI daring."""
+    host = "https://kbbi.kemdikbud.go.id"
 
     class TidakDitemukan(Exception):
         """
@@ -41,8 +42,16 @@ class KBBI:
         :param kata_kunci: Kata kunci pencarian
         :type kata_kunci: str
         """
-
-        url = f"https://kbbi.kemdikbud.go.id/entri/{quote(kata_kunci)}"
+        kasus_khusus = [
+            '.' in kata_kunci,
+            '?' in kata_kunci,
+            kata_kunci.lower() == 'nul',
+            kata_kunci.lower() == 'bin',
+        ]
+        if any(kasus_khusus):
+            url = f"{self.host}/Cari/Hasil?frasa={quote(kata_kunci)}"
+        else:
+            url = f"{self.host}/entri/{quote(kata_kunci)}"
         laman = requests.get(url)
 
         if "Beranda/Error" in laman.url:
