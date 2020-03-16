@@ -36,6 +36,15 @@ class KBBI:
         def __init__(self):
             super().__init__('Terjadi kesalahan saat memproses permintaan Anda.')
 
+    class BatasSehari(Exception):
+        """
+        Galat yang menunjukkan bahwa pencarian telah mencapai batas maksimum dalam sehari.
+        Laman: https://kbbi.kemdikbud.go.id/Beranda/BatasSehari
+        """
+
+        def __init__(self):
+            super().__init__("Pencarian Anda telah mencapai batas maksimum dalam sehari.")
+
     def __init__(self, kata_kunci):
         """Membuat objek KBBI baru berdasarkan kata_kunci yang diberikan.
 
@@ -56,6 +65,9 @@ class KBBI:
 
         if "Beranda/Error" in laman.url:
             raise self.TerjadiKesalahan()
+
+        if "Beranda/BatasSehari" in laman.url:
+            raise self.BatasSehari()
 
         if "Entri tidak ditemukan." in laman.text:
             raise self.TidakDitemukan(kata_kunci)
