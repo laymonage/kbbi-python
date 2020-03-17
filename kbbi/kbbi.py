@@ -384,9 +384,11 @@ def main(argv=None):
         laman = KBBI(args.laman)
     except (TidakDitemukan, TerjadiKesalahan, BatasSehari) as e:
         print(e)
+        return 1
     else:
         print(_keluaran(laman, args))
+        return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
