@@ -2,12 +2,12 @@ import pathlib
 
 import pytest
 
-BASE_DIR = pathlib.Path(__file__).resolve(strict=True).parent
+DIR_KASUS = pathlib.Path(__file__).resolve(strict=True).parent / "kasus"
 
-jenis = ["serialisasi", "str", "str_tanpa_contoh"]
 kasus = {
-    j: [(p.stem, p) for p in (BASE_DIR / "kasus" / j).iterdir() if p.is_file()]
-    for j in jenis
+    j.name: [(p.stem, p) for p in (DIR_KASUS / j).iterdir() if p.is_file()]
+    for j in DIR_KASUS.iterdir()
+    if j.is_dir()
 }
 
 
