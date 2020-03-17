@@ -58,7 +58,8 @@ tak.sir (2)
 >>> import json
 >>> print(json.dumps(kata.serialisasi(), indent=2))
 {
-  "taksir": [
+  "pranala": "https://kbbi.kemdikbud.go.id/entri/taksir",
+  "entri": [
     {
       "nama": "tak.sir",
       "nomor": "1",
@@ -68,13 +69,18 @@ tak.sir (2)
       "varian": [],
       "makna": [
         {
-          "kelas": {
-            "n": "Nomina: kata benda"
-          },
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
           "submakna": [
             "kira-kira",
             "hitungan (kasar)"
           ],
+          "info": "",
           "contoh": []
         }
       ]
@@ -88,26 +94,44 @@ tak.sir (2)
       "varian": [],
       "makna": [
         {
-          "kelas": {
-            "a": "Adjektiva: kata yang menjelaskan nomina atau pronomina",
-            "Ar": "Arab: -"
-          },
+          "kelas": [
+            {
+              "kode": "a",
+              "nama": "Adjektiva",
+              "deskripsi": "kata yang menjelaskan nomina atau pronomina"
+            },
+            {
+              "kode": "Ar",
+              "nama": "Arab",
+              "deskripsi": "-"
+            }
+          ],
           "submakna": [
             "tidak mengindahkan",
             "lalai",
             "alpa"
           ],
+          "info": "",
           "contoh": []
         },
         {
-          "kelas": {
-            "n": "Nomina: kata benda",
-            "Ar": "Arab: -"
-          },
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            },
+            {
+              "kode": "Ar",
+              "nama": "Arab",
+              "deskripsi": "-"
+            }
+          ],
           "submakna": [
             "kelalaian",
             "kealpaan"
           ],
+          "info": "",
           "contoh": []
         }
       ]

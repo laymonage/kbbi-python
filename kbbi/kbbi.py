@@ -35,11 +35,10 @@ class KBBI:
             kata_kunci.lower() == "bin",
         ]
         if any(kasus_khusus):
-            url = f"{self.host}/Cari/Hasil?frasa={quote(kata_kunci)}"
+            self.pranala = f"{self.host}/Cari/Hasil?frasa={quote(kata_kunci)}"
         else:
-            url = f"{self.host}/entri/{quote(kata_kunci)}"
-
-        laman = requests.get(url)
+            self.pranala = f"{self.host}/entri/{quote(kata_kunci)}"
+        laman = requests.get(self.pranala)
 
         if "Beranda/Error" in laman.url:
             raise TerjadiKesalahan()
@@ -83,7 +82,10 @@ class KBBI:
         :rtype: dict
         """
 
-        return {self.nama: [entri.serialisasi() for entri in self.entri]}
+        return {
+            "pranala": self.pranala,
+            "entri": [entri.serialisasi() for entri in self.entri],
+        }
 
     def __str__(self, contoh=True):
         return "\n\n".join(
@@ -276,23 +278,31 @@ class Makna:
         kelas = makna_label.find(color="red")
         lain = makna_label.find(color="darkgreen")
         info = makna_label.find(color="green")
+
         if kelas:
             kelas = kelas.find_all("span")
         if lain:
-            self.kelas = {lain.text.strip(): lain["title"].strip()}
+            kelas = [lain]
             self.submakna = lain.next_sibling.strip()
             self.submakna += (
                 f" {makna_label.find(color='grey').get_text().strip()}"
             )
-        else:
-            self.kelas = (
-                {k.text.strip(): k["title"].strip() for k in kelas}
-                if kelas
-                else {}
+
+        self.kelas = []
+        for k in kelas:
+            kode = k.text.strip()
+            pisah = k["title"].strip().split(": ")
+            nama = pisah[0].strip()
+            deskripsi = pisah[1].strip() if len(pisah) > 1 else ""
+            self.kelas.append(
+                {"kode": kode, "nama": nama, "deskripsi": deskripsi}
             )
+
+        self.info = ""
         if info:
             info = info.text.strip()
-        self.info = info if info and info not in self.kelas else ""
+            if not any(info == k["kode"] for k in self.kelas):
+                self.info = info
 
     def _init_contoh(self, makna_label):
         """Memproses contoh yang ada dalam makna.
@@ -328,7 +338,7 @@ class Makna:
         :returns: String representasi semua kelas kata
         :rtype: str
         """
-        return " ".join(f"({k})" for k in self.kelas)
+        return " ".join(f"({k['kode']})" for k in self.kelas)
 
     def _submakna(self):
         """Mengembalikan representasi string untuk semua submakna makna ini.
