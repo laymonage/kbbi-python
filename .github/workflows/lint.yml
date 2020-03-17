@@ -35,4 +35,4 @@ jobs:
     - name: Lint with isort
       run: |
         pip install isort
-        isort -c -df -rc .
+        isort -c -df -rc -o pytest .
