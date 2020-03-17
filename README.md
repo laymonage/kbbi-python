@@ -175,6 +175,10 @@ $ kbbi "tanggung jawab" --json --indentasi 2
 
 > **Catatan:** **`kbbi`** juga bisa dipanggil dengan **`python kbbi.py`**.
 
+## Berkontribusi
+
+Silakan lihat [CONTRIBUTING.md][CONTRIBUTING.md].
+
 ## Lisensi
 
 Proyek ini didistribusikan dengan lisensi [MIT][license].
@@ -194,6 +198,7 @@ penyalahgunaan yang mungkin muncul dari proyek ini.
 [requests]: https://pypi.org/project/requests
 [beautifulsoup4]: https://pypi.org/project/beautifulsoup4
 [kbbi-py]: kbbi/kbbi.py
+[CONTRIBUTING.md]: CONTRIBUTING.md
 [license]: LICENSE
 [hukum]: https://kbbi.kemdikbud.go.id/Beranda/Hukum
 [badan-bahasa]: http://badanbahasa.kemdikbud.go.id
