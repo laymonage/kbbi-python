@@ -290,7 +290,9 @@ class Makna:
                 if kelas
                 else {}
             )
-        self.info = info.text.strip() if info else ""
+        if info:
+            info = info.text.strip()
+        self.info = info if info and info not in self.kelas else ""
 
     def _init_contoh(self, makna_label):
         """Memproses contoh yang ada dalam makna.
