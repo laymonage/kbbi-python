@@ -195,3 +195,11 @@ def test_akhiran_kan(akhiran_kan):
         "3. (sufiks pembentuk verba)  untuk; kepada orang lain: sewakan; bacakan"
     )
     assert str(akhiran_kan) == result
+
+
+def test_terikat_lah(terikat_lah):
+    result = (
+        "-lah (1)\n"
+        "(bentuk terikat)  yang digunakan untuk menekankan makna kata yang di depannya"
+    )
+    assert str(terikat_lah) == result
