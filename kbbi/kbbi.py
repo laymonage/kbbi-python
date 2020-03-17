@@ -22,38 +22,42 @@ class KBBI:
 
     host = "https://kbbi.kemdikbud.go.id"
 
-    def __init__(self, kata_kunci):
-        """Membuat objek KBBI baru berdasarkan kata_kunci yang diberikan.
+    def __init__(self, kueri):
+        """Membuat objek KBBI baru berdasarkan kueri yang diberikan.
 
-        :param kata_kunci: Kata kunci pencarian
-        :type kata_kunci: str
+        :param kueri: Kata kunci pencarian
+        :type kueri: str
         """
+        self.nama = kueri
+        self._init_pranala()
+        laman = requests.get(self.pranala)
+        self._cek_galat(laman)
+        self._init_entri(laman)
+
+    def _init_pranala(self):
         kasus_khusus = [
-            "." in kata_kunci,
-            "?" in kata_kunci,
-            kata_kunci.lower() == "nul",
-            kata_kunci.lower() == "bin",
+            "." in self.nama,
+            "?" in self.nama,
+            self.nama.lower() == "nul",
+            self.nama.lower() == "bin",
         ]
         if any(kasus_khusus):
-            self.pranala = f"{self.host}/Cari/Hasil?frasa={quote(kata_kunci)}"
+            self.pranala = f"{self.host}/Cari/Hasil?frasa={quote(self.nama)}"
         else:
-            self.pranala = f"{self.host}/entri/{quote(kata_kunci)}"
-        laman = requests.get(self.pranala)
+            self.pranala = f"{self.host}/entri/{quote(self.nama)}"
 
+    def _cek_galat(self, laman):
         if "Beranda/Error" in laman.url:
             raise TerjadiKesalahan()
         if "Beranda/BatasSehari" in laman.url:
             raise BatasSehari()
         if "Entri tidak ditemukan." in laman.text:
-            raise TidakDitemukan(kata_kunci)
-
-        self.nama = kata_kunci.lower()
-        self.entri = []
-        self._init_entri(laman)
+            raise TidakDitemukan(self.nama)
 
     def _init_entri(self, laman):
         sup = BeautifulSoup(laman.text, "html.parser")
         estr = ""
+        self.entri = []
         for label in sup.find("hr").next_siblings:
             if label.name == "hr":
                 if label.get("style") is None:
@@ -95,23 +99,39 @@ class Entri:
     def __init__(self, entri_html):
         entri = BeautifulSoup(entri_html, "html.parser")
         judul = entri.find("h2")
-        dasar = judul.find_all(class_="rootword")
-        nomor = judul.find("sup", recursive=False)
-        lafal = judul.find(class_="syllable")
-        varian = judul.find("small")
-        if entri.find(color="darkgreen"):
-            makna = [entri]
-        else:
-            makna = entri.find_all("li")
+        self._init_nama(judul)
+        self._init_nomor(judul)
+        self._init_kata_dasar(judul)
+        self._init_pelafalan(judul)
+        self._init_varian(judul)
+        self._init_makna(entri)
 
+    def _init_nama(self, judul):
         self.nama = ambil_teks_dalam_label(judul, ambil_italic=True)
         if not self.nama:
             self.nama = judul.find_all(text=True)[0].strip()
+
+    def _init_nomor(self, judul):
+        nomor = judul.find("sup", recursive=False)
         self.nomor = nomor.text.strip() if nomor else ""
+
+    def _init_kata_dasar(self, judul):
+        dasar = judul.find_all(class_="rootword")
         self.kata_dasar = []
-        self._init_kata_dasar(dasar)
+        for tiap in dasar:
+            kata = tiap.find("a")
+            dasar_no = kata.find("sup")
+            kata = ambil_teks_dalam_label(kata)
+            self.kata_dasar.append(
+                f"{kata} ({dasar_no.text.strip()})" if dasar_no else kata
+            )
+
+    def _init_pelafalan(self, judul):
+        lafal = judul.find(class_="syllable")
         self.pelafalan = lafal.text.strip() if lafal else ""
 
+    def _init_varian(self, judul):
+        varian = judul.find("small")
         self.bentuk_tidak_baku = []
         self.varian = []
         if varian:
@@ -125,16 +145,12 @@ class Entri:
                     varian.text[len("varian: ") :].strip().split(", ")
                 )
 
+    def _init_makna(self, entri):
+        if entri.find(color="darkgreen"):
+            makna = [entri]
+        else:
+            makna = entri.find_all("li")
         self.makna = [Makna(m) for m in makna]
-
-    def _init_kata_dasar(self, dasar):
-        for tiap in dasar:
-            kata = tiap.find("a")
-            dasar_no = kata.find("sup")
-            kata = ambil_teks_dalam_label(kata)
-            self.kata_dasar.append(
-                f"{kata} ({dasar_no.text.strip()})" if dasar_no else kata
-            )
 
     def serialisasi(self):
         return {
@@ -298,8 +314,8 @@ class TidakDitemukan(Exception):
     Galat yang menunjukkan bahwa laman tidak ditemukan dalam KBBI.
     """
 
-    def __init__(self, kata_kunci):
-        super().__init__(f"{kata_kunci} tidak ditemukan dalam KBBI!")
+    def __init__(self, kueri):
+        super().__init__(f"{kueri} tidak ditemukan dalam KBBI!")
 
 
 class TerjadiKesalahan(Exception):

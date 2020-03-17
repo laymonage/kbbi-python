@@ -1,4 +1,5 @@
 import json
+
 import pytest
 
 from kbbi import KBBI
@@ -25,9 +26,9 @@ def ekspektasi_serialisasi(request):
 
 @pytest.fixture
 def aktual_objek(request, laman):
-    l = request.param
+    kueri = request.param
     try:
-        return laman[l]
+        return laman[kueri]
     except KeyError:
-        laman[l] = KBBI(l)
-        return laman[l]
+        laman[kueri] = KBBI(kueri)
+        return laman[kueri]

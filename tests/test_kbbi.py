@@ -2,7 +2,6 @@ import pathlib
 
 import pytest
 
-
 BASE_DIR = pathlib.Path(__file__).resolve(strict=True).parent
 
 jenis = ["serialisasi", "str", "str_tanpa_contoh"]
