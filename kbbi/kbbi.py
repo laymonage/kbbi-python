@@ -52,12 +52,6 @@ class KBBI:
         self._init_entri(laman)
 
     def _init_entri(self, laman):
-        """Membuat objek-objek entri dari laman yang diambil.
-
-        :param laman: Laman respons yang dikembalikan oleh KBBI daring.
-        :type laman: Response
-        """
-
         sup = BeautifulSoup(laman.text, "html.parser")
         estr = ""
         for label in sup.find("hr").next_siblings:
@@ -81,7 +75,6 @@ class KBBI:
         :returns: Dictionary hasil serialisasi
         :rtype: dict
         """
-
         return {
             "pranala": self.pranala,
             "entri": [entri.serialisasi() for entri in self.entri],
@@ -100,12 +93,6 @@ class Entri:
     """Sebuah entri dalam sebuah laman KBBI daring."""
 
     def __init__(self, entri_html):
-        """Membuat objek Entri baru berdasarkan entri_html yang diberikan.
-
-        :param entri_html: String HTML untuk entri yang ingin diproses.
-        :type entri_html: str
-        """
-
         entri = BeautifulSoup(entri_html, "html.parser")
         judul = entri.find("h2")
         dasar = judul.find_all(class_="rootword")
@@ -141,12 +128,6 @@ class Entri:
         self.makna = [Makna(m) for m in makna]
 
     def _init_kata_dasar(self, dasar):
-        """Memproses kata dasar yang ada dalam nama entri.
-
-        :param dasar: ResultSet untuk label HTML dengan class="rootword"
-        :type dasar: ResultSet
-        """
-
         for tiap in dasar:
             kata = tiap.find("a")
             dasar_no = kata.find("sup")
@@ -156,12 +137,6 @@ class Entri:
             )
 
     def serialisasi(self):
-        """Mengembalikan hasil serialisasi objek Entri ini.
-
-        :returns: Dictionary hasil serialisasi
-        :rtype: dict
-        """
-
         return {
             "nama": self.nama,
             "nomor": self.nomor,
@@ -173,12 +148,6 @@ class Entri:
         }
 
     def _makna(self, contoh=True):
-        """Mengembalikan representasi string untuk semua makna entri ini.
-
-        :returns: String representasi makna-makna
-        :rtype: str
-        """
-
         if len(self.makna) > 1:
             return "\n".join(
                 f"{i}. {makna.__str__(contoh=contoh)}"
@@ -189,12 +158,6 @@ class Entri:
         return ""
 
     def _nama(self):
-        """Mengembalikan representasi string untuk nama entri ini.
-
-        :returns: String representasi nama entri
-        :rtype: str
-        """
-
         hasil = self.nama
         if self.nomor:
             hasil += f" ({self.nomor})"
@@ -203,15 +166,6 @@ class Entri:
         return hasil
 
     def _varian(self, varian):
-        """Mengembalikan representasi string untuk varian entri ini.
-        Dapat digunakan untuk "Varian" maupun "Bentuk tidak baku".
-
-        :param varian: List bentuk tidak baku atau varian
-        :type varian: list
-        :returns: String representasi varian atau bentuk tidak baku
-        :rtype: str
-        """
-
         if varian == self.bentuk_tidak_baku:
             nama = "Bentuk tidak baku"
         elif varian == self.varian:
@@ -237,22 +191,12 @@ class Makna:
     """Sebuah makna dalam sebuah entri KBBI daring."""
 
     def __init__(self, makna_label):
-        """Membuat objek Makna baru berdasarkan makna_label yang diberikan.
-
-        :param makna_label: BeautifulSoup untuk makna yang ingin diproses.
-        :type makna_label: BeautifulSoup
-        """
         self._init_submakna(makna_label)
         self._init_kelas(makna_label)
         self._init_contoh(makna_label)
         self.submakna = self.submakna.split("; ")
 
     def _init_submakna(self, makna_label):
-        """Memproses submakna yang ada dalam makna.
-
-        :param makna_label: BeautifulSoup untuk makna yang ingin diproses.
-        :type makna_label: BeautifulSoup
-        """
         baku = makna_label.find("a")
         if baku:
             self.submakna = f"→ {ambil_teks_dalam_label(baku)}"
@@ -269,12 +213,6 @@ class Makna:
             )
 
     def _init_kelas(self, makna_label):
-        """Memproses kelas kata yang ada dalam makna.
-
-        :param makna_label: BeautifulSoup untuk makna yang ingin diproses.
-        :type makna_label: BeautifulSoup
-        """
-
         kelas = makna_label.find(color="red")
         lain = makna_label.find(color="darkgreen")
         info = makna_label.find(color="green")
@@ -305,12 +243,6 @@ class Makna:
                 self.info = info
 
     def _init_contoh(self, makna_label):
-        """Memproses contoh yang ada dalam makna.
-
-        :param makna_label: BeautifulSoup untuk makna yang ingin diproses.
-        :type makna_label: BeautifulSoup
-        """
-
         indeks = makna_label.text.find(": ")
         if indeks != -1:
             contoh = makna_label.text[indeks + 2 :].strip()
@@ -319,12 +251,6 @@ class Makna:
             self.contoh = []
 
     def serialisasi(self):
-        """Mengembalikan hasil serialisasi objek Makna ini.
-
-        :returns: Dictionary hasil serialisasi
-        :rtype: dict
-        """
-
         return {
             "kelas": self.kelas,
             "submakna": self.submakna,
@@ -333,27 +259,12 @@ class Makna:
         }
 
     def _kelas(self):
-        """Mengembalikan representasi string untuk semua kelas kata makna ini.
-
-        :returns: String representasi semua kelas kata
-        :rtype: str
-        """
         return " ".join(f"({k['kode']})" for k in self.kelas)
 
     def _submakna(self):
-        """Mengembalikan representasi string untuk semua submakna makna ini.
-
-        :returns: String representasi semua submakna
-        :rtype: str
-        """
         return "; ".join(self.submakna)
 
     def _contoh(self):
-        """Mengembalikan representasi string untuk semua contoh makna ini.
-
-        :returns: String representasi semua contoh
-        :rtype: str
-        """
         return "; ".join(self.contoh)
 
     def __str__(self, contoh=True):
@@ -370,8 +281,8 @@ class Makna:
 def ambil_teks_dalam_label(sup, ambil_italic=False):
     """Mengambil semua teks dalam sup label HTML (tanpa anak-anaknya).
 
-    :param sup: BeautifulSoup dari suatu label HTML
-    :type sup: BeautifulSoup
+    :param sup: BeautifulSoup/Tag dari suatu label HTML
+    :type sup: BeautifulSoup/Tag
     :returns: String semua teks dalam sup label HTML
     :rtype: str
     """
@@ -449,6 +360,7 @@ def _keluaran(laman, args):
 
 
 def main(argv=None):
+    """Program utama dengan CLI."""
     if argv is None:
         argv = sys.argv[1:]
     args = _parse_args(argv)
