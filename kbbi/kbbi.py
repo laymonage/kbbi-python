@@ -183,7 +183,7 @@ class Entri:
                 for i, makna in enumerate(self.makna, 1)
             )
         if len(self.makna) == 1:
-            return str(self.makna[0])
+            return self.makna[0].__str__(contoh=contoh)
         return ""
 
     def _nama(self):
