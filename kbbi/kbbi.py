@@ -431,14 +431,9 @@ def _parse_args(args):
 
 def _keluaran(laman, args):
     if args.json:
-        if args.indentasi:
-            return json.dumps(laman.serialisasi(), indent=args.indentasi)
-        else:
-            return json.dumps(laman.serialisasi())
-    elif args.tanpa_contoh:
-        return laman.__str__(contoh=False)
+        return json.dumps(laman.serialisasi(), indent=args.indentasi)
     else:
-        return str(laman)
+        return laman.__str__(contoh=not args.tanpa_contoh)
 
 
 def main(argv=None):
