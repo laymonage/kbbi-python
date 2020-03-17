@@ -9,4 +9,9 @@ repos:
     rev: "3.7.9"
     hooks:
       - id: flake8
-        args: ["--ignore=E203,E501"]
+        args: ["--ignore=E203"]
+
+  - repo: https://github.com/timothycrosley/isort
+    rev: "4.3.21-2"
+    hooks:
+      - id: isort
