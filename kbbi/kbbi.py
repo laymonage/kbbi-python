@@ -441,7 +441,9 @@ def _keluaran(laman, args):
         return str(laman)
 
 
-def main(argv):
+def main(argv=None):
+    if argv is None:
+        argv = sys.argv[1:]
     args = _parse_args(argv)
     try:
         laman = KBBI(args.laman)
@@ -452,4 +454,4 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    main()

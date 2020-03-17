@@ -1,6 +1,7 @@
 # kbbi-python
 
-Modul Python untuk mengambil sebuah laman untuk kata/frasa dalam [KBBI Daring][kbbi].
+Modul Python untuk mengambil sebuah laman untuk kata/frasa dalam
+[KBBI Daring][kbbi].
 
 ## Instalasi
 
@@ -118,36 +119,37 @@ tak.sir [2]
 ### Melalui CLI
 
 ```
-$ python kbbi.py cinta
+$ kbbi cinta
 ```
 
 Pencarian dengan kata/frasa yang dipisahkan oleh spasi harus diapit oleh
 tanda petik.
 
 ```
-$ python kbbi.py "tanggung jawab"
+$ kbbi "tanggung jawab"
 ```
 
 Apabila tidak ingin menampilkan contoh, gunakan `--tanpa-contoh` atau `-t`.
 
 ```
-$ python kbbi.py "tanggung jawab" --tanpa-contoh
+$ kbbi "tanggung jawab" --tanpa-contoh
 ```
 
 Untuk mendapatkan hasil dalam bentuk serialisasi JSON, gunakan `--json`
 atau `-j`.
 
 ```
-$ python kbbi.py "tanggung jawab" --json
+$ kbbi "tanggung jawab" --json
 ```
 
 Untuk mengatur indentasi pada serialisasi JSON, gunakan `--indentasi N`
 atau `-i N`.
 
 ```
-$ python kbbi.py "tanggung jawab" --json --indentasi 2
+$ kbbi "tanggung jawab" --json --indentasi 2
 ```
 
+> **Catatan:** **`kbbi`** juga bisa dipanggil dengan **`python kbbi.py`**.
 
 ## Lisensi
 

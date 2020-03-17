@@ -28,5 +28,6 @@ setup(
         "kbbi kamus bahasa indonesia indonesian natural language scraper"
     ),
     packages=find_packages(),
+    entry_points={"console_scripts": ["kbbi=kbbi:main"],},
     install_requires=["requests", "beautifulsoup4",],
 )
