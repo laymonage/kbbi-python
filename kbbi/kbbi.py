@@ -150,7 +150,7 @@ class Entri:
             dasar_no = kata.find("sup")
             kata = ambil_teks_dalam_label(kata)
             self.kata_dasar.append(
-                f"{kata} [{dasar_no.text.strip()}]" if dasar_no else kata
+                f"{kata} ({dasar_no.text.strip()})" if dasar_no else kata
             )
 
     def serialisasi(self):
@@ -195,7 +195,7 @@ class Entri:
 
         hasil = self.nama
         if self.nomor:
-            hasil += f" [{self.nomor}]"
+            hasil += f" ({self.nomor})"
         if self.kata_dasar:
             hasil = f"{' » '.join(self.kata_dasar)} » {hasil}"
         return hasil
@@ -256,7 +256,7 @@ class Makna:
             self.submakna = f"→ {ambil_teks_dalam_label(baku)}"
             nomor = baku.find("sup")
             if nomor:
-                self.submakna += f" [{nomor.text.strip()}]"
+                self.submakna += f" ({nomor.text.strip()})"
         else:
             self.submakna = (
                 "".join(

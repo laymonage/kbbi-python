@@ -70,20 +70,20 @@ def test_keratabasa(keratabasa):
 
 def test_tampak(tampak):
     result = (
-        "tam.pak [1]\n"
+        "tam.pak (1)\n"
         "Bentuk tidak baku: nampak\n"
         "1. (v)  dapat dilihat; kelihatan: pulau itu sudah -- dari sini\n"
         "2. (v)  memperlihatkan diri; muncul: sudah lama dia tidak --\n"
         "\n"
-        "tam.pak [2]\n"
-        "→ campak [2]"
+        "tam.pak (2)\n"
+        "→ campak (2)"
     )
     assert str(tampak) == result
 
 
 def test_menjadikan(menjadikan):
     result = (
-        "jadi [1] » men.ja.di.kan\n"
+        "jadi (1) » men.ja.di.kan\n"
         "1. (v)  membuat sebagai; merupakan: ia ~ sakit adiknya sebagai alasan "
         "untuk tidak pergi kuliah\n"
         "2. (v)  menyebabkan: hal itu akan ~ orang lain marah-marah\n"
@@ -105,19 +105,19 @@ def test_prakategorial_lampir(lampir):
 
 def test_kan(kan):
     result = (
-        "kan [1]\n"
+        "kan (1)\n"
         "(n) (ark)  langkan (pada perahu)\n"
         "\n"
-        "kan [2]\n"
+        "kan (2)\n"
         "(adv) (kp)  bukan\n"
         "\n"
-        "kan [3]\n"
+        "kan (3)\n"
         "(adv) (kp)  akan\n"
         "\n"
-        "kan [4]\n"
+        "kan (4)\n"
         "(n)  tempat memasak air teh; morong; teko\n"
         "\n"
-        "-kan [5]\n"
+        "-kan (5)\n"
         "1. (sufiks pembentuk verba)  menjadikan: jalankan; datangkan; hitamkan\n"
         "2. (sufiks pembentuk verba)  sungguh-sungguh: dengarkan; camkan\n"
         "3. (sufiks pembentuk verba)  untuk; kepada orang lain: sewakan; bacakan"
@@ -148,7 +148,7 @@ def test_awalan_me(awalan_me):
 
 def test_akhiran_kan(akhiran_kan):
     result = (
-        "-kan [5]\n"
+        "-kan (5)\n"
         "1. (sufiks pembentuk verba)  menjadikan: jalankan; datangkan; hitamkan\n"
         "2. (sufiks pembentuk verba)  sungguh-sungguh: dengarkan; camkan\n"
         "3. (sufiks pembentuk verba)  untuk; kepada orang lain: sewakan; bacakan"
@@ -158,7 +158,7 @@ def test_akhiran_kan(akhiran_kan):
 
 def test_terikat_lah(terikat_lah):
     result = (
-        "-lah [1]\n"
+        "-lah (1)\n"
         "(bentuk terikat)  yang digunakan untuk menekankan makna kata yang di depannya"
     )
     assert str(terikat_lah) == result

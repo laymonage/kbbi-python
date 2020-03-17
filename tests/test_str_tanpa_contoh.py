@@ -39,20 +39,20 @@ def test_makin(makin):
 
 def test_tampak(tampak):
     result = (
-        "tam.pak [1]\n"
+        "tam.pak (1)\n"
         "Bentuk tidak baku: nampak\n"
         "1. (v)  dapat dilihat; kelihatan\n"
         "2. (v)  memperlihatkan diri; muncul\n"
         "\n"
-        "tam.pak [2]\n"
-        "→ campak [2]"
+        "tam.pak (2)\n"
+        "→ campak (2)"
     )
     assert str(tampak) == result
 
 
 def test_menjadikan(menjadikan):
     result = (
-        "jadi [1] » men.ja.di.kan\n"
+        "jadi (1) » men.ja.di.kan\n"
         "1. (v)  membuat sebagai; merupakan\n"
         "2. (v)  menyebabkan\n"
         "3. (v)  mengangkat (memilih) sebagai\n"
@@ -72,19 +72,19 @@ def test_prakategorial_lampir(lampir):
 
 def test_kan(kan):
     result = (
-        "kan [1]\n"
+        "kan (1)\n"
         "(n) (ark)  langkan (pada perahu)\n"
         "\n"
-        "kan [2]\n"
+        "kan (2)\n"
         "(adv) (kp)  bukan\n"
         "\n"
-        "kan [3]\n"
+        "kan (3)\n"
         "(adv) (kp)  akan\n"
         "\n"
-        "kan [4]\n"
+        "kan (4)\n"
         "(n)  tempat memasak air teh; morong; teko\n"
         "\n"
-        "-kan [5]\n"
+        "-kan (5)\n"
         "1. (sufiks pembentuk verba)  menjadikan\n"
         "2. (sufiks pembentuk verba)  sungguh-sungguh\n"
         "3. (sufiks pembentuk verba)  untuk; kepada orang lain"
@@ -115,7 +115,7 @@ def test_awalan_me(awalan_me):
 
 def test_akhiran_kan(akhiran_kan):
     result = (
-        "-kan [5]\n"
+        "-kan (5)\n"
         "1. (sufiks pembentuk verba)  menjadikan\n"
         "2. (sufiks pembentuk verba)  sungguh-sungguh\n"
         "3. (sufiks pembentuk verba)  untuk; kepada orang lain"

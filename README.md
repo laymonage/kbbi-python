@@ -49,10 +49,10 @@ cin.ta
 ```python
 >>> kata = KBBI('taksir')
 >>> print(kata)
-tak.sir [1]
+tak.sir (1)
 (n)  kira-kira; hitungan (kasar)
 
-tak.sir [2]
+tak.sir (2)
 1. (a) (Ar)  tidak mengindahkan; lalai; alpa
 2. (n) (Ar)  kelalaian; kealpaan
 >>> import json
