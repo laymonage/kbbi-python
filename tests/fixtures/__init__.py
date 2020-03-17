@@ -1,1 +1,0 @@
-from .kbbi import *  # NOQA

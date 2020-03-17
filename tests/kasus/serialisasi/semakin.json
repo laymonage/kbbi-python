@@ -1,0 +1,34 @@
+{
+  "pranala": "https://kbbi.kemdikbud.go.id/entri/semakin",
+  "entri": [
+    {
+      "nama": "se.ma.kin",
+      "nomor": "",
+      "kata_dasar": [
+        "makin"
+      ],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": []
+    },
+    {
+      "nama": "se.ma.kin",
+      "nomor": "",
+      "kata_dasar": [],
+      "pelafalan": "/s\u00eamakin/",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [],
+          "submakna": [
+            "\u2192 makin"
+          ],
+          "info": "",
+          "contoh": []
+        }
+      ]
+    }
+  ]
+}

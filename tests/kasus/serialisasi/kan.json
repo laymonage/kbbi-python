@@ -1,0 +1,181 @@
+{
+  "pranala": "https://kbbi.kemdikbud.go.id/entri/kan",
+  "entri": [
+    {
+      "nama": "kan",
+      "nomor": "1",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            },
+            {
+              "kode": "ark",
+              "nama": "Arkais",
+              "deskripsi": "menandai kata yang tidak lazim"
+            }
+          ],
+          "submakna": [
+            "langkan (pada perahu)"
+          ],
+          "info": "",
+          "contoh": []
+        }
+      ]
+    },
+    {
+      "nama": "kan",
+      "nomor": "2",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "adv",
+              "nama": "Adverbia",
+              "deskripsi": "kata yang menjelaskan verba, adjektiva, adverbia lain, atau kalimat"
+            },
+            {
+              "kode": "kp",
+              "nama": "kependekan",
+              "deskripsi": ""
+            }
+          ],
+          "submakna": [
+            "bukan"
+          ],
+          "info": "",
+          "contoh": []
+        }
+      ]
+    },
+    {
+      "nama": "kan",
+      "nomor": "3",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "adv",
+              "nama": "Adverbia",
+              "deskripsi": "kata yang menjelaskan verba, adjektiva, adverbia lain, atau kalimat"
+            },
+            {
+              "kode": "kp",
+              "nama": "kependekan",
+              "deskripsi": ""
+            }
+          ],
+          "submakna": [
+            "akan"
+          ],
+          "info": "",
+          "contoh": []
+        }
+      ]
+    },
+    {
+      "nama": "kan",
+      "nomor": "4",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "tempat memasak air teh",
+            "morong",
+            "teko"
+          ],
+          "info": "",
+          "contoh": []
+        }
+      ]
+    },
+    {
+      "nama": "-kan",
+      "nomor": "5",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "sufiks pembentuk verba",
+              "nama": "-",
+              "deskripsi": "-"
+            }
+          ],
+          "submakna": [
+            "menjadikan"
+          ],
+          "info": "",
+          "contoh": [
+            "jalankan",
+            "datangkan",
+            "hitamkan"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "sufiks pembentuk verba",
+              "nama": "-",
+              "deskripsi": "-"
+            }
+          ],
+          "submakna": [
+            "sungguh-sungguh"
+          ],
+          "info": "",
+          "contoh": [
+            "dengarkan",
+            "camkan"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "sufiks pembentuk verba",
+              "nama": "-",
+              "deskripsi": "-"
+            }
+          ],
+          "submakna": [
+            "untuk",
+            "kepada orang lain"
+          ],
+          "info": "",
+          "contoh": [
+            "sewakan",
+            "bacakan"
+          ]
+        }
+      ]
+    }
+  ]
+}

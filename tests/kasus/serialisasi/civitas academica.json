@@ -1,0 +1,34 @@
+{
+  "pranala": "https://kbbi.kemdikbud.go.id/entri/civitas%20academica",
+  "entri": [
+    {
+      "nama": "civitas academica",
+      "nomor": "",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "ukp",
+              "nama": "Ungkapan",
+              "deskripsi": ""
+            },
+            {
+              "kode": "Lt",
+              "nama": "Latin",
+              "deskripsi": "-"
+            }
+          ],
+          "submakna": [
+            "kelompok (warga) masyarakat akademik yang terdiri atas dosen dan mahasiswa dengan perwakilannya yang terbentuk melalui senat masing-masing"
+          ],
+          "info": "",
+          "contoh": []
+        }
+      ]
+    }
+  ]
+}

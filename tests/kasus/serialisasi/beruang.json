@@ -1,0 +1,78 @@
+{
+  "pranala": "https://kbbi.kemdikbud.go.id/entri/beruang",
+  "entri": [
+    {
+      "nama": "ber.u.ang",
+      "nomor": "",
+      "kata_dasar": [
+        "uang"
+      ],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "v",
+              "nama": "Verba",
+              "deskripsi": "kata kerja"
+            }
+          ],
+          "submakna": [
+            "mempunyai uang"
+          ],
+          "info": "",
+          "contoh": [
+            "sepeser pun saya tidak ~"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "a",
+              "nama": "Adjektiva",
+              "deskripsi": "kata yang menjelaskan nomina atau pronomina"
+            },
+            {
+              "kode": "ki",
+              "nama": "kiasan",
+              "deskripsi": ""
+            }
+          ],
+          "submakna": [
+            "kaya"
+          ],
+          "info": "",
+          "contoh": [
+            "orang yang dapat menikmati makanan semahal itu hanyalah orang yang ~"
+          ]
+        }
+      ]
+    },
+    {
+      "nama": "be.ru.ang",
+      "nomor": "",
+      "kata_dasar": [],
+      "pelafalan": "/b\u00earuang/",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "binatang buas jenis Ursus, berbulu tebal, dapat berdiri di atas kedua kaki belakangnya, bercakar, dan bermoncong panjang (banyak macamnya, seperti -- bukit, -- damar, -- putih)"
+          ],
+          "info": "",
+          "contoh": []
+        }
+      ]
+    }
+  ]
+}

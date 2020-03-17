@@ -1,0 +1,30 @@
+{
+  "pranala": "https://kbbi.kemdikbud.go.id/entri/keratabasa",
+  "entri": [
+    {
+      "nama": "ke.ra.ta.ba.sa",
+      "nomor": "",
+      "kata_dasar": [],
+      "pelafalan": "/k\u00e9ratabasa/",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "perihal menerangkan arti kata dengan memperlakukannya sebagai singkatan, biasanya untuk lelucon (misalnya kata benci ditafsirkan sebagai \u2018benar-benar cinta\u2019)",
+            "etimologi rakyat"
+          ],
+          "info": "",
+          "contoh": []
+        }
+      ]
+    }
+  ]
+}

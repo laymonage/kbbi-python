@@ -1,0 +1,50 @@
+{
+  "pranala": "https://kbbi.kemdikbud.go.id/entri/khayal",
+  "entri": [
+    {
+      "nama": "kha.yal",
+      "nomor": "",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [
+        "kayal"
+      ],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "lukisan (gambar) dalam angan-angan",
+            "fantasi"
+          ],
+          "info": "",
+          "contoh": [
+            "apa yang diceritakan itu -- belaka"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "yang diangan-angankan seperti benar-benar ada"
+          ],
+          "info": "",
+          "contoh": [
+            "cerita --"
+          ]
+        }
+      ]
+    }
+  ]
+}
