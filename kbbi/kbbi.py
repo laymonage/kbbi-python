@@ -8,21 +8,14 @@
 .. moduleauthor:: sage <laymonage@gmail.com>
 """
 
+import argparse
+import json
+import sys
 from urllib.parse import quote
 
 import requests
 from bs4 import BeautifulSoup
 
-from absl import app
-from absl import flags
-
-
-FLAGS = flags.FLAGS
-
-flags.DEFINE_string("kata", None, "Kata yang dicari.")
-flags.DEFINE_boolean("contoh", False, 'Menampilkan contoh kalimat.')
-
-flags.mark_flag_as_required('kata')
 
 class KBBI:
     """Sebuah laman dalam KBBI daring."""
@@ -409,15 +402,54 @@ class BatasSehari(Exception):
         )
 
 
+def _parse_args(args):
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "laman", help='Laman yang ingin diambil, contoh: "cinta"'
+    )
+    parser.add_argument(
+        "-t",
+        "--tanpa-contoh",
+        help="jangan tampilkan contoh (bila ada)",
+        action="store_true",
+    )
+    parser.add_argument(
+        "-j",
+        "--json",
+        help="tampilkan hasil (selalu dengan contoh) dalam bentuk JSON",
+        action="store_true",
+    )
+    parser.add_argument(
+        "-i",
+        "--indentasi",
+        help="gunakan indentasi sebanyak N untuk serialisasi JSON",
+        type=int,
+        metavar="N",
+    )
+    return parser.parse_args(args)
+
+
+def _keluaran(laman, args):
+    if args.json:
+        if args.indentasi:
+            return json.dumps(laman.serialisasi(), indent=args.indentasi)
+        else:
+            return json.dumps(laman.serialisasi())
+    elif args.tanpa_contoh:
+        return laman.__str__(contoh=False)
+    else:
+        return str(laman)
+
+
 def main(argv):
+    args = _parse_args(argv)
+    try:
+        laman = KBBI(args.laman)
+    except (TidakDitemukan, TerjadiKesalahan, BatasSehari) as e:
+        print(e)
+    else:
+        print(_keluaran(laman, args))
 
-    kata = KBBI(FLAGS.kata)
-    contoh = False
-    if FLAGS.contoh:
-        contoh = True
 
-    print(kata.__str__(contoh=contoh))
-
-
-if __name__ == '__main__':
-  app.run(main)
+if __name__ == "__main__":
+    main(sys.argv[1:])

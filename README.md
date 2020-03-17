@@ -12,11 +12,14 @@ pip install kbbi
 
 ### Manual
 
-1. Lakukan instalasi untuk paket-paket prasyarat ([`requests`][requests], [`BeautifulSoup4`][beautifulsoup4], dan [`Abseil`][abseil]).
+1. Lakukan instalasi untuk paket-paket prasyarat ([`requests`][requests]
+   dan [`BeautifulSoup4`][beautifulsoup4]).
 2. Klonakan repositori ini atau unduh [`kbbi.py`][kbbi-py].
 3. Letakkan `kbbi.py` dalam direktori yang Anda inginkan.
 
 ## Penggunaan
+
+### Melalui kode Python
 
 Buat objek `KBBI` baru (contoh: `kata = KBBI('kata kunci')`), lalu manfaatkan
 representasi `str`-nya dengan memanggil `str(kata)` atau ambil `dict` hasil
@@ -112,19 +115,37 @@ tak.sir [2]
 }
 ```
 
-Penggunaan melalui CLI.
+### Melalui CLI
+
 ```
-$ python kbbi.py --kata=cinta
+$ python kbbi.py cinta
 ```
 
-Pencarian frasa yang dipisahkan oleh spasi harus diapit oleh tanda petik.
+Pencarian dengan kata/frasa yang dipisahkan oleh spasi harus diapit oleh
+tanda petik.
+
 ```
-$ python kbbi.py --kata="tanggung jawab"
+$ python kbbi.py "tanggung jawab"
 ```
 
-Menambahkan contoh kalimat.
+Apabila tidak ingin menampilkan contoh, gunakan `--tanpa-contoh` atau `-t`.
+
 ```
-$ python kbbi.py --kata="tanggung jawab" --contoh
+$ python kbbi.py "tanggung jawab" --tanpa-contoh
+```
+
+Untuk mendapatkan hasil dalam bentuk serialisasi JSON, gunakan `--json`
+atau `-j`.
+
+```
+$ python kbbi.py "tanggung jawab" --json
+```
+
+Untuk mengatur indentasi pada serialisasi JSON, gunakan `--indentasi N`
+atau `-i N`.
+
+```
+$ python kbbi.py "tanggung jawab" --json --indentasi 2
 ```
 
 
@@ -146,7 +167,6 @@ penyalahgunaan yang mungkin muncul dari proyek ini.
 [kbbi]: https://kbbi.kemdikbud.go.id
 [requests]: https://pypi.org/project/requests
 [beautifulsoup4]: https://pypi.org/project/requests/beautifulsoup4
-[abseil]: https://github.com/abseil/abseil-py
 [kbbi-py]: kbbi/kbbi.py
 [license]: LICENSE
 [hukum]: https://kbbi.kemdikbud.go.id/Beranda/Hukum
