@@ -25,7 +25,7 @@ class KBBI:
 
     host = "https://kbbi.kemdikbud.go.id"
 
-    def __init__(self, kueri, email, password):
+    def __init__(self, kueri, email=None, password=None):
         """Membuat objek KBBI baru berdasarkan kueri yang diberikan.
 
         :param kueri: Kata kunci pencarian
