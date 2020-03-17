@@ -192,7 +192,7 @@ penyalahgunaan yang mungkin muncul dari proyek ini.
 
 [kbbi]: https://kbbi.kemdikbud.go.id
 [requests]: https://pypi.org/project/requests
-[beautifulsoup4]: https://pypi.org/project/requests/beautifulsoup4
+[beautifulsoup4]: https://pypi.org/project/beautifulsoup4
 [kbbi-py]: kbbi/kbbi.py
 [license]: LICENSE
 [hukum]: https://kbbi.kemdikbud.go.id/Beranda/Hukum
