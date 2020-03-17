@@ -183,9 +183,9 @@ class Entri:
 
     def _varian(self, varian):
         if varian == self.bentuk_tidak_baku:
-            nama = "Bentuk tidak baku"
+            nama = "bentuk tidak baku"
         elif varian == self.varian:
-            nama = "Varian"
+            nama = "varian"
         else:
             return ""
         return f"{nama}: {', '.join(varian)}"
