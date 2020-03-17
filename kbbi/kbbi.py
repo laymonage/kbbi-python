@@ -10,14 +10,12 @@
 
 import argparse
 import json
-import sys
 import re
+import sys
 from urllib.parse import quote
 
 import requests
 from bs4 import BeautifulSoup
-
-__CHROME_UA__ = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
 
 
 class KBBI:
@@ -39,11 +37,6 @@ class KBBI:
         self.terautentikasi = False
         self._init_pranala()
         self.sesi = requests.Session()
-        self.sesi.headers.update(
-            {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
-            }
-        )
         if email and password:
             self._autentikasi(email, password)
         laman = self.sesi.get(self.pranala)
@@ -71,8 +64,7 @@ class KBBI:
             raise TidakDitemukan(self.nama)
 
     def _autentikasi(self, email, password):
-        """
-        Melakukan autentikasi dengan surel dan sandi yang diberikan.
+        """Melakukan autentikasi dengan surel dan sandi yang diberikan.
         Berguna untuk mendapatkan segala fitur pengguna terdaftar
 
         :param email: Alamat surel yang terdaftar di KBBI
@@ -80,8 +72,11 @@ class KBBI:
         :param password: Kata sandi dari alamat surel yang terdaftar
         :type password: str
         """
-        laman = self.sesi.get(f"{self.host}/Account/Login") # Dapatkan __RequestVerificationToken.
-        token = re.findall(r"<input name=\"__RequestVerificationToken\".*value=\"(.*)\" />", laman.text)
+        laman = self.sesi.get(f"{self.host}/Account/Login")
+        token = re.findall(
+            r"<input name=\"__RequestVerificationToken\".*value=\"(.*)\" />",
+            laman.text,
+        )
         if not token:
             raise TerjadiKesalahan()
         payload = {
@@ -89,13 +84,9 @@ class KBBI:
             "Posel": email,
             "KataSandi": password,
             "IngatSaya": True,
-            "IngatSaya": False
         }
-        laman = self.sesi.post(
-            f"{self.host}/Account/Login",
-            data=payload
-        )
-        if 'Beranda/Error' in laman.url:
+        laman = self.sesi.post(f"{self.host}/Account/Login", data=payload)
+        if "Beranda/Error" in laman.url:
             raise GagalAutentikasi()
         self.terautentikasi = True
 
@@ -156,7 +147,11 @@ class Entri:
         self._init_makna(entri)
 
     def _cek_autentikasi(self, entri):
-        all_href = [ehref['href'] for ehref in entri.find_all('a') if ehref.get('href', None)]
+        all_href = [
+            ehref["href"]
+            for ehref in entri.find_all("a")
+            if ehref.get("href", None)
+        ]
         for href in all_href:
             if "DataDasarEntri" in href:
                 self.terautentikasi = True
@@ -188,13 +183,13 @@ class Entri:
 
     def _init_varian(self, judul):
         if self.terautentikasi:
-            variasi = judul.find_all('small')
+            variasi = judul.find_all("small")
             varian = None
             for v in variasi:
-                spanv = v.find('span')
+                spanv = v.find("span")
                 if spanv:
-                    if spanv.get('class'):
-                        if "entrisButton" in spanv['class']:
+                    if spanv.get("class"):
+                        if "entrisButton" in spanv["class"]:
                             continue
                 varian = v
         else:
@@ -216,7 +211,7 @@ class Entri:
         self.etimologi = None
         if not self.terautentikasi:
             return
-        etimologi = entri.find_all('b') # , {"style": "margin-left:19px"}
+        etimologi = entri.find_all("b")
         if etimologi:
             for etimo in etimologi:
                 if "Etimologi" in etimo.text:
@@ -234,7 +229,7 @@ class Entri:
         self.peribahasa = []
         if not self.terautentikasi:
             return
-        lain_lain = entri.find_all('h4')
+        lain_lain = entri.find_all("h4")
         kata_turunan = None
         gabungan_kata = None
         peribahasa = None
@@ -250,17 +245,17 @@ class Entri:
         if kata_turunan:
             kata_turunan = kata_turunan.next_sibling
             if kata_turunan:
-                kata_turunan = kata_turunan.find_all('a')
+                kata_turunan = kata_turunan.find_all("a")
                 self.kata_turunan = [kt.text for kt in kata_turunan if kt]
         if gabungan_kata:
             gabungan_kata = gabungan_kata.next_sibling
             if gabungan_kata:
-                gabungan_kata = gabungan_kata.find_all('a')
+                gabungan_kata = gabungan_kata.find_all("a")
                 self.gabungan_kata = [gk.text for gk in gabungan_kata if gk]
         if peribahasa:
             peribahasa = peribahasa.next_sibling
             if peribahasa:
-                peribahasa = peribahasa.find_all('a')
+                peribahasa = peribahasa.find_all("a")
                 self.peribahasa = [p.text for p in peribahasa if p]
 
     def _init_makna(self, entri):
@@ -293,11 +288,13 @@ class Entri:
             "pelafalan": self.pelafalan,
             "bentuk_tidak_baku": self.bentuk_tidak_baku,
             "varian": self.varian,
-            "etimologi": self.etimologi.serialisasi() if self.etimologi else None,
+            "etimologi": self.etimologi.serialisasi()
+            if self.etimologi
+            else None,
             "makna": [makna.serialisasi() for makna in self.makna],
             "kata_turunan": self.kata_turunan,
             "gabungan_kata": self.gabungan_kata,
-            "peribahasa": self.peribahasa
+            "peribahasa": self.peribahasa,
         }
 
     def _makna(self, contoh=True):
@@ -342,7 +339,8 @@ class Entri:
         if self.gabungan_kata:
             hasil += f"\nGabungan Kata: {'; '.join(self.gabungan_kata)}"
         if self.peribahasa:
-            hasil += f"\nPeribahasa (mengandung [{self.nama}]): {', '.join(self.peribahasa)}"
+            hasil += f"\nPeribahasa (mengandung [{self.nama}]): "
+            hasil += f"{', '.join(self.peribahasa)}"
         return hasil
 
     def __repr__(self):
@@ -449,38 +447,36 @@ class Etimologi:
         :param etimologi_html: String untuk etimologi yang ingin diproses.
         :type etimologi_html: str
         """
-        if etimologi_html.startswith('['):
+        if etimologi_html.startswith("["):
             etimologi_html = etimologi_html[1:-1]
-        self.etimologi_data = BeautifulSoup(etimologi_html, 'html.parser')
+        self.etimologi_data = BeautifulSoup(etimologi_html, "html.parser")
 
         self._init_kelas()
         self._init_kata()
         self.arti = self.etimologi_data.text.strip()
-        self.arti = self.arti.lstrip(
-            "\'"
-        ).rstrip(
-            "\'"
-        ).lstrip(
-            "\""
-        ).rstrip(
-            "\""
-        )
+        self.arti = self.arti.lstrip("'").rstrip("'").lstrip('"').rstrip('"')
 
     def _init_kelas(self):
-        bahasa = self.etimologi_data.find('i', {"style": "color:darkred"}).extract()
+        bahasa = self.etimologi_data.find(
+            "i", {"style": "color:darkred"}
+        ).extract()
         kelas_d = []
         while True:
-            kelas = self.etimologi_data.find('span', {"style": "color:red"})
+            kelas = self.etimologi_data.find("span", {"style": "color:red"})
             if not kelas:
                 break
-            kelas = self.etimologi_data.find('span', {"style": "color:red"}).extract()
+            kelas = self.etimologi_data.find(
+                "span", {"style": "color:red"}
+            ).extract()
             kelas_d.append(kelas.text.strip())
         self.kelas = kelas_d
         self.bahasa = bahasa.text.strip()
 
     def _init_kata(self):
-        asal = self.etimologi_data.find('b').extract()
-        lafal = self.etimologi_data.find('span', {"style": "color:darkgreen"}).extract()
+        asal = self.etimologi_data.find("b").extract()
+        lafal = self.etimologi_data.find(
+            "span", {"style": "color:darkgreen"}
+        ).extract()
         self.asal = asal.text.strip()
         self.pelafalan = lafal.text.strip()
 
@@ -496,7 +492,7 @@ class Etimologi:
             "bahasa": self.bahasa,
             "asal_kata": self.asal,
             "pelafalan": self.pelafalan,
-            "arti": self.arti
+            "arti": self.arti,
         }
 
     def _kelas(self):
@@ -584,7 +580,9 @@ class GagalAutentikasi(Exception):
     """
 
     def __init__(self):
-        super().__init__('Gagal autentikasi dengan alamat surel dan sandi yang diberikan.')
+        super().__init__(
+            "Gagal autentikasi dengan alamat surel dan sandi yang diberikan."
+        )
 
 
 def _parse_args(args):
