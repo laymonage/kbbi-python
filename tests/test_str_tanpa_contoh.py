@@ -92,6 +92,33 @@ def test_kan(kan):
     assert str(kan) == result
 
 
+def test_beruang(beruang):
+    result = (
+        "uang » ber.u.ang\n"
+        "1. (v)  mempunyai uang\n"
+        "2. (a) (ki)  kaya\n"
+        "\n"
+        "be.ru.ang  /bêruang/\n"
+        "(n)  binatang buas jenis Ursus, berbulu tebal, dapat berdiri di atas kedua kaki belakangnya, "
+        "bercakar, dan bermoncong panjang (banyak macamnya, seperti -- bukit, -- damar, -- putih)"
+    )
+    assert str(beruang) == result
+
+
+def test_lah(lah):
+    result = (
+        "-lah (1)\n"
+        "(bentuk terikat)  yang digunakan untuk menekankan makna kata yang di depannya\n"
+        "\n"
+        "lah (2)\n"
+        "(adv) (kp)  telah\n"
+        "\n"
+        "lah (3)\n"
+        "(p) (cak)  kata seru untuk memberi tekanan atau menyungguhkan"
+    )
+    assert str(lah) == result
+
+
 def test_awalan_me(awalan_me):
     result = (
         "me-  /mê-/\n"

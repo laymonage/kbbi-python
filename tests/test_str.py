@@ -125,6 +125,47 @@ def test_kan(kan):
     assert str(kan) == result
 
 
+def test_beruang(beruang):
+    result = (
+        "uang » ber.u.ang\n"
+        "1. (v)  mempunyai uang: sepeser pun saya tidak ~\n"
+        "2. (a) (ki)  kaya: orang yang dapat menikmati makanan semahal itu hanyalah orang yang ~\n"
+        "\n"
+        "be.ru.ang  /bêruang/\n"
+        "(n)  binatang buas jenis Ursus, berbulu tebal, dapat berdiri di atas kedua kaki belakangnya, "
+        "bercakar, dan bermoncong panjang (banyak macamnya, seperti -- bukit, -- damar, -- putih)"
+    )
+    assert str(beruang) == result
+
+
+def test_sage(sage):
+    result = (
+        "sa.ge (1)  /sagé/\n"
+        "(n)  cerita rakyat berdasarkan cerita sejarah yang sudah ditambah imajinasi masyarakat\n"
+        "\n"
+        "sa.ge (2)  /sagé/\n"
+        "(n)  tanaman yang termasuk keluarga min, tingginya dapat mencapai 70 cm, "
+        "daunnya berbentuk oval, keras, berbulu halus, beraroma tajam, "
+        "dan biasa digunakan sebagai bumbu masakan 〈Salvia officinalis〉"
+    )
+    assert str(sage) == result
+
+
+def test_lah(lah):
+    result = (
+        "-lah (1)\n"
+        "(bentuk terikat)  yang digunakan untuk menekankan makna kata yang di depannya\n"
+        "\n"
+        "lah (2)\n"
+        "(adv) (kp)  telah: hari -- larut senja\n"
+        "\n"
+        "lah (3)\n"
+        "(p) (cak)  kata seru untuk memberi tekanan atau menyungguhkan: "
+        "“--, itu orangnya”, katanya sambil menunjuk seseorang yang baru datang"
+    )
+    assert str(lah) == result
+
+
 def test_awalan_me(awalan_me):
     result = (
         "me-  /mê-/\n"
@@ -154,11 +195,3 @@ def test_akhiran_kan(akhiran_kan):
         "3. (sufiks pembentuk verba)  untuk; kepada orang lain: sewakan; bacakan"
     )
     assert str(akhiran_kan) == result
-
-
-def test_terikat_lah(terikat_lah):
-    result = (
-        "-lah (1)\n"
-        "(bentuk terikat)  yang digunakan untuk menekankan makna kata yang di depannya"
-    )
-    assert str(terikat_lah) == result

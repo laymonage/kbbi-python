@@ -59,6 +59,21 @@ def kan():
 
 
 @pytest.fixture(scope="session")
+def beruang():
+    return KBBI("beruang")
+
+
+@pytest.fixture(scope="session")
+def sage():
+    return KBBI("sage")
+
+
+@pytest.fixture(scope="session")
+def lah():
+    return KBBI("lah")
+
+
+@pytest.fixture(scope="session")
 def awalan_me():
     return KBBI("me-")
 
@@ -66,8 +81,3 @@ def awalan_me():
 @pytest.fixture(scope="session")
 def akhiran_kan():
     return KBBI("-kan")
-
-
-@pytest.fixture(scope="session")
-def terikat_lah():
-    return KBBI("-lah")
