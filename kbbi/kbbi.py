@@ -31,8 +31,6 @@ class KBBI:
         :type kueri: str
         :param auth: objek AutentikasiKBBI
         :type auth: AutentikasiKBBI
-        :param password: Kata sandi dari alamat surel yang terdaftar
-        :type password: str
         """
         self.nama = kueri
         self.terautentikasi = False
@@ -40,7 +38,7 @@ class KBBI:
         if auth:
             if not isinstance(auth, AutentikasiKBBI):
                 raise ValueError(
-                    "KBBI: \"auth\" harus merupakan objek AutentikasiKBBI"
+                    'KBBI: "auth" harus merupakan objek AutentikasiKBBI'
                 )
             self.sesi = auth.ambil_sesi()
             self.terautentikasi = auth.terautentikasi
