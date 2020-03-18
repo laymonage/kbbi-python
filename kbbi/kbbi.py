@@ -24,26 +24,46 @@ class KBBI:
 
     host = "https://kbbi.kemdikbud.go.id"
 
-    def __init__(self, kueri, email=None, password=None):
+    def __init__(self, kueri, auth=None):
         """Membuat objek KBBI baru berdasarkan kueri yang diberikan.
 
         :param kueri: Kata kunci pencarian
         :type kueri: str
-        :param email: Alamat surel yang terdaftar di KBBI
-        :type email: str
+        :param auth: objek AutentikasiKBBI
+        :type auth: AutentikasiKBBI
         :param password: Kata sandi dari alamat surel yang terdaftar
         :type password: str
         """
         self.nama = kueri
         self.terautentikasi = False
         self._init_pranala()
-        self.sesi = requests.Session()
-        if email and password:
-            self._autentikasi(email, password)
-        self.__ambil_cookies()
+        if auth:
+            if not isinstance(auth, AutentikasiKBBI):
+                raise ValueError(
+                    "KBBI: \"auth\" harus merupakan objek AutentikasiKBBI"
+                )
+            self.sesi = auth.ambil_sesi()
+            self.terautentikasi = auth.terautentikasi
+        else:
+            self.sesi = requests.Session()
+            self.__ambil_cookies()
         laman = self.sesi.get(self.pranala)
         self._cek_galat(laman)
         self._init_entri(laman)
+
+    def __ambil_cookies(self):
+        env = {"nt": "LOCALAPPDATA"}
+        save_folder = os.path.join(
+            os.getenv(env.get(os.name, "HOME")), ".kbbi_data"
+        )
+        if not os.path.isdir(save_folder):
+            return
+        aspcookie = self.sesi.cookies.get(".AspNet.ApplicationCookie")
+        if aspcookie:
+            return
+        if os.path.isfile(f"{save_folder}/cookie.txt"):
+            with open(f"{save_folder}/cookie.txt", "r") as fp:
+                self.sesi.headers.update({"Cookie": fp.read()})
 
     def _init_pranala(self):
         kasus_khusus = [
@@ -64,59 +84,6 @@ class KBBI:
             raise BatasSehari()
         if "Entri tidak ditemukan." in laman.text:
             raise TidakDitemukan(self.nama)
-
-    def __simpan_cookies(self):
-        env = {"nt": "LOCALAPPDATA"}
-        save_folder = os.path.join(
-            os.getenv(env.get(os.name, "HOME")), ".kbbi_data"
-        )
-        if not os.path.isdir(save_folder):
-            os.mkdir(save_folder)
-        aspcookie = self.sesi.cookies.get(".AspNet.ApplicationCookie")
-        with open(f"{save_folder}/cookie.txt", "w") as fp:
-            fp.write(f".AspNet.ApplicationCookie={aspcookie};")
-
-    def __ambil_cookies(self):
-        env = {"nt": "LOCALAPPDATA"}
-        save_folder = os.path.join(
-            os.getenv(env.get(os.name, "HOME")), ".kbbi_data"
-        )
-        if not os.path.isdir(save_folder):
-            return
-        aspcookie = self.sesi.cookies.get(".AspNet.ApplicationCookie")
-        if aspcookie:
-            return
-        if os.path.isfile(f"{save_folder}/cookie.txt"):
-            with open(f"{save_folder}/cookie.txt", "r") as fp:
-                self.sesi.headers.update({"Cookie": fp.read()})
-
-    def _autentikasi(self, email, password):
-        """Melakukan autentikasi dengan surel dan sandi yang diberikan.
-        Berguna untuk mendapatkan segala fitur pengguna terdaftar
-
-        :param email: Alamat surel yang terdaftar di KBBI
-        :type email: str
-        :param password: Kata sandi dari alamat surel yang terdaftar
-        :type password: str
-        """
-        laman = self.sesi.get(f"{self.host}/Account/Login")
-        token = re.findall(
-            r"<input name=\"__RequestVerificationToken\".*value=\"(.*)\" />",
-            laman.text,
-        )
-        if not token:
-            raise TerjadiKesalahan()
-        payload = {
-            "__RequestVerificationToken": token[0],
-            "Posel": email,
-            "KataSandi": password,
-            "IngatSaya": True,
-        }
-        laman = self.sesi.post(f"{self.host}/Account/Login", data=payload)
-        if "Beranda/Error" in laman.url:
-            raise GagalAutentikasi()
-        self.__simpan_cookies()
-        self.terautentikasi = True
 
     def _init_entri(self, laman):
         sup = BeautifulSoup(laman.text, "html.parser")
@@ -577,6 +544,71 @@ def ambil_teks_dalam_label(sup, ambil_italic=False):
     return "".join(i.strip() for i in sup.find_all(text=True, recursive=False))
 
 
+class AutentikasiKBBI:
+    """Gunakan fitur pengguna terdaftar."""
+
+    host = "https://kbbi.kemdikbud.go.id"
+
+    def __init__(self, email, password):
+        """Membuat objek AutentikasiKBBI baru.
+
+        :param email: Alamat surel yang terdaftar di KBBI
+        :type email: str
+        :param password: Kata sandi dari alamat surel yang terdaftar
+        :type password: str
+        """
+        self.terautentikasi = False
+        self.sesi = requests.Session()
+        self._autentikasi(email, password)
+
+    def __simpan_cookies(self):
+        env = {"nt": "LOCALAPPDATA"}
+        save_folder = os.path.join(
+            os.getenv(env.get(os.name, "HOME")), ".kbbi_data"
+        )
+        if not os.path.isdir(save_folder):
+            os.mkdir(save_folder)
+        aspcookie = self.sesi.cookies.get(".AspNet.ApplicationCookie")
+        with open(f"{save_folder}/cookie.txt", "w") as fp:
+            fp.write(f".AspNet.ApplicationCookie={aspcookie};")
+
+    def _autentikasi(self, email, password):
+        """Melakukan autentikasi dengan surel dan sandi yang diberikan.
+        Berguna untuk mendapatkan segala fitur pengguna terdaftar
+
+        :param email: Alamat surel yang terdaftar di KBBI
+        :type email: str
+        :param password: Kata sandi dari alamat surel yang terdaftar
+        :type password: str
+        """
+        laman = self.sesi.get(f"{self.host}/Account/Login")
+        token = re.findall(
+            r"<input name=\"__RequestVerificationToken\".*value=\"(.*)\" />",
+            laman.text,
+        )
+        if not token:
+            raise TerjadiKesalahan()
+        payload = {
+            "__RequestVerificationToken": token[0],
+            "Posel": email,
+            "KataSandi": password,
+            "IngatSaya": True,
+        }
+        laman = self.sesi.post(f"{self.host}/Account/Login", data=payload)
+        if "Beranda/Error" in laman.url:
+            raise GagalAutentikasi()
+        self.__simpan_cookies()
+        self.terautentikasi = True
+
+    def ambil_sesi(self):
+        """Mengembalikan sesi yang telah dibuat.
+
+        :returns: sesi dengan fitur pengguna terdaftar
+        :rtype: requests.Session()
+        """
+        return self.sesi
+
+
 class TidakDitemukan(Exception):
     """
     Galat yang menunjukkan bahwa laman tidak ditemukan dalam KBBI.
@@ -675,7 +707,10 @@ def main(argv=None):
         argv = sys.argv[1:]
     args = _parse_args(argv)
     try:
-        laman = KBBI(args.laman, email=args.username, password=args.password)
+        auth = None
+        if args.username and args.password:
+            auth = AutentikasiKBBI(args.username, args.password)
+        laman = KBBI(args.laman, auth)
     except (
         TidakDitemukan,
         TerjadiKesalahan,
