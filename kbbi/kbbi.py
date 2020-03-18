@@ -67,7 +67,9 @@ class KBBI:
 
     def __simpan_cookies(self):
         env = {"nt": "LOCALAPPDATA"}
-        save_folder = os.path.join(os.getenv(env.get(os.name, "HOME")), ".kbbi_data")
+        save_folder = os.path.join(
+            os.getenv(env.get(os.name, "HOME")), ".kbbi_data"
+        )
         if not os.path.isdir(save_folder):
             os.mkdir(save_folder)
         aspcookie = self.sesi.cookies.get(".AspNet.ApplicationCookie")
@@ -76,10 +78,14 @@ class KBBI:
 
     def __ambil_cookies(self):
         env = {"nt": "LOCALAPPDATA"}
-        save_folder = os.path.join(os.getenv(env.get(os.name, "HOME")), ".kbbi_data")
+        save_folder = os.path.join(
+            os.getenv(env.get(os.name, "HOME")), ".kbbi_data"
+        )
         if not os.path.isdir(save_folder):
             return
         aspcookie = self.sesi.cookies.get(".AspNet.ApplicationCookie")
+        if aspcookie:
+            return
         if os.path.isfile(f"{save_folder}/cookie.txt"):
             with open(f"{save_folder}/cookie.txt", "r") as fp:
                 self.sesi.headers.update({"Cookie": fp.read()})
@@ -249,36 +255,37 @@ class Entri:
         self.kata_turunan = []
         self.gabungan_kata = []
         self.peribahasa = []
+        self.kiasan = []
         if not self.terautentikasi:
             return
         lain_lain = entri.find_all("h4")
-        kata_turunan = None
-        gabungan_kata = None
-        peribahasa = None
         for le in lain_lain:
             if le:
                 le_txt = le.text.strip()
                 if "Kata Turunan" in le_txt:
-                    kata_turunan = le
+                    kata_turunan = le.next_sibling
+                    if kata_turunan:
+                        kata_turunan = kata_turunan.find_all("a")
+                        self.kata_turunan = [
+                            kt.text for kt in kata_turunan if kt
+                        ]
                 if "Gabungan Kata" in le_txt:
-                    gabungan_kata = le
+                    gabungan_kata = le.next_sibling
+                    if gabungan_kata:
+                        gabungan_kata = gabungan_kata.find_all("a")
+                        self.gabungan_kata = [
+                            gk.text for gk in gabungan_kata if gk
+                        ]
                 if "Peribahasa" in le_txt:
-                    peribahasa = le
-        if kata_turunan:
-            kata_turunan = kata_turunan.next_sibling
-            if kata_turunan:
-                kata_turunan = kata_turunan.find_all("a")
-                self.kata_turunan = [kt.text for kt in kata_turunan if kt]
-        if gabungan_kata:
-            gabungan_kata = gabungan_kata.next_sibling
-            if gabungan_kata:
-                gabungan_kata = gabungan_kata.find_all("a")
-                self.gabungan_kata = [gk.text for gk in gabungan_kata if gk]
-        if peribahasa:
-            peribahasa = peribahasa.next_sibling
-            if peribahasa:
-                peribahasa = peribahasa.find_all("a")
-                self.peribahasa = [p.text for p in peribahasa if p]
+                    peribahasa = le.next_sibling
+                    if peribahasa:
+                        peribahasa = peribahasa.find_all("a")
+                        self.peribahasa = [p.text for p in peribahasa if p]
+                if "Kiasan" in le_txt:
+                    kiasan = le.next_sibling
+                    if kiasan:
+                        kiasan = kiasan.find_all("a")
+                        self.kiasan = [k.text for k in kiasan if k]
 
     def _init_makna(self, entri):
         if entri.find(color="darkgreen"):
@@ -300,6 +307,8 @@ class Entri:
             makna = makna[:-1]
         if self.kata_turunan:
             makna = makna[:-1]
+        if self.kiasan:
+            makna = makna[:-1]
         self.makna = [Makna(m) for m in makna]
 
     def serialisasi(self):
@@ -317,6 +326,7 @@ class Entri:
             "kata_turunan": self.kata_turunan,
             "gabungan_kata": self.gabungan_kata,
             "peribahasa": self.peribahasa,
+            "kiasan": self.kiasan,
         }
 
     def _makna(self, contoh=True):
@@ -362,7 +372,10 @@ class Entri:
             hasil += f"\nGabungan Kata: {'; '.join(self.gabungan_kata)}"
         if self.peribahasa:
             hasil += f"\nPeribahasa (mengandung [{self.nama}]): "
-            hasil += f"{', '.join(self.peribahasa)}"
+            hasil += f"{'; '.join(self.peribahasa)}"
+        if self.kiasan:
+            hasil += f"\nKiasan (mengandung [{self.nama}]): "
+            hasil += f"{'; '.join(self.kiasan)}"
         return hasil
 
     def __repr__(self):
@@ -663,14 +676,21 @@ def main(argv=None):
     args = _parse_args(argv)
     try:
         laman = KBBI(args.laman, email=args.username, password=args.password)
-    except (TidakDitemukan, TerjadiKesalahan,
-            BatasSehari, GagalAutentikasi) as e:
+    except (
+        TidakDitemukan,
+        TerjadiKesalahan,
+        BatasSehari,
+        GagalAutentikasi,
+    ) as e:
         print(e)
         return 1
     else:
         print(_keluaran(laman, args))
         if args.username and args.password:
-            print('\nTelah disimpan cookies login, silakan hapus argumen --username dan --password')
+            print(
+                "\nTelah disimpan cookies login, silakan hapus argumen"
+                " --username dan --password"
+            )
         return 0
 
 
