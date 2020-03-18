@@ -10,9 +10,9 @@
 
 import argparse
 import json
-import os
 import re
 import sys
+from pathlib import Path
 from urllib.parse import quote
 
 import requests
@@ -50,18 +50,16 @@ class KBBI:
         self._init_entri(laman)
 
     def __ambil_cookies(self):
-        env = {"nt": "LOCALAPPDATA"}
-        save_folder = os.path.join(
-            os.getenv(env.get(os.name, "HOME")), ".kbbi_data"
-        )
-        if not os.path.isdir(save_folder):
+        save_folder = Path(f"{str(Path.home())}/.config/kbbi_data")
+        if not save_folder.exists():
             return
         aspcookie = self.sesi.cookies.get(".AspNet.ApplicationCookie")
         if aspcookie:
             return
-        if os.path.isfile(f"{save_folder}/cookie.txt"):
-            with open(f"{save_folder}/cookie.txt", "r") as fp:
-                self.sesi.headers.update({"Cookie": fp.read()})
+        if save_folder.joinpath("cookies.txt").exists():
+            self.sesi.headers.update(
+                {"Cookie": save_folder.joinpath("cookies.txt").read_text()}
+            )
 
     def _init_pranala(self):
         kasus_khusus = [
@@ -224,33 +222,22 @@ class Entri:
         if not self.terautentikasi:
             return
         lain_lain = entri.find_all("h4")
+        terkait = {
+            "Kata Turunan": self.kata_turunan,
+            "Gabungan Kata": self.gabungan_kata,
+            "Peribahasa": self.peribahasa,
+            "Kiasan": self.kiasan,
+        }
         for le in lain_lain:
-            if le:
-                le_txt = le.text.strip()
-                if "Kata Turunan" in le_txt:
-                    kata_turunan = le.next_sibling
-                    if kata_turunan:
-                        kata_turunan = kata_turunan.find_all("a")
-                        self.kata_turunan = [
-                            kt.text for kt in kata_turunan if kt
-                        ]
-                if "Gabungan Kata" in le_txt:
-                    gabungan_kata = le.next_sibling
-                    if gabungan_kata:
-                        gabungan_kata = gabungan_kata.find_all("a")
-                        self.gabungan_kata = [
-                            gk.text for gk in gabungan_kata if gk
-                        ]
-                if "Peribahasa" in le_txt:
-                    peribahasa = le.next_sibling
-                    if peribahasa:
-                        peribahasa = peribahasa.find_all("a")
-                        self.peribahasa = [p.text for p in peribahasa if p]
-                if "Kiasan" in le_txt:
-                    kiasan = le.next_sibling
-                    if kiasan:
-                        kiasan = kiasan.find_all("a")
-                        self.kiasan = [k.text for k in kiasan if k]
+            if not le:
+                continue
+            le_txt = le.text.strip()
+            for jenis, daftar in terkait.items():
+                if jenis in le_txt:
+                    kumpulan = le.next_sibling
+                    if kumpulan:
+                        kumpulan = kumpulan.find_all("a")
+                        daftar.extend([k.text for k in kumpulan if k])
 
     def _init_makna(self, entri):
         if entri.find(color="darkgreen"):
@@ -560,15 +547,13 @@ class AutentikasiKBBI:
         self._autentikasi(email, password)
 
     def __simpan_cookies(self):
-        env = {"nt": "LOCALAPPDATA"}
-        save_folder = os.path.join(
-            os.getenv(env.get(os.name, "HOME")), ".kbbi_data"
-        )
-        if not os.path.isdir(save_folder):
-            os.mkdir(save_folder)
+        save_folder = Path(f"{str(Path.home())}/.config/kbbi_data")
+        if not save_folder.exists():
+            save_folder.mkdir()
         aspcookie = self.sesi.cookies.get(".AspNet.ApplicationCookie")
-        with open(f"{save_folder}/cookie.txt", "w") as fp:
-            fp.write(f".AspNet.ApplicationCookie={aspcookie};")
+        save_folder.joinpath("cookies.txt").write_text(
+            f".AspNet.ApplicationCookie={aspcookie};"
+        )
 
     def _autentikasi(self, email, password):
         """Melakukan autentikasi dengan surel dan sandi yang diberikan.
@@ -607,7 +592,11 @@ class AutentikasiKBBI:
         return self.sesi
 
 
-class TidakDitemukan(Exception):
+class Galat(Exception):
+    pass
+
+
+class TidakDitemukan(Galat):
     """
     Galat yang menunjukkan bahwa laman tidak ditemukan dalam KBBI.
     """
@@ -616,7 +605,7 @@ class TidakDitemukan(Exception):
         super().__init__(f"{kueri} tidak ditemukan dalam KBBI!")
 
 
-class TerjadiKesalahan(Exception):
+class TerjadiKesalahan(Galat):
     """
     Galat yang menunjukkan bahwa terjadi kesalahan dari pihak KBBI.
     Laman: https://kbbi.kemdikbud.go.id/Beranda/Error
@@ -626,7 +615,7 @@ class TerjadiKesalahan(Exception):
         super().__init__("Terjadi kesalahan saat memproses permintaan Anda.")
 
 
-class BatasSehari(Exception):
+class BatasSehari(Galat):
     """
     Galat yang menunjukkan bahwa pencarian telah mencapai
     batas maksimum dalam sehari.
@@ -639,7 +628,7 @@ class BatasSehari(Exception):
         )
 
 
-class GagalAutentikasi(Exception):
+class GagalAutentikasi(Galat):
     """
     Galat ketika gagal dalam autentikasi dengan KBBI.
     """
@@ -709,12 +698,7 @@ def main(argv=None):
         if args.username and args.password:
             auth = AutentikasiKBBI(args.username, args.password)
         laman = KBBI(args.laman, auth)
-    except (
-        TidakDitemukan,
-        TerjadiKesalahan,
-        BatasSehari,
-        GagalAutentikasi,
-    ) as e:
+    except Galat as e:
         print(e)
         return 1
     else:
