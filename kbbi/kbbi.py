@@ -10,6 +10,7 @@
 
 import argparse
 import json
+import os
 import re
 import sys
 from urllib.parse import quote
@@ -39,6 +40,7 @@ class KBBI:
         self.sesi = requests.Session()
         if email and password:
             self._autentikasi(email, password)
+        self.__ambil_cookies()
         laman = self.sesi.get(self.pranala)
         self._cek_galat(laman)
         self._init_entri(laman)
@@ -62,6 +64,25 @@ class KBBI:
             raise BatasSehari()
         if "Entri tidak ditemukan." in laman.text:
             raise TidakDitemukan(self.nama)
+
+    def __simpan_cookies(self):
+        env = {"nt": "LOCALAPPDATA"}
+        save_folder = os.path.join(os.getenv(env.get(os.name, "HOME")), ".kbbi_data")
+        if not os.path.isdir(save_folder):
+            os.mkdir(save_folder)
+        aspcookie = self.sesi.cookies.get(".AspNet.ApplicationCookie")
+        with open(f"{save_folder}/cookie.txt", "w") as fp:
+            fp.write(f".AspNet.ApplicationCookie={aspcookie};")
+
+    def __ambil_cookies(self):
+        env = {"nt": "LOCALAPPDATA"}
+        save_folder = os.path.join(os.getenv(env.get(os.name, "HOME")), ".kbbi_data")
+        if not os.path.isdir(save_folder):
+            return
+        aspcookie = self.sesi.cookies.get(".AspNet.ApplicationCookie")
+        if os.path.isfile(f"{save_folder}/cookie.txt"):
+            with open(f"{save_folder}/cookie.txt", "r") as fp:
+                self.sesi.headers.update({"Cookie": fp.read()})
 
     def _autentikasi(self, email, password):
         """Melakukan autentikasi dengan surel dan sandi yang diberikan.
@@ -88,6 +109,7 @@ class KBBI:
         laman = self.sesi.post(f"{self.host}/Account/Login", data=payload)
         if "Beranda/Error" in laman.url:
             raise GagalAutentikasi()
+        self.__simpan_cookies()
         self.terautentikasi = True
 
     def _init_entri(self, laman):
@@ -204,7 +226,7 @@ class Entri:
                 ).split(", ")
             else:
                 self.varian = (
-                    varian.text[len("varian: ") :].strip().split(", ")
+                    varian.text[len("varian: "):].strip().split(", ")
                 )
 
     def _init_etimologi(self, entri):
@@ -405,7 +427,7 @@ class Makna:
     def _init_contoh(self, makna_label):
         indeks = makna_label.text.find(": ")
         if indeks != -1:
-            contoh = makna_label.text[indeks + 2 :].strip()
+            contoh = makna_label.text[indeks + 2:].strip()
             self.contoh = contoh.split("; ")
         else:
             self.contoh = []
@@ -612,14 +634,15 @@ def _parse_args(args):
     parser.add_argument(
         "-U",
         "--username",
-        help="gunakan indentasi sebanyak N untuk serialisasi JSON",
+        help="gunakan email/surel yang terdaftar pada KBBI"
+        "untuk mengakses fitur pengguna",
         default=None,
         metavar="surel",
     )
     parser.add_argument(
         "-P",
         "--password",
-        help="gunakan indentasi sebanyak N untuk serialisasi JSON",
+        help="kata sandi email untuk email/surel yang digunakan",
         default=None,
         metavar="sandi",
     )
@@ -640,11 +663,14 @@ def main(argv=None):
     args = _parse_args(argv)
     try:
         laman = KBBI(args.laman, email=args.username, password=args.password)
-    except (TidakDitemukan, TerjadiKesalahan, BatasSehari) as e:
+    except (TidakDitemukan, TerjadiKesalahan,
+            BatasSehari, GagalAutentikasi) as e:
         print(e)
         return 1
     else:
         print(_keluaran(laman, args))
+        if args.username and args.password:
+            print('\nTelah disimpan cookies login, silakan hapus argumen --username dan --password')
         return 0
 
 
