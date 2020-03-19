@@ -195,7 +195,7 @@ class Entri:
                 ).split(", ")
             else:
                 self.varian = (
-                    varian.text[len("varian: "):].strip().split(", ")
+                    varian.text[len("varian: ") :].strip().split(", ")
                 )
 
     def _init_etimologi(self, entri):
@@ -245,22 +245,19 @@ class Entri:
         else:
             makna = entri.find_all("li")
         if self.terautentikasi:
-            old_makna = makna
-            makna = []
-            for om in old_makna:
-                if om:
-                    if "Usulkan makna baru" in om.text:
-                        continue
-                    makna.append(om)
-            del old_makna
-        if self.peribahasa:
-            makna = makna[:-1]
-        if self.gabungan_kata:
-            makna = makna[:-1]
-        if self.kata_turunan:
-            makna = makna[:-1]
-        if self.kiasan:
-            makna = makna[:-1]
+            makna = [
+                m for m in makna if m and "Usulkan makna baru" not in m.text
+            ]
+        terkait = sum(
+            [
+                bool(self.kata_turunan),
+                bool(self.gabungan_kata),
+                bool(self.peribahasa),
+                bool(self.kiasan),
+            ]
+        )
+        if terkait:
+            makna = makna[:-terkait]
         self.makna = [Makna(m) for m in makna]
 
     def serialisasi(self):
@@ -392,7 +389,7 @@ class Makna:
     def _init_contoh(self, makna_label):
         indeks = makna_label.text.find(": ")
         if indeks != -1:
-            contoh = makna_label.text[indeks + 2:].strip()
+            contoh = makna_label.text[indeks + 2 :].strip()
             self.contoh = contoh.split("; ")
         else:
             self.contoh = []
