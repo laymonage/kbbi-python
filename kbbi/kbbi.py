@@ -306,6 +306,21 @@ class Entri:
             return ""
         return f"{nama}: {', '.join(varian)}"
 
+    def _terkait(self):
+        nama_murni = self.nama.replace(".", "")
+        hasil = ""
+        if self.kata_turunan:
+            hasil += f"\nKata Turunan\n{'; '.join(self.kata_turunan)}"
+        if self.gabungan_kata:
+            hasil += f"\nGabungan Kata\n{'; '.join(self.gabungan_kata)}"
+        if self.peribahasa:
+            hasil += f"\nPeribahasa (mengandung [{nama_murni}])\n"
+            hasil += f"{'; '.join(self.peribahasa)}"
+        if self.kiasan:
+            hasil += f"\nKiasan (mengandung [{nama_murni}])\n"
+            hasil += f"{'; '.join(self.kiasan)}"
+        return hasil
+
     def __str__(self, contoh=True):
         hasil = self._nama()
         if self.pelafalan:
@@ -316,16 +331,7 @@ class Entri:
         if self.etimologi:
             hasil += f"\nEtimologi: {self.etimologi}"
         hasil += f"\n{self._makna(contoh)}"
-        if self.kata_turunan:
-            hasil += f"\nKata Turunan: {'; '.join(self.kata_turunan)}"
-        if self.gabungan_kata:
-            hasil += f"\nGabungan Kata: {'; '.join(self.gabungan_kata)}"
-        if self.peribahasa:
-            hasil += f"\nPeribahasa (mengandung [{self.nama}]): "
-            hasil += f"{'; '.join(self.peribahasa)}"
-        if self.kiasan:
-            hasil += f"\nKiasan (mengandung [{self.nama}]): "
-            hasil += f"{'; '.join(self.kiasan)}"
+        hasil += self._terkait()
         return hasil
 
     def __repr__(self):
