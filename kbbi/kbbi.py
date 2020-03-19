@@ -33,7 +33,6 @@ class KBBI:
         :type auth: AutentikasiKBBI
         """
         self.nama = kueri
-        self.terautentikasi = False
         self._init_pranala()
         if auth:
             if not isinstance(auth, AutentikasiKBBI):
@@ -41,11 +40,11 @@ class KBBI:
                     'KBBI: "auth" harus merupakan objek AutentikasiKBBI'
                 )
             self.sesi = auth.ambil_sesi()
-            self.terautentikasi = auth.terautentikasi
         else:
             self.sesi = requests.Session()
             self.__ambil_cookies()
         laman = self.sesi.get(self.pranala)
+        self._cek_autentikasi(laman)
         self._cek_galat(laman)
         self._init_entri(laman)
 
@@ -60,6 +59,9 @@ class KBBI:
             self.sesi.headers.update(
                 {"Cookie": save_folder.joinpath("cookies.txt").read_text()}
             )
+
+    def _cek_autentikasi(self, laman):
+        self.terautentikasi = "loginLink" not in laman.text
 
     def _init_pranala(self):
         kasus_khusus = [
@@ -88,7 +90,7 @@ class KBBI:
         for label in sup.find("hr").next_siblings:
             if label.name == "hr":
                 if label.get("style") is None:
-                    self.entri.append(Entri(estr))
+                    self.entri.append(Entri(estr, self.terautentikasi))
                     break
                 else:
                     continue
@@ -96,7 +98,7 @@ class KBBI:
                 if label.get("style") == "color:gray":
                     continue
                 if estr:
-                    self.entri.append(Entri(estr))
+                    self.entri.append(Entri(estr, self.terautentikasi))
                 estr = ""
             estr += str(label).strip()
 
@@ -123,11 +125,10 @@ class KBBI:
 class Entri:
     """Sebuah entri dalam sebuah laman KBBI daring."""
 
-    def __init__(self, entri_html):
+    def __init__(self, entri_html, terautentikasi=False):
         entri = BeautifulSoup(entri_html, "html.parser")
         judul = entri.find("h2")
-        self.terautentikasi = False
-        self._cek_autentikasi(entri)
+        self.terautentikasi = terautentikasi
         self._init_nama(judul)
         self._init_nomor(judul)
         self._init_kata_dasar(judul)
@@ -136,17 +137,6 @@ class Entri:
         self._init_lain_lain(entri)
         self._init_etimologi(entri)
         self._init_makna(entri)
-
-    def _cek_autentikasi(self, entri):
-        all_href = [
-            ehref["href"]
-            for ehref in entri.find_all("a")
-            if ehref.get("href", None)
-        ]
-        for href in all_href:
-            if "DataDasarEntri" in href:
-                self.terautentikasi = True
-                break
 
     def _init_nama(self, judul):
         self.nama = ambil_teks_dalam_label(judul, ambil_italic=True)
