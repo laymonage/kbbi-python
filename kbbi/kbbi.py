@@ -202,17 +202,15 @@ class Entri:
         self.etimologi = None
         if not self.terautentikasi:
             return
-        etimologi = entri.find_all("b")
+        etimologi = entri.find(text="Etimologi:")
         if etimologi:
-            for etimo in etimologi:
-                if "Etimologi" in etimo.text:
-                    etistr = ""
-                    for eti in etimo.next_siblings:
-                        if eti.name == "br":
-                            break
-                        etistr += str(eti).strip()
-                    self.etimologi = Etimologi(etistr)
+            etimologi = etimologi.parent
+            etistr = ""
+            for eti in etimologi.next_siblings:
+                if eti.name == "br":
                     break
+                etistr += str(eti).strip()
+            self.etimologi = Etimologi(etistr)
 
     def _init_lain_lain(self, entri):
         self.kata_turunan = []
@@ -261,22 +259,25 @@ class Entri:
         self.makna = [Makna(m) for m in makna]
 
     def serialisasi(self):
-        return {
+        entri = {
             "nama": self.nama,
             "nomor": self.nomor,
             "kata_dasar": self.kata_dasar,
             "pelafalan": self.pelafalan,
             "bentuk_tidak_baku": self.bentuk_tidak_baku,
             "varian": self.varian,
-            "etimologi": self.etimologi.serialisasi()
-            if self.etimologi
-            else None,
             "makna": [makna.serialisasi() for makna in self.makna],
             "kata_turunan": self.kata_turunan,
             "gabungan_kata": self.gabungan_kata,
             "peribahasa": self.peribahasa,
             "kiasan": self.kiasan,
         }
+        if self.terautentikasi:
+            if self.etimologi is not None:
+                entri.update({"etimologi": self.etimologi.serialisasi()})
+            else:
+                entri.update({"etimologi": None})
+        return entri
 
     def _makna(self, contoh=True):
         if len(self.makna) > 1:
@@ -313,7 +314,7 @@ class Entri:
             if var:
                 hasil += f"\n{self._varian(var)}"
         if self.etimologi:
-            hasil += f"\nEtimologi: {self.etimologi.__str__()}"
+            hasil += f"\nEtimologi: {self.etimologi}"
         hasil += f"\n{self._makna(contoh)}"
         if self.kata_turunan:
             hasil += f"\nKata Turunan: {'; '.join(self.kata_turunan)}"
