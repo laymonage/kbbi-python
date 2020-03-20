@@ -201,15 +201,11 @@ class Entri:
         self.etimologi = Etimologi(etistr)
 
     def _init_terkait(self, entri):
-        self.kata_turunan = []
-        self.gabungan_kata = []
-        self.peribahasa = []
-        self.kiasan = []
         self.terkait = {
-            "Kata Turunan": self.kata_turunan,
-            "Gabungan Kata": self.gabungan_kata,
-            "Peribahasa": self.peribahasa,
-            "Kiasan": self.kiasan,
+            "kata_turunan": [],
+            "gabungan_kata": [],
+            "peribahasa": [],
+            "kiasan": [],
         }
         if not self.terautentikasi:
             return
@@ -218,12 +214,12 @@ class Entri:
             if not le:
                 continue
             le_txt = le.text.strip()
-            for jenis, daftar in self.terkait.items():
-                if jenis in le_txt:
+            for jenis in self.terkait:
+                if jenis.replace("_", " ").title() in le_txt:
                     kumpulan = le.next_sibling
                     if kumpulan:
                         kumpulan = kumpulan.find_all("a")
-                        daftar.extend([k.text for k in kumpulan if k])
+                        self.terkait[jenis] = [k.text for k in kumpulan if k]
 
     def _init_makna(self, entri):
         if entri.find(color="darkgreen"):
@@ -248,16 +244,13 @@ class Entri:
             "bentuk_tidak_baku": self.bentuk_tidak_baku,
             "varian": self.varian,
             "makna": [makna.serialisasi() for makna in self.makna],
-            "kata_turunan": self.kata_turunan,
-            "gabungan_kata": self.gabungan_kata,
-            "peribahasa": self.peribahasa,
-            "kiasan": self.kiasan,
         }
         if self.terautentikasi:
             if self.etimologi is not None:
                 entri.update({"etimologi": self.etimologi.serialisasi()})
             else:
                 entri.update({"etimologi": None})
+            entri.update(self.terkait)
         return entri
 
     def _makna(self, contoh=True):
@@ -290,16 +283,15 @@ class Entri:
     def _terkait(self):
         nama_murni = self.nama.replace(".", "")
         hasil = ""
-        if self.kata_turunan:
-            hasil += f"\nKata Turunan\n{'; '.join(self.kata_turunan)}"
-        if self.gabungan_kata:
-            hasil += f"\nGabungan Kata\n{'; '.join(self.gabungan_kata)}"
-        if self.peribahasa:
-            hasil += f"\nPeribahasa (mengandung [{nama_murni}])\n"
-            hasil += f"{'; '.join(self.peribahasa)}"
-        if self.kiasan:
-            hasil += f"\nKiasan (mengandung [{nama_murni}])\n"
-            hasil += f"{'; '.join(self.kiasan)}"
+        header = {
+            "kata_turunan": "\nKata Turunan",
+            "gabungan_kata": "\nGabungan Kata",
+            "peribahasa": f"\nPeribahasa (mengandung [{nama_murni}])",
+            "kiasan": f"\nKiasan (mengandung [{nama_murni}])",
+        }
+        for key, head in header.items():
+            if self.terkait[key]:
+                hasil += f"{head}\n{'; '.join(self.terkait[key])}"
         return hasil
 
     def __str__(self, contoh=True):
@@ -309,11 +301,12 @@ class Entri:
         for var in (self.bentuk_tidak_baku, self.varian):
             if var:
                 hasil += f"\n{self._varian(var)}"
-        if self.etimologi:
+        if self.terautentikasi and self.etimologi:
             hasil += f"\nEtimologi: {self.etimologi}"
         if self.makna:
             hasil += f"\n{self._makna(contoh)}"
-        hasil += self._terkait()
+        if self.terautentikasi:
+            hasil += self._terkait()
         return hasil
 
     def __repr__(self):
