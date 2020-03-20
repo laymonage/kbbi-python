@@ -484,7 +484,7 @@ class Etimologi:
         return hasil
 
     def __repr__(self):
-        return f"<Etimologi: {self.arti}>"
+        return f"<Etimologi: {self.asal}>"
 
 
 def ambil_teks_dalam_label(sup, ambil_italic=False):
