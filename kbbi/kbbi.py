@@ -413,36 +413,24 @@ class Etimologi:
         :param etimologi_html: String untuk etimologi yang ingin diproses.
         :type etimologi_html: str
         """
-        if etimologi_html.startswith("["):
-            etimologi_html = etimologi_html[1:-1]
-        self.etimologi_data = BeautifulSoup(etimologi_html, "html.parser")
+        etimologi_html = etimologi_html.lstrip("[").rstrip("]")
+        etimologi = BeautifulSoup(etimologi_html, "html.parser")
+        self._init_bahasa(etimologi)
+        self._init_kelas(etimologi)
+        self._init_kata(etimologi)
+        self.arti = etimologi.text.strip().strip("'\"")
 
-        self._init_kelas()
-        self._init_kata()
-        self.arti = self.etimologi_data.text.strip()
-        self.arti = self.arti.lstrip("'").rstrip("'").lstrip('"').rstrip('"')
-
-    def _init_kelas(self):
-        bahasa = self.etimologi_data.find(
-            "i", {"style": "color:darkred"}
-        ).extract()
-        kelas_d = []
-        while True:
-            kelas = self.etimologi_data.find("span", {"style": "color:red"})
-            if not kelas:
-                break
-            kelas = self.etimologi_data.find(
-                "span", {"style": "color:red"}
-            ).extract()
-            kelas_d.append(kelas.text.strip())
-        self.kelas = kelas_d
+    def _init_bahasa(self, etimologi):
+        bahasa = etimologi.find("i", style="color:darkred").extract()
         self.bahasa = bahasa.text.strip()
 
-    def _init_kata(self):
-        asal = self.etimologi_data.find("b").extract()
-        lafal = self.etimologi_data.find(
-            "span", {"style": "color:darkgreen"}
-        ).extract()
+    def _init_kelas(self, etimologi):
+        kelas = etimologi.find_all("span", style="color:red")
+        self.kelas = [k.extract().text.strip() for k in kelas]
+
+    def _init_kata(self, etimologi):
+        asal = etimologi.find("b").extract()
+        lafal = etimologi.find("span", style="color:darkgreen").extract()
         self.asal = asal.text.strip()
         self.pelafalan = lafal.text.strip()
 
