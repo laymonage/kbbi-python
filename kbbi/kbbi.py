@@ -175,30 +175,30 @@ class Entri:
             varian = judul.find("small")
         self.bentuk_tidak_baku = []
         self.varian = []
-        if varian:
-            bentuk_tidak_baku = varian.find_all("b")
-            if bentuk_tidak_baku:
-                self.bentuk_tidak_baku = "".join(
-                    e.text.strip() for e in bentuk_tidak_baku
-                ).split(", ")
-            else:
-                self.varian = (
-                    varian.text[len("varian: ") :].strip().split(", ")
-                )
+        if varian is None:
+            return
+        bentuk_tidak_baku = varian.find_all("b")
+        if bentuk_tidak_baku:
+            self.bentuk_tidak_baku = "".join(
+                e.text.strip() for e in bentuk_tidak_baku
+            ).split(", ")
+        else:
+            self.varian = varian.text[len("varian: ") :].strip().split(", ")
 
     def _init_etimologi(self, entri):
         self.etimologi = None
         if not self.terautentikasi:
             return
         etimologi = entri.find(text="Etimologi:")
-        if etimologi:
-            etimologi = etimologi.parent
-            etistr = ""
-            for eti in etimologi.next_siblings:
-                if eti.name == "br":
-                    break
-                etistr += str(eti).strip()
-            self.etimologi = Etimologi(etistr)
+        if etimologi is None:
+            return
+        etimologi = etimologi.parent
+        etistr = ""
+        for eti in etimologi.next_siblings:
+            if eti.name == "br":
+                break
+            etistr += str(eti).strip()
+        self.etimologi = Etimologi(etistr)
 
     def _init_lain_lain(self, entri):
         self.kata_turunan = []
@@ -318,7 +318,8 @@ class Entri:
                 hasil += f"\n{self._varian(var)}"
         if self.etimologi:
             hasil += f"\nEtimologi: {self.etimologi}"
-        hasil += f"\n{self._makna(contoh)}"
+        if self.makna:
+            hasil += f"\n{self._makna(contoh)}"
         hasil += self._terkait()
         return hasil
 
