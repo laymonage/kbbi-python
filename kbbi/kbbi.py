@@ -168,10 +168,8 @@ class Entri:
             varian = None
             for v in variasi:
                 spanv = v.find("span")
-                if spanv:
-                    if spanv.get("class"):
-                        if "entrisButton" in spanv["class"]:
-                            continue
+                if spanv and "entrisButton" in spanv.get("class", []):
+                    continue
                 varian = v
         else:
             varian = judul.find("small")
