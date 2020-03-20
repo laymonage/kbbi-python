@@ -222,17 +222,18 @@ class Entri:
                         self.terkait[jenis] = [k.text for k in kumpulan if k]
 
     def _init_makna(self, entri):
-        if entri.find(color="darkgreen"):
-            makna = [entri]
+        prakategorial = entri.find(color="darkgreen")
+        if prakategorial:
+            makna = [prakategorial]
         else:
             makna = entri.find_all("li")
-        if self.terautentikasi:
+        if self.terautentikasi and not prakategorial:
             makna = [
                 m for m in makna if m and "Usulkan makna baru" not in m.text
             ]
-        terkait = sum([bool(t) for t in self.terkait.values()])
-        if terkait:
-            makna = makna[:-terkait]
+            terkait = sum([bool(t) for t in self.terkait.values()])
+            if terkait:
+                makna = makna[:-terkait]
         self.makna = [Makna(m) for m in makna]
 
     def serialisasi(self):
@@ -322,13 +323,23 @@ class Makna:
         self._init_contoh(makna_label)
         self.submakna = self.submakna.split("; ")
 
+    def _init_prakategorial(self, prakategorial):
+        cari = prakategorial.next_sibling
+        self.submakna = cari.strip()
+        self.submakna += f" {cari.next_sibling.text.strip()}"
+
+    def _init_rujukan(self, rujukan):
+        self.submakna = f"→ {ambil_teks_dalam_label(rujukan)}"
+        nomor = rujukan.find("sup")
+        if nomor:
+            self.submakna += f" ({nomor.text.strip()})"
+
     def _init_submakna(self, makna_label):
-        baku = makna_label.find("a")
-        if baku:
-            self.submakna = f"→ {ambil_teks_dalam_label(baku)}"
-            nomor = baku.find("sup")
-            if nomor:
-                self.submakna += f" ({nomor.text.strip()})"
+        rujukan = makna_label.find("a")
+        if rujukan:
+            self._init_rujukan(rujukan)
+        elif makna_label.get("color") == "darkgreen":
+            self._init_prakategorial(makna_label)
         else:
             self.submakna = (
                 "".join(
@@ -340,17 +351,12 @@ class Makna:
 
     def _init_kelas(self, makna_label):
         kelas = makna_label.find(color="red")
-        lain = makna_label.find(color="darkgreen")
         info = makna_label.find(color="green")
 
         if kelas:
             kelas = kelas.find_all("span")
-        if lain:
-            kelas = [lain]
-            self.submakna = lain.next_sibling.strip()
-            self.submakna += (
-                f" {makna_label.find(color='grey').get_text().strip()}"
-            )
+        if makna_label.get("color") == "darkgreen":  # prakategorial
+            kelas = [makna_label]
 
         self.kelas = []
         for k in kelas:
