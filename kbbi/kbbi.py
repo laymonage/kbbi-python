@@ -134,7 +134,7 @@ class Entri:
         self._init_kata_dasar(judul)
         self._init_pelafalan(judul)
         self._init_varian(judul)
-        self._init_lain_lain(entri)
+        self._init_terkait(entri)
         self._init_etimologi(entri)
         self._init_makna(entri)
 
@@ -200,25 +200,25 @@ class Entri:
             etistr += str(eti).strip()
         self.etimologi = Etimologi(etistr)
 
-    def _init_lain_lain(self, entri):
+    def _init_terkait(self, entri):
         self.kata_turunan = []
         self.gabungan_kata = []
         self.peribahasa = []
         self.kiasan = []
-        if not self.terautentikasi:
-            return
-        lain_lain = entri.find_all("h4")
-        terkait = {
+        self.terkait = {
             "Kata Turunan": self.kata_turunan,
             "Gabungan Kata": self.gabungan_kata,
             "Peribahasa": self.peribahasa,
             "Kiasan": self.kiasan,
         }
-        for le in lain_lain:
+        if not self.terautentikasi:
+            return
+        terkait = entri.find_all("h4")
+        for le in terkait:
             if not le:
                 continue
             le_txt = le.text.strip()
-            for jenis, daftar in terkait.items():
+            for jenis, daftar in self.terkait.items():
                 if jenis in le_txt:
                     kumpulan = le.next_sibling
                     if kumpulan:
@@ -234,14 +234,7 @@ class Entri:
             makna = [
                 m for m in makna if m and "Usulkan makna baru" not in m.text
             ]
-        terkait = sum(
-            [
-                bool(self.kata_turunan),
-                bool(self.gabungan_kata),
-                bool(self.peribahasa),
-                bool(self.kiasan),
-            ]
-        )
+        terkait = sum([bool(t) for t in self.terkait.values()])
         if terkait:
             makna = makna[:-terkait]
         self.makna = [Makna(m) for m in makna]
