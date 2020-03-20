@@ -34,7 +34,7 @@ class KBBI:
         """
         self.nama = kueri
         self._init_pranala()
-        if auth:
+        if auth is not None:
             if not isinstance(auth, AutentikasiKBBI):
                 raise ValueError(
                     'KBBI: "auth" harus merupakan objek AutentikasiKBBI'
@@ -42,23 +42,10 @@ class KBBI:
             self.sesi = auth.ambil_sesi()
         else:
             self.sesi = requests.Session()
-            self.__ambil_kuki()
         laman = self.sesi.get(self.pranala)
         self._cek_autentikasi(laman)
         self._cek_galat(laman)
         self._init_entri(laman)
-
-    def __ambil_kuki(self):
-        save_folder = Path(f"{str(Path.home())}/.config/kbbi_data")
-        if not save_folder.exists():
-            return
-        aspcookie = self.sesi.cookies.get(".AspNet.ApplicationCookie")
-        if aspcookie:
-            return
-        if save_folder.joinpath("kuki.txt").exists():
-            self.sesi.headers.update(
-                {"Cookie": save_folder.joinpath("kuki.txt").read_text()}
-            )
 
     def _cek_autentikasi(self, laman):
         self.terautentikasi = "loginLink" not in laman.text
@@ -519,7 +506,7 @@ class AutentikasiKBBI:
 
     host = "https://kbbi.kemdikbud.go.id"
 
-    def __init__(self, email, password):
+    def __init__(self, email=None, password=None, simpan_kuki=False):
         """Membuat objek AutentikasiKBBI baru.
 
         :param email: Alamat surel yang terdaftar di KBBI
@@ -527,9 +514,11 @@ class AutentikasiKBBI:
         :param password: Kata sandi dari alamat surel yang terdaftar
         :type password: str
         """
-        self.terautentikasi = False
         self.sesi = requests.Session()
-        self._autentikasi(email, password)
+        if email is None and password is None:
+            self.__ambil_kuki()
+        else:
+            self._autentikasi(email, password, simpan_kuki)
 
     def __simpan_kuki(self):
         save_folder = Path(f"{str(Path.home())}/.config/kbbi_data")
@@ -540,7 +529,16 @@ class AutentikasiKBBI:
             f".AspNet.ApplicationCookie={aspcookie};"
         )
 
-    def _autentikasi(self, email, password):
+    def __ambil_kuki(self):
+        save_folder = Path(f"{str(Path.home())}/.config/kbbi_data")
+        if not save_folder.exists():
+            return
+        if save_folder.joinpath("kuki.txt").exists():
+            self.sesi.headers.update(
+                {"Cookie": save_folder.joinpath("kuki.txt").read_text()}
+            )
+
+    def _autentikasi(self, email, password, simpan_kuki):
         """Melakukan autentikasi dengan surel dan sandi yang diberikan.
         Berguna untuk mendapatkan segala fitur pengguna terdaftar
 
@@ -565,8 +563,8 @@ class AutentikasiKBBI:
         laman = self.sesi.post(f"{self.host}/Account/Login", data=payload)
         if "Beranda/Error" in laman.url:
             raise GagalAutentikasi()
-        self.__simpan_kuki()
-        self.terautentikasi = True
+        if simpan_kuki:
+            self.__simpan_kuki()
 
     def ambil_sesi(self):
         """Mengembalikan sesi yang telah dibuat.
@@ -679,9 +677,10 @@ def main(argv=None):
         argv = sys.argv[1:]
     args = _parse_args(argv)
     try:
-        auth = None
         if args.username and args.password:
-            auth = AutentikasiKBBI(args.username, args.password)
+            auth = AutentikasiKBBI(args.username, args.password, True)
+        else:
+            auth = AutentikasiKBBI()
         laman = KBBI(args.laman, auth)
     except Galat as e:
         print(e)
