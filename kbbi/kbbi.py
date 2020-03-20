@@ -418,7 +418,7 @@ class Etimologi:
         self._init_bahasa(etimologi)
         self._init_kelas(etimologi)
         self._init_kata(etimologi)
-        self.arti = etimologi.text.strip().strip("'\"")
+        self._init_arti(etimologi)
 
     def _init_bahasa(self, etimologi):
         bahasa = etimologi.find("i", style="color:darkred").extract()
@@ -433,6 +433,9 @@ class Etimologi:
         lafal = etimologi.find("span", style="color:darkgreen").extract()
         self.asal = asal.text.strip()
         self.pelafalan = lafal.text.strip()
+
+    def _init_arti(self, etimologi):
+        self.arti = etimologi.text.strip().strip("'\"").split("; ")
 
     def serialisasi(self):
         """Mengembalikan hasil serialisasi objek Etimologi ini.
@@ -470,11 +473,14 @@ class Etimologi:
             hasil += f"({self.pelafalan})"
         return hasil
 
+    def _arti(self):
+        return "; ".join(self.arti)
+
     def __str__(self):
         hasil = f"[{self.bahasa}] " if self.bahasa else ""
         hasil += f"{self._kelas()} » " if self.kelas else ""
         hasil += self._asal_kata()
-        hasil += f": {self.arti}" if self.arti else ""
+        hasil += f": {self._arti()}" if self.arti else ""
         return hasil
 
     def __repr__(self):
