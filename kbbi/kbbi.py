@@ -42,22 +42,22 @@ class KBBI:
             self.sesi = auth.ambil_sesi()
         else:
             self.sesi = requests.Session()
-            self.__ambil_cookies()
+            self.__ambil_kuki()
         laman = self.sesi.get(self.pranala)
         self._cek_autentikasi(laman)
         self._cek_galat(laman)
         self._init_entri(laman)
 
-    def __ambil_cookies(self):
+    def __ambil_kuki(self):
         save_folder = Path(f"{str(Path.home())}/.config/kbbi_data")
         if not save_folder.exists():
             return
         aspcookie = self.sesi.cookies.get(".AspNet.ApplicationCookie")
         if aspcookie:
             return
-        if save_folder.joinpath("cookies.txt").exists():
+        if save_folder.joinpath("kuki.txt").exists():
             self.sesi.headers.update(
-                {"Cookie": save_folder.joinpath("cookies.txt").read_text()}
+                {"Cookie": save_folder.joinpath("kuki.txt").read_text()}
             )
 
     def _cek_autentikasi(self, laman):
@@ -531,12 +531,12 @@ class AutentikasiKBBI:
         self.sesi = requests.Session()
         self._autentikasi(email, password)
 
-    def __simpan_cookies(self):
+    def __simpan_kuki(self):
         save_folder = Path(f"{str(Path.home())}/.config/kbbi_data")
         if not save_folder.exists():
             save_folder.mkdir()
         aspcookie = self.sesi.cookies.get(".AspNet.ApplicationCookie")
-        save_folder.joinpath("cookies.txt").write_text(
+        save_folder.joinpath("kuki.txt").write_text(
             f".AspNet.ApplicationCookie={aspcookie};"
         )
 
@@ -565,7 +565,7 @@ class AutentikasiKBBI:
         laman = self.sesi.post(f"{self.host}/Account/Login", data=payload)
         if "Beranda/Error" in laman.url:
             raise GagalAutentikasi()
-        self.__simpan_cookies()
+        self.__simpan_kuki()
         self.terautentikasi = True
 
     def ambil_sesi(self):
@@ -690,7 +690,7 @@ def main(argv=None):
         print(_keluaran(laman, args))
         if args.username and args.password:
             print(
-                "\nTelah disimpan cookies login, silakan hapus argumen"
+                "\nTelah disimpan kuki login, silakan hapus argumen"
                 " --username dan --password"
             )
         return 0
