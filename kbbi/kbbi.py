@@ -417,22 +417,25 @@ class Etimologi:
         etimologi = BeautifulSoup(etimologi_html, "html.parser")
         self._init_bahasa(etimologi)
         self._init_kelas(etimologi)
-        self._init_kata(etimologi)
+        self._init_asal_kata(etimologi)
+        self._init_pelafalan(etimologi)
         self._init_arti(etimologi)
 
     def _init_bahasa(self, etimologi):
-        bahasa = etimologi.find("i", style="color:darkred").extract()
-        self.bahasa = bahasa.text.strip()
+        bahasa = etimologi.find("i", style="color:darkred")
+        self.bahasa = ekstraksi_aman(bahasa)
 
     def _init_kelas(self, etimologi):
         kelas = etimologi.find_all("span", style="color:red")
-        self.kelas = [k.extract().text.strip() for k in kelas]
+        self.kelas = [ekstraksi_aman(k) for k in kelas]
 
-    def _init_kata(self, etimologi):
-        asal = etimologi.find("b").extract()
-        lafal = etimologi.find("span", style="color:darkgreen").extract()
-        self.asal = asal.text.strip()
-        self.pelafalan = lafal.text.strip()
+    def _init_asal_kata(self, etimologi):
+        asal = etimologi.find("b")
+        self.asal_kata = ekstraksi_aman(asal)
+
+    def _init_pelafalan(self, etimologi):
+        lafal = etimologi.find("span", style="color:darkgreen")
+        self.pelafalan = ekstraksi_aman(lafal)
 
     def _init_arti(self, etimologi):
         self.arti = etimologi.text.strip().strip("'\"").split("; ")
@@ -447,7 +450,7 @@ class Etimologi:
         return {
             "kelas": self.kelas,
             "bahasa": self.bahasa,
-            "asal_kata": self.asal,
+            "asal_kata": self.asal_kata,
             "pelafalan": self.pelafalan,
             "arti": self.arti,
         }
@@ -458,7 +461,7 @@ class Etimologi:
         :returns: String representasi semua kelas kata
         :rtype: str
         """
-        return " ".join(f"<{k}>" for k in self.kelas)
+        return " ".join(f"({k})" for k in self.kelas)
 
     def _asal_kata(self):
         """Mengembalikan representasi string untuk asal kata etimologi ini.
@@ -466,25 +469,21 @@ class Etimologi:
         :returns: String representasi asal kata
         :rtype: str
         """
-        hasil = ""
-        if self.asal:
-            hasil += f"{self.asal} "
-        if self.pelafalan:
-            hasil += f"({self.pelafalan})"
-        return hasil
+        return " ".join((self.asal_kata, self.pelafalan))
 
     def _arti(self):
         return "; ".join(self.arti)
 
     def __str__(self):
-        hasil = f"[{self.bahasa}] " if self.bahasa else ""
-        hasil += f"{self._kelas()} » " if self.kelas else ""
-        hasil += self._asal_kata()
+        hasil = f"[{self.bahasa}]" if self.bahasa else ""
+        hasil += f" {self._kelas()}" if self.kelas else ""
+        if self.asal_kata or self.pelafalan:
+            hasil += f"  {self._asal_kata()}"
         hasil += f": {self._arti()}" if self.arti else ""
         return hasil
 
     def __repr__(self):
-        return f"<Etimologi: {self.asal}>"
+        return f"<Etimologi: {self.asal_kata}>"
 
 
 def ambil_teks_dalam_label(sup, ambil_italic=False):
@@ -500,6 +499,13 @@ def ambil_teks_dalam_label(sup, ambil_italic=False):
         if italic:
             sup = italic
     return "".join(i.strip() for i in sup.find_all(text=True, recursive=False))
+
+
+def ekstraksi_aman(sup):
+    """Mengekstraksi sup dan mengembalikan .text.strip()-nya secara aman."""
+    if sup:
+        return sup.extract().text.strip()
+    return ""
 
 
 class AutentikasiKBBI:
