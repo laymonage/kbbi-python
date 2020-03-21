@@ -512,7 +512,7 @@ class AutentikasiKBBI:
 
     host = "https://kbbi.kemdikbud.go.id"
 
-    def __init__(self, posel=None, sandi=None):
+    def __init__(self, posel=None, sandi=None, lokasi_kuki=None):
         """Melakukan autentikasi dengan alamat posel dan sandi yang diberikan.
         Objek AutentikasiKBBI dapat digunakan dalam pembuatan objek KBBI
         untuk mendapatkan fitur pengguna terdaftar.
@@ -524,15 +524,18 @@ class AutentikasiKBBI:
         :type email: str
         :param sandi: Kata sandi untuk akun dengan alamat surel yang diberikan
         :type sandi: str
+        :param lokasi_kuki: Lokasi kuki yang akan dimuat/disimpan
+        :type lokasi_kuki: str atau PathLike
         """
         self.sesi = requests.Session()
+        self.lokasi_kuki = lokasi_kuki or KUKI_PATH
         if posel is None and sandi is None:
             try:
                 self.__ambil_kuki()
             except FileNotFoundError as e:
                 raise GagalAutentikasi(
                     "Posel dan sandi tidak diberikan, "
-                    "tetapi belum ada kuki yang disimpan."
+                    f"tetapi kuki tidak ditemukan di {self.lokasi_kuki}"
                 ) from e
         else:
             self._autentikasi(posel, sandi)
@@ -543,11 +546,11 @@ class AutentikasiKBBI:
     def __simpan_kuki(self):
         kuki_aspnet = self.sesi.cookies.get(".AspNet.ApplicationCookie")
         kuki_sesi = {".AspNet.ApplicationCookie": kuki_aspnet}
-        with KUKI_PATH.open("w") as kuki:
+        with open(self.lokasi_kuki, "w") as kuki:
             json.dump(kuki_sesi, kuki)
 
     def __ambil_kuki(self):
-        with KUKI_PATH.open() as kuki:
+        with open(self.lokasi_kuki) as kuki:
             self.sesi.cookies.update(json.load(kuki))
 
     def _autentikasi(self, posel, sandi):
