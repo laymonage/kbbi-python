@@ -527,7 +527,13 @@ class AutentikasiKBBI:
         """
         self.sesi = requests.Session()
         if posel is None and sandi is None:
-            self.__ambil_kuki()
+            try:
+                self.__ambil_kuki()
+            except FileNotFoundError as e:
+                raise GagalAutentikasi(
+                    "Posel dan sandi tidak diberikan, "
+                    "tetapi belum ada kuki yang disimpan."
+                ) from e
         else:
             self._autentikasi(posel, sandi)
 
@@ -614,11 +620,13 @@ class GagalAutentikasi(Galat):
     Galat ketika gagal dalam autentikasi dengan KBBI.
     """
 
-    def __init__(self):
-        super().__init__(
-            "Gagal melakukan autentikasi dengan alamat surel dan sandi "
-            "yang diberikan."
-        )
+    def __init__(self, pesan=None):
+        if pesan is None:
+            pesan = (
+                "Gagal melakukan autentikasi dengan alamat surel dan sandi "
+                "yang diberikan."
+            )
+        super().__init__(pesan)
 
 
 def _parse_args_autentikasi(args):
@@ -653,7 +661,7 @@ def autentikasi(argv=None):
     else:
         auth.simpan_kuki()
         print(
-            "Autentikasi berhasil dan kuki telah disimpan.\n"
+            f"Autentikasi berhasil dan kuki telah disimpan di {KUKI_PATH}.\n"
             "Kuki akan otomatis digunakan pada penggunaan KBBI berikutnya."
         )
     return 0
@@ -698,8 +706,9 @@ def main(argv=None):
     if argv is None:
         argv = sys.argv[1:]
     args = _parse_args_utama(argv)
+    auth = AutentikasiKBBI() if KUKI_PATH.exists() else None
     try:
-        laman = KBBI(args.laman, AutentikasiKBBI())
+        laman = KBBI(args.laman, auth)
     except Galat as e:
         print(e)
         return 1
