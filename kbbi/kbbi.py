@@ -408,11 +408,6 @@ class Etimologi:
     """Sebuah etimologi dalam sebuah entri KBBI daring."""
 
     def __init__(self, etimologi_html):
-        """Membuat objek Etimologi baru berdasarkan etimologi_html yang diberikan.
-
-        :param etimologi_html: String untuk etimologi yang ingin diproses.
-        :type etimologi_html: str
-        """
         etimologi_html = etimologi_html.lstrip("[").rstrip("]")
         etimologi = BeautifulSoup(etimologi_html, "html.parser")
         self._init_bahasa(etimologi)
@@ -441,12 +436,6 @@ class Etimologi:
         self.arti = etimologi.text.strip().strip("'\"").split("; ")
 
     def serialisasi(self):
-        """Mengembalikan hasil serialisasi objek Etimologi ini.
-
-        :returns: Dictionary hasil serialisasi
-        :rtype: dict
-        """
-
         return {
             "kelas": self.kelas,
             "bahasa": self.bahasa,
@@ -456,19 +445,9 @@ class Etimologi:
         }
 
     def _kelas(self):
-        """Mengembalikan representasi string untuk semua kelas kata makna ini.
-
-        :returns: String representasi semua kelas kata
-        :rtype: str
-        """
         return " ".join(f"({k})" for k in self.kelas)
 
     def _asal_kata(self):
-        """Mengembalikan representasi string untuk asal kata etimologi ini.
-
-        :returns: String representasi asal kata
-        :rtype: str
-        """
         return " ".join((self.asal_kata, self.pelafalan))
 
     def _arti(self):
@@ -577,17 +556,14 @@ class Galat(Exception):
 
 
 class TidakDitemukan(Galat):
-    """
-    Galat yang menunjukkan bahwa laman tidak ditemukan dalam KBBI.
-    """
+    """Galat ketika laman tidak ditemukan dalam KBBI."""
 
     def __init__(self, kueri):
         super().__init__(f"{kueri} tidak ditemukan dalam KBBI!")
 
 
 class TerjadiKesalahan(Galat):
-    """
-    Galat yang menunjukkan bahwa terjadi kesalahan dari pihak KBBI.
+    """Galat ketika terjadi kesalahan dari pihak KBBI.
     Laman: https://kbbi.kemdikbud.go.id/Beranda/Error
     """
 
@@ -596,9 +572,7 @@ class TerjadiKesalahan(Galat):
 
 
 class BatasSehari(Galat):
-    """
-    Galat yang menunjukkan bahwa pencarian telah mencapai
-    batas maksimum dalam sehari.
+    """Galat ketika pencarian telah mencapai batas maksimum dalam sehari.
     Laman: https://kbbi.kemdikbud.go.id/Beranda/BatasSehari
     """
 
@@ -609,9 +583,7 @@ class BatasSehari(Galat):
 
 
 class GagalAutentikasi(Galat):
-    """
-    Galat ketika gagal dalam autentikasi dengan KBBI.
-    """
+    """Galat ketika gagal melakukan autentikasi dengan KBBI."""
 
     def __init__(self, pesan=None):
         if pesan is None:
@@ -664,6 +636,7 @@ def _bersihkan_kuki():
 
 
 def autentikasi(argv=None):
+    """Program CLI untuk autentikasi."""
     if argv is None:
         argv = sys.argv[1:]
     args = _parse_args_autentikasi(argv)
@@ -736,7 +709,7 @@ def _keluaran(laman, args):
 
 
 def main(argv=None):
-    """Program utama dengan CLI."""
+    """Program CLI utama."""
     if argv is None:
         argv = sys.argv[1:]
     args = _parse_args_utama(argv)
