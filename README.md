@@ -157,9 +157,11 @@ Gabungan Kata
 roh Kudus; roh suci
 ```
 
-Fitur khusus pengguna yang didukung saat ini adalah etimologi dan entri terkait
-(kata turunan, gabungan kata, peribahasa, dan kiasan). Untuk mendapatkan
-representasi `str`-nya tanpa fitur entri terkait, gunakan
+Fitur khusus pengguna yang didukung saat ini adalah etimologi, entri terkait
+(kata turunan, gabungan kata, peribahasa, dan kiasan), dan batas pencarian yang
+lebih besar.
+
+Untuk mendapatkan representasi `str`-nya tanpa fitur entri terkait, gunakan
 `__str__(terkait=False)`.
 
 ```python
@@ -171,6 +173,10 @@ Etimologi: [Arab] (n) (sg) (f/m)  رُوْحٌ rūh: tiupan; sesuatu yang membua
 2. (n)  makhluk hidup yang tidak berjasad, tetapi berpikiran dan berperasaan (malaikat, jin, setan, dan sebagainya)
 3. (n) (ki)  semangat; spirit
 ```
+
+Untuk menonaktifkan fitur khusus pengguna (selain batas pencarian yang lebih
+besar), tambahkan argumen `fitur_pengguna=False` pada pemanggilan `__str__`
+atau `serialisasi`.
 
 Apabila ingin menyimpan kuki autentikasi, panggil *method* `simpan_kuki()` pada
 objek `AutentikasiKBBI`.
@@ -248,8 +254,8 @@ Untuk menonaktifkan fitur entri terkait, gunakan `--tanpa-terkait` atau `-t`.
 $ kbbi alam --tanpa-terkait
 ```
 
-Untuk menonaktifkan semua fitur khusus pengguna (tanpa menghapus kuki), gunakan
-`--nonpengguna` atau `-n`.
+Untuk menonaktifkan semua fitur khusus pengguna (selain batas pencarian yang
+lebih besar dan tanpa menghapus kuki), gunakan `--nonpengguna` atau `-n`.
 
 ```
 $ kbbi alam --nonpengguna
