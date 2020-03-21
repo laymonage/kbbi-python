@@ -255,7 +255,7 @@ Untuk menonaktifkan semua fitur khusus pengguna (tanpa menghapus kuki), gunakan
 $ kbbi alam --nonpengguna
 ```
 
-Untuk menghapus kuki, gunakan opsi `--bersihkan` atau `-b`.
+Untuk menghapus kuki, gunakan opsi `--bersihkan` atau `-c`.
 
 ```
 $ kbbi-autentikasi --bersihkan

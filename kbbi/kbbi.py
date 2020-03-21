@@ -607,6 +607,7 @@ def _parse_args_autentikasi(args):
             "Setelah autentikasi berhasil, kuki akan disimpan dan "
             "otomatis digunakan dalam penggunaan KBBI berikutnya."
         ),
+        add_help=False,
     )
     parser.add_argument(
         "posel",
@@ -619,7 +620,16 @@ def _parse_args_autentikasi(args):
         nargs="?",
     )
     parser.add_argument(
+        "-h",
         "-b",
+        "--help",
+        "--bantuan",
+        action="help",
+        default=argparse.SUPPRESS,
+        help="tampilkan pesan bantuan ini dan keluar",
+    )
+    parser.add_argument(
+        "-c",
         "--bersihkan",
         help="bersihkan kuki yang tersimpan",
         action="store_true",
@@ -665,9 +675,21 @@ def autentikasi(argv=None):
 
 
 def _parse_args_utama(args):
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description=("Mengambil sebuah laman dalam KBBI Daring."),
+        add_help=False,
+    )
     parser.add_argument(
         "laman", help='laman yang ingin diambil, contoh: "cinta"'
+    )
+    parser.add_argument(
+        "-h",
+        "-b",
+        "--help",
+        "--bantuan",
+        action="help",
+        default=argparse.SUPPRESS,
+        help="tampilkan pesan bantuan ini dan keluar",
     )
     parser.add_argument(
         "-c",
@@ -693,7 +715,10 @@ def _parse_args_utama(args):
     parser.add_argument(
         "-j",
         "--json",
-        help="tampilkan hasil (selalu dengan contoh) dalam bentuk JSON",
+        help=(
+            "tampilkan hasil (selalu dengan contoh dan entri terkait bila ada)"
+            " dalam bentuk JSON"
+        ),
         action="store_true",
     )
     parser.add_argument(
