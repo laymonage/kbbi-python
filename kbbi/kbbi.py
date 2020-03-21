@@ -40,6 +40,13 @@ class KBBI:
         """
         self.nama = kueri
         self._init_pranala()
+        self._init_sesi(auth)
+        laman = self.sesi.get(self.pranala)
+        self._cek_autentikasi(laman)
+        self._cek_galat(laman)
+        self._init_entri(laman)
+
+    def _init_sesi(self, auth):
         if auth is not None:
             if not isinstance(auth, AutentikasiKBBI):
                 raise ValueError(
@@ -48,10 +55,6 @@ class KBBI:
             self.sesi = auth.sesi
         else:
             self.sesi = requests.Session()
-        laman = self.sesi.get(self.pranala)
-        self._cek_autentikasi(laman)
-        self._cek_galat(laman)
-        self._init_entri(laman)
 
     def _cek_autentikasi(self, laman):
         self.terautentikasi = "loginLink" not in laman.text
