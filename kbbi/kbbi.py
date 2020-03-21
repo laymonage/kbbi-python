@@ -641,18 +641,44 @@ def _parse_args_autentikasi(args):
         ),
     )
     parser.add_argument(
-        "posel", help="alamat posel (pos elektronik) akun KBBI Daring"
+        "posel",
+        help="alamat posel (pos elektronik) akun KBBI Daring",
+        nargs="?",
     )
     parser.add_argument(
-        "sandi", help="kata sandi akun KBBI Daring dengan posel yang diberikan"
+        "sandi",
+        help="kata sandi akun KBBI Daring dengan posel yang diberikan",
+        nargs="?",
+    )
+    parser.add_argument(
+        "-b",
+        "--bersihkan",
+        help="bersihkan kuki yang tersimpan",
+        action="store_true",
     )
     return parser.parse_args(args)
+
+
+def _bersihkan_kuki():
+    try:
+        KUKI_PATH.unlink()
+    except FileNotFoundError:
+        print(f"Kuki tidak ditemukan pada {KUKI_PATH}!")
+        return 1
+    else:
+        print(f"Kuki {KUKI_PATH} berhasil dihapus.")
+        return 0
 
 
 def autentikasi(argv=None):
     if argv is None:
         argv = sys.argv[1:]
     args = _parse_args_autentikasi(argv)
+    if args.posel is None and args.sandi is None:
+        if args.bersihkan:
+            return _bersihkan_kuki()
+        else:
+            _parse_args_autentikasi(["-h"])
     try:
         auth = AutentikasiKBBI(args.posel, args.sandi)
     except Galat as e:
