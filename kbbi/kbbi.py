@@ -106,9 +106,10 @@ class KBBI:
             "entri": [entri.serialisasi() for entri in self.entri],
         }
 
-    def __str__(self, contoh=True):
+    def __str__(self, contoh=True, terkait=True):
         return "\n\n".join(
-            entri.__str__(contoh=contoh) for entri in self.entri
+            entri.__str__(contoh=contoh, terkait=terkait)
+            for entri in self.entri
         )
 
     def __repr__(self):
@@ -288,7 +289,7 @@ class Entri:
                 hasil += f"{head}\n{'; '.join(self.terkait[key])}"
         return hasil
 
-    def __str__(self, contoh=True):
+    def __str__(self, contoh=True, terkait=True):
         hasil = self._nama()
         if self.pelafalan:
             hasil += f"  {self.pelafalan}"
@@ -299,7 +300,7 @@ class Entri:
             hasil += f"\nEtimologi: {self.etimologi}"
         if self.makna:
             hasil += f"\n{self._makna(contoh)}"
-        if self.terautentikasi:
+        if self.terautentikasi and terkait:
             hasil += self._terkait()
         return hasil
 
@@ -691,10 +692,25 @@ def _parse_args_utama(args):
         "laman", help='laman yang ingin diambil, contoh: "cinta"'
     )
     parser.add_argument(
-        "-t",
+        "-c",
         "--tanpa-contoh",
         help="jangan tampilkan contoh (bila ada)",
-        action="store_true",
+        action="store_false",
+        dest="contoh",
+    )
+    parser.add_argument(
+        "-t",
+        "--tanpa-terkait",
+        help="jangan tampilkan entri terkait (bila ada)",
+        action="store_false",
+        dest="terkait",
+    )
+    parser.add_argument(
+        "-n",
+        "--nonpengguna",
+        help="nonaktifkan fitur khusus pengguna",
+        action="store_false",
+        dest="pengguna",
     )
     parser.add_argument(
         "-j",
@@ -709,13 +725,6 @@ def _parse_args_utama(args):
         type=int,
         metavar="N",
     )
-    parser.add_argument(
-        "-n",
-        "--nonpengguna",
-        help="nonaktifkan fitur khusus pengguna",
-        action="store_false",
-        dest="pengguna",
-    )
     return parser.parse_args(args)
 
 
@@ -723,7 +732,7 @@ def _keluaran(laman, args):
     if args.json:
         return json.dumps(laman.serialisasi(), indent=args.indentasi)
     else:
-        return laman.__str__(contoh=not args.tanpa_contoh)
+        return laman.__str__(contoh=args.contoh, terkait=args.terkait)
 
 
 def main(argv=None):
