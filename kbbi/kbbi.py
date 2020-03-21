@@ -97,7 +97,7 @@ class KBBI:
                 estr = ""
             estr += str(label).strip()
 
-    def serialisasi(self):
+    def serialisasi(self, fitur_pengguna=True):
         """Mengembalikan hasil serialisasi objek KBBI ini.
 
         :returns: Dictionary hasil serialisasi
@@ -105,12 +105,14 @@ class KBBI:
         """
         return {
             "pranala": self.pranala,
-            "entri": [entri.serialisasi() for entri in self.entri],
+            "entri": [
+                entri.serialisasi(fitur_pengguna) for entri in self.entri
+            ],
         }
 
-    def __str__(self, contoh=True, terkait=True):
+    def __str__(self, contoh=True, terkait=True, fitur_pengguna=True):
         return "\n\n".join(
-            entri.__str__(contoh=contoh, terkait=terkait)
+            entri.__str__(contoh, terkait, fitur_pengguna)
             for entri in self.entri
         )
 
@@ -232,7 +234,7 @@ class Entri:
                 makna = makna[:-terkait]
         self.makna = [Makna(m) for m in makna]
 
-    def serialisasi(self):
+    def serialisasi(self, fitur_pengguna=True):
         entri = {
             "nama": self.nama,
             "nomor": self.nomor,
@@ -242,7 +244,7 @@ class Entri:
             "varian": self.varian,
             "makna": [makna.serialisasi() for makna in self.makna],
         }
-        if self.terautentikasi:
+        if self.terautentikasi and fitur_pengguna:
             if self.etimologi is not None:
                 entri.update({"etimologi": self.etimologi.serialisasi()})
             else:
@@ -291,18 +293,18 @@ class Entri:
                 hasil += f"{head}\n{'; '.join(self.terkait[key])}"
         return hasil
 
-    def __str__(self, contoh=True, terkait=True):
+    def __str__(self, contoh=True, terkait=True, fitur_pengguna=True):
         hasil = self._nama()
         if self.pelafalan:
             hasil += f"  {self.pelafalan}"
         for var in (self.bentuk_tidak_baku, self.varian):
             if var:
                 hasil += f"\n{self._varian(var)}"
-        if self.terautentikasi and self.etimologi:
+        if self.terautentikasi and fitur_pengguna and self.etimologi:
             hasil += f"\nEtimologi: {self.etimologi}"
         if self.makna:
             hasil += f"\n{self._makna(contoh)}"
-        if self.terautentikasi and terkait:
+        if self.terautentikasi and fitur_pengguna and terkait:
             hasil += self._terkait()
         return hasil
 
@@ -733,9 +735,11 @@ def _parse_args_utama(args):
 
 def _keluaran(laman, args):
     if args.json:
-        return json.dumps(laman.serialisasi(), indent=args.indentasi)
+        return json.dumps(
+            laman.serialisasi(args.pengguna), indent=args.indentasi
+        )
     else:
-        return laman.__str__(contoh=args.contoh, terkait=args.terkait)
+        return laman.__str__(args.contoh, args.terkait, args.pengguna)
 
 
 def main(argv=None):
