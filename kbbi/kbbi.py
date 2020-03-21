@@ -717,6 +717,13 @@ def _parse_args_utama(args):
         type=int,
         metavar="N",
     )
+    parser.add_argument(
+        "-n",
+        "--nonpengguna",
+        help="nonaktifkan fitur khusus pengguna",
+        action="store_false",
+        dest="pengguna",
+    )
     return parser.parse_args(args)
 
 
@@ -732,7 +739,9 @@ def main(argv=None):
     if argv is None:
         argv = sys.argv[1:]
     args = _parse_args_utama(argv)
-    auth = AutentikasiKBBI() if KUKI_PATH.exists() else None
+    auth = None
+    if KUKI_PATH.exists() and args.pengguna:
+        auth = AutentikasiKBBI()
     try:
         laman = KBBI(args.laman, auth)
     except Galat as e:
