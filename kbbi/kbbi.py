@@ -506,19 +506,27 @@ class AutentikasiKBBI:
 
     host = "https://kbbi.kemdikbud.go.id"
 
-    def __init__(self, email=None, password=None, simpan_kuki=False):
-        """Membuat objek AutentikasiKBBI baru.
+    def __init__(self, posel=None, sandi=None):
+        """Melakukan autentikasi dengan alamat posel dan sandi yang diberikan.
+        Objek AutentikasiKBBI dapat digunakan dalam pembuatan objek KBBI
+        untuk mendapatkan fitur pengguna terdaftar.
 
-        :param email: Alamat surel yang terdaftar di KBBI
+        Jika posel dan sandi tidak diberikan, autentikasi akan menggunakan kuki
+        yang tersimpan (jika ada).
+
+        :param posel: Alamat posel yang terdaftar di KBBI Daring
         :type email: str
-        :param password: Kata sandi dari alamat surel yang terdaftar
-        :type password: str
+        :param sandi: Kata sandi untuk akun dengan alamat surel yang diberikan
+        :type sandi: str
         """
         self.sesi = requests.Session()
-        if email is None and password is None:
+        if posel is None and sandi is None:
             self.__ambil_kuki()
         else:
-            self._autentikasi(email, password, simpan_kuki)
+            self._autentikasi(posel, sandi)
+
+    def simpan_kuki(self):
+        self.__simpan_kuki()
 
     def __simpan_kuki(self):
         save_folder = Path(f"{str(Path.home())}/.config/kbbi_data")
@@ -538,15 +546,7 @@ class AutentikasiKBBI:
                 {"Cookie": save_folder.joinpath("kuki.txt").read_text()}
             )
 
-    def _autentikasi(self, email, password, simpan_kuki):
-        """Melakukan autentikasi dengan surel dan sandi yang diberikan.
-        Berguna untuk mendapatkan segala fitur pengguna terdaftar
-
-        :param email: Alamat surel yang terdaftar di KBBI
-        :type email: str
-        :param password: Kata sandi dari alamat surel yang terdaftar
-        :type password: str
-        """
+    def _autentikasi(self, posel, sandi):
         laman = self.sesi.get(f"{self.host}/Account/Login")
         token = re.findall(
             r"<input name=\"__RequestVerificationToken\".*value=\"(.*)\" />",
@@ -556,8 +556,8 @@ class AutentikasiKBBI:
             raise TerjadiKesalahan()
         payload = {
             "__RequestVerificationToken": token[0],
-            "Posel": email,
-            "KataSandi": password,
+            "Posel": posel,
+            "KataSandi": sandi,
             "IngatSaya": True,
         }
         laman = self.sesi.post(f"{self.host}/Account/Login", data=payload)
@@ -565,14 +565,12 @@ class AutentikasiKBBI:
             raise TerjadiKesalahan()
         if "Account/Login" in laman.url:
             raise GagalAutentikasi()
-        if simpan_kuki:
-            self.__simpan_kuki()
 
     def ambil_sesi(self):
         """Mengembalikan sesi yang telah dibuat.
 
         :returns: sesi dengan fitur pengguna terdaftar
-        :rtype: requests.Session()
+        :rtype: requests.Session
         """
         return self.sesi
 
@@ -620,14 +618,53 @@ class GagalAutentikasi(Galat):
 
     def __init__(self):
         super().__init__(
-            "Gagal autentikasi dengan alamat surel dan sandi yang diberikan."
+            "Gagal melakukan autentikasi dengan alamat surel dan sandi "
+            "yang diberikan."
         )
 
 
-def _parse_args(args):
+def _parse_args_autentikasi(args):
+    parser = argparse.ArgumentParser(
+        description=(
+            "Melakukan autentikasi dengan alamat posel dan sandi "
+            "yang diberikan."
+        ),
+        epilog=(
+            "Setelah autentikasi berhasil, kuki akan disimpan dan "
+            "otomatis digunakan dalam penggunaan KBBI berikutnya."
+        ),
+    )
+    parser.add_argument(
+        "posel", help="alamat posel (pos elektronik) akun KBBI Daring"
+    )
+    parser.add_argument(
+        "sandi", help="kata sandi akun KBBI Daring dengan posel yang diberikan"
+    )
+    return parser.parse_args(args)
+
+
+def autentikasi(argv=None):
+    if argv is None:
+        argv = sys.argv[1:]
+    args = _parse_args_autentikasi(argv)
+    try:
+        auth = AutentikasiKBBI(args.posel, args.sandi)
+    except Galat as e:
+        print(e)
+        return 1
+    else:
+        auth.simpan_kuki()
+        print(
+            "Autentikasi berhasil dan kuki telah disimpan.\n"
+            "Kuki akan otomatis digunakan pada penggunaan KBBI berikutnya."
+        )
+    return 0
+
+
+def _parse_args_utama(args):
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "laman", help='Laman yang ingin diambil, contoh: "cinta"'
+        "laman", help='laman yang ingin diambil, contoh: "cinta"'
     )
     parser.add_argument(
         "-t",
@@ -648,21 +685,6 @@ def _parse_args(args):
         type=int,
         metavar="N",
     )
-    parser.add_argument(
-        "-U",
-        "--username",
-        help="gunakan email/surel yang terdaftar pada KBBI"
-        "untuk mengakses fitur pengguna",
-        default=None,
-        metavar="surel",
-    )
-    parser.add_argument(
-        "-P",
-        "--password",
-        help="kata sandi email untuk email/surel yang digunakan",
-        default=None,
-        metavar="sandi",
-    )
     return parser.parse_args(args)
 
 
@@ -677,23 +699,14 @@ def main(argv=None):
     """Program utama dengan CLI."""
     if argv is None:
         argv = sys.argv[1:]
-    args = _parse_args(argv)
+    args = _parse_args_utama(argv)
     try:
-        if args.username and args.password:
-            auth = AutentikasiKBBI(args.username, args.password, True)
-        else:
-            auth = AutentikasiKBBI()
-        laman = KBBI(args.laman, auth)
+        laman = KBBI(args.laman, AutentikasiKBBI())
     except Galat as e:
         print(e)
         return 1
     else:
         print(_keluaran(laman, args))
-        if args.username and args.password:
-            print(
-                "\nTelah disimpan kuki login, silakan hapus argumen"
-                " --username dan --password"
-            )
         return 0
 
 

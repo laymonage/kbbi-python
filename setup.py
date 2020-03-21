@@ -11,7 +11,8 @@ setup(
     name="kbbi",
     version="0.4.0",
     description=(
-        "A module that scraps a page in the online Indonesian dictionary (KBBI)"
+        "A module that scraps a page in the online Indonesian dictionary "
+        "(KBBI)"
     ),
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -28,6 +29,11 @@ setup(
         "kbbi kamus bahasa indonesia indonesian natural language scraper"
     ),
     packages=find_packages(),
-    entry_points={"console_scripts": ["kbbi=kbbi:main"],},
-    install_requires=["requests", "beautifulsoup4",],
+    entry_points={
+        "console_scripts": [
+            "kbbi=kbbi:main",
+            "kbbi-autentikasi=kbbi:autentikasi",
+        ]
+    },
+    install_requires=["requests", "beautifulsoup4"],
 )
