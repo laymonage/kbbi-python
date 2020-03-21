@@ -45,7 +45,7 @@ class KBBI:
                 raise ValueError(
                     'KBBI: "auth" harus merupakan objek AutentikasiKBBI'
                 )
-            self.sesi = auth.ambil_sesi()
+            self.sesi = auth.sesi
         else:
             self.sesi = requests.Session()
         laman = self.sesi.get(self.pranala)
@@ -531,7 +531,7 @@ class AutentikasiKBBI:
         self.lokasi_kuki = lokasi_kuki or KUKI_PATH
         if posel is None and sandi is None:
             try:
-                self.__ambil_kuki()
+                self.ambil_kuki()
             except FileNotFoundError as e:
                 raise GagalAutentikasi(
                     "Posel dan sandi tidak diberikan, "
@@ -541,15 +541,12 @@ class AutentikasiKBBI:
             self._autentikasi(posel, sandi)
 
     def simpan_kuki(self):
-        self.__simpan_kuki()
-
-    def __simpan_kuki(self):
         kuki_aspnet = self.sesi.cookies.get(".AspNet.ApplicationCookie")
         kuki_sesi = {".AspNet.ApplicationCookie": kuki_aspnet}
         with open(self.lokasi_kuki, "w") as kuki:
             json.dump(kuki_sesi, kuki)
 
-    def __ambil_kuki(self):
+    def ambil_kuki(self):
         with open(self.lokasi_kuki) as kuki:
             self.sesi.cookies.update(json.load(kuki))
 
@@ -572,14 +569,6 @@ class AutentikasiKBBI:
             raise TerjadiKesalahan()
         if "Account/Login" in laman.url:
             raise GagalAutentikasi()
-
-    def ambil_sesi(self):
-        """Mengembalikan sesi yang telah dibuat.
-
-        :returns: sesi dengan fitur pengguna terdaftar
-        :rtype: requests.Session
-        """
-        return self.sesi
 
 
 class Galat(Exception):
