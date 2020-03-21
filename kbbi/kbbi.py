@@ -16,7 +16,13 @@ from pathlib import Path
 from urllib.parse import quote
 
 import requests
+from appdirs import AppDirs
 from bs4 import BeautifulSoup
+
+APPDIR = AppDirs("kbbi", "laymonage")
+KUKI_DIR = Path(APPDIR.user_config_dir)
+KUKI_DIR.mkdir(parents=True, exist_ok=True)
+KUKI_PATH = KUKI_DIR / "kuki.txt"
 
 
 class KBBI:
@@ -529,22 +535,12 @@ class AutentikasiKBBI:
         self.__simpan_kuki()
 
     def __simpan_kuki(self):
-        save_folder = Path(f"{str(Path.home())}/.config/kbbi_data")
-        if not save_folder.exists():
-            save_folder.mkdir()
         aspcookie = self.sesi.cookies.get(".AspNet.ApplicationCookie")
-        save_folder.joinpath("kuki.txt").write_text(
-            f".AspNet.ApplicationCookie={aspcookie};"
-        )
+        KUKI_PATH.write_text(f".AspNet.ApplicationCookie={aspcookie};")
 
     def __ambil_kuki(self):
-        save_folder = Path(f"{str(Path.home())}/.config/kbbi_data")
-        if not save_folder.exists():
-            return
-        if save_folder.joinpath("kuki.txt").exists():
-            self.sesi.headers.update(
-                {"Cookie": save_folder.joinpath("kuki.txt").read_text()}
-            )
+        if KUKI_PATH.exists():
+            self.sesi.headers.update({"Cookie": KUKI_PATH.read_text()})
 
     def _autentikasi(self, posel, sandi):
         laman = self.sesi.get(f"{self.host}/Account/Login")
