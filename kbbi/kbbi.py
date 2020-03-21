@@ -20,9 +20,8 @@ from appdirs import AppDirs
 from bs4 import BeautifulSoup
 
 APPDIR = AppDirs("kbbi", "laymonage")
-KUKI_DIR = Path(APPDIR.user_config_dir)
-KUKI_DIR.mkdir(parents=True, exist_ok=True)
-KUKI_PATH = KUKI_DIR / "kuki.json"
+CONFIG_DIR = Path(APPDIR.user_config_dir)
+CONFIG_DIR.mkdir(parents=True, exist_ok=True)
 
 
 class KBBI:
@@ -494,6 +493,7 @@ class AutentikasiKBBI:
     """Gunakan fitur pengguna terdaftar."""
 
     host = "https://kbbi.kemdikbud.go.id"
+    lokasi_kuki = CONFIG_DIR / "kuki.json"
 
     def __init__(self, posel=None, sandi=None, lokasi_kuki=None):
         """Melakukan autentikasi dengan alamat posel dan sandi yang diberikan.
@@ -511,7 +511,7 @@ class AutentikasiKBBI:
         :type lokasi_kuki: str atau PathLike
         """
         self.sesi = requests.Session()
-        self.lokasi_kuki = lokasi_kuki or KUKI_PATH
+        self.lokasi_kuki = lokasi_kuki or self.lokasi_kuki
         if posel is None and sandi is None:
             try:
                 self.ambil_kuki()
@@ -628,13 +628,14 @@ def _parse_args_autentikasi(args):
 
 
 def _bersihkan_kuki():
+    lokasi_kuki = AutentikasiKBBI.lokasi_kuki
     try:
-        KUKI_PATH.unlink()
+        lokasi_kuki.unlink()
     except FileNotFoundError:
-        print(f"Kuki tidak ditemukan pada {KUKI_PATH}!")
+        print(f"Kuki tidak ditemukan pada {lokasi_kuki}!")
         return 1
     else:
-        print(f"Kuki {KUKI_PATH} berhasil dihapus.")
+        print(f"Kuki {lokasi_kuki} berhasil dihapus.")
         return 0
 
 
@@ -656,7 +657,8 @@ def autentikasi(argv=None):
     else:
         auth.simpan_kuki()
         print(
-            f"Autentikasi berhasil dan kuki telah disimpan di {KUKI_PATH}.\n"
+            "Autentikasi berhasil dan kuki telah disimpan di "
+            f"{auth.lokasi_kuki}.\n"
             "Kuki akan otomatis digunakan pada penggunaan KBBI berikutnya."
         )
     return 0
@@ -717,7 +719,7 @@ def main(argv=None):
         argv = sys.argv[1:]
     args = _parse_args_utama(argv)
     auth = None
-    if KUKI_PATH.exists() and args.pengguna:
+    if AutentikasiKBBI.lokasi_kuki.exists() and args.pengguna:
         auth = AutentikasiKBBI()
     try:
         laman = KBBI(args.laman, auth)
