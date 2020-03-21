@@ -140,6 +140,66 @@ tak.sir (2)
 }
 ```
 
+Untuk memanfaatkan fitur khusus pengguna, buat objek `AutentikasiKBBI` terlebih
+dahulu, lalu gunakan objek tersebut dalam pembuatan objek `KBBI`.
+
+```python
+>>> auth = AutentikasiKBBI("posel@saya.tld", "password_saya")
+>>> roh = KBBI("roh", auth)
+>>> print(roh)
+roh
+bentuk tidak baku: ruh
+Etimologi: [Arab] (n) (sg) (f/m)  رُوْحٌ rūh: tiupan; sesuatu yang membuat manusia dapat hidup
+1. (n)  sesuatu (unsur) yang ada dalam jasad yang diciptakan Tuhan sebagai penyebab adanya hidup (kehidupan); nyawa: jika -- sudah berpisah dari badan, berakhirlah kehidupan seseorang
+2. (n)  makhluk hidup yang tidak berjasad, tetapi berpikiran dan berperasaan (malaikat, jin, setan, dan sebagainya)
+3. (n) (ki)  semangat; spirit: kedamaian bagi seluruh warga sesuai dengan -- Islam
+Gabungan Kata
+roh Kudus; roh suci
+```
+
+Fitur khusus pengguna yang didukung saat ini adalah etimologi dan entri terkait
+(kata turunan, gabungan kata, peribahasa, dan kiasan). Untuk mendapatkan
+representasi `str`-nya tanpa fitur entri terkait, gunakan
+`__str__(terkait=False)`.
+
+```python
+>>> print(roh.__str__(contoh=False, terkait=False))
+roh
+bentuk tidak baku: ruh
+Etimologi: [Arab] (n) (sg) (f/m)  رُوْحٌ rūh: tiupan; sesuatu yang membuat manusia dapat hidup
+1. (n)  sesuatu (unsur) yang ada dalam jasad yang diciptakan Tuhan sebagai penyebab adanya hidup (kehidupan); nyawa
+2. (n)  makhluk hidup yang tidak berjasad, tetapi berpikiran dan berperasaan (malaikat, jin, setan, dan sebagainya)
+3. (n) (ki)  semangat; spirit
+```
+
+Apabila ingin menyimpan kuki autentikasi, panggil *method* `simpan_kuki()` pada
+objek `AutentikasiKBBI`.
+
+```python
+>>> auth.simpan_kuki()
+```
+
+Berikutnya, objek `AutentikasiKBBI` dapat dibuat tanpa menggunakan alamat posel
+dan sandi. Autentikasi dilakukan dengan memanfaatkan kuki yang telah disimpan.
+
+```python
+>>> auth_baru = AutentikasiKBBI()
+```
+
+Lokasi penyimpanan/pembacaan kuki bisa diatur dengan parameter `lokasi_kuki`
+ketika membuat objek `AutentikasiKBBI`.
+
+```python
+>>> auth = AutentikasiKBBI("posel@saya.tld", "sandi_saya", lokasi_kuki="~/kuki_kbbi.json")
+>>> auth_baru = AutentikasiKBBI(lokasi_kuki="~/kuki_kbbi.json")
+```
+
+Secara *default*, lokasi tersebut adalah:
+
+- Unix: `~/.config/kbbi/kuki.json`
+- Windows: `%localappdata%\laymonage\kbbi\kuki.json`
+- Mac: `~/Library/Application Support/kbbi/kuki.json`
+
 ### Melalui CLI
 
 ```
@@ -153,7 +213,7 @@ tanda petik.
 $ kbbi "tanggung jawab"
 ```
 
-Apabila tidak ingin menampilkan contoh, gunakan `--tanpa-contoh` atau `-t`.
+Apabila tidak ingin menampilkan contoh, gunakan `--tanpa-contoh` atau `-c`.
 
 ```
 $ kbbi "tanggung jawab" --tanpa-contoh
@@ -173,7 +233,37 @@ atau `-i N`.
 $ kbbi "tanggung jawab" --json --indentasi 2
 ```
 
-> **Catatan:** **`kbbi`** juga bisa dipanggil dengan **`python kbbi.py`**.
+Untuk memanfaatkan fitur khusus pengguna, lakukan autentikasi terlebih dahulu
+dengan bantuan `kbbi-autentikasi`.
+
+```
+$ kbbi-autentikasi $KBBI_POSEL $KBBI_SANDI
+```
+
+Penggunaan `kbbi` berikutnya akan otomatis menggunakan kuki hasil autentikasi.
+
+Untuk menonaktifkan fitur entri terkait, gunakan `--tanpa-terkait` atau `-t`.
+
+```
+$ kbbi alam --tanpa-terkait
+```
+
+Untuk menonaktifkan semua fitur khusus pengguna (tanpa menghapus kuki), gunakan
+`--nonpengguna` atau `-n`.
+
+```
+$ kbbi alam --nonpengguna
+```
+
+Untuk menghapus kuki, gunakan opsi `--bersihkan` atau `-b`.
+
+```
+$ kbbi-autentikasi --bersihkan
+```
+
+> **Catatan:**\
+> **`kbbi`** juga bisa dipanggil dengan **`python kbbi.py`**.\
+> **`kbbi-autentikasi`** juga bisa dipanggil dengan **`python -c "import kbbi; kbbi.autentikasi()"`**
 
 ## Berkontribusi
 
