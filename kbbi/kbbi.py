@@ -562,6 +562,8 @@ class AutentikasiKBBI:
         }
         laman = self.sesi.post(f"{self.host}/Account/Login", data=payload)
         if "Beranda/Error" in laman.url:
+            raise TerjadiKesalahan()
+        if "Account/Login" in laman.url:
             raise GagalAutentikasi()
         if simpan_kuki:
             self.__simpan_kuki()
