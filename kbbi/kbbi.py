@@ -22,7 +22,7 @@ from bs4 import BeautifulSoup
 APPDIR = AppDirs("kbbi", "laymonage")
 KUKI_DIR = Path(APPDIR.user_config_dir)
 KUKI_DIR.mkdir(parents=True, exist_ok=True)
-KUKI_PATH = KUKI_DIR / "kuki.txt"
+KUKI_PATH = KUKI_DIR / "kuki.json"
 
 
 class KBBI:
@@ -535,12 +535,14 @@ class AutentikasiKBBI:
         self.__simpan_kuki()
 
     def __simpan_kuki(self):
-        aspcookie = self.sesi.cookies.get(".AspNet.ApplicationCookie")
-        KUKI_PATH.write_text(f".AspNet.ApplicationCookie={aspcookie};")
+        kuki_aspnet = self.sesi.cookies.get(".AspNet.ApplicationCookie")
+        kuki_sesi = {".AspNet.ApplicationCookie": kuki_aspnet}
+        with KUKI_PATH.open("w") as kuki:
+            json.dump(kuki_sesi, kuki)
 
     def __ambil_kuki(self):
-        if KUKI_PATH.exists():
-            self.sesi.headers.update({"Cookie": KUKI_PATH.read_text()})
+        with KUKI_PATH.open() as kuki:
+            self.sesi.cookies.update(json.load(kuki))
 
     def _autentikasi(self, posel, sandi):
         laman = self.sesi.get(f"{self.host}/Account/Login")
