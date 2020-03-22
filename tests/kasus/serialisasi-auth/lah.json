@@ -1,0 +1,108 @@
+{
+  "pranala": "https://kbbi.kemdikbud.go.id/entri/lah",
+  "entri": [
+    {
+      "nama": "-lah",
+      "nomor": "1",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "bentuk terikat",
+              "nama": "-",
+              "deskripsi": "-"
+            }
+          ],
+          "submakna": [
+            "yang digunakan untuk menekankan makna kata yang di depannya"
+          ],
+          "info": "",
+          "contoh": []
+        }
+      ],
+      "etimologi": null,
+      "kata_turunan": [],
+      "gabungan_kata": [],
+      "peribahasa": [],
+      "kiasan": []
+    },
+    {
+      "nama": "lah",
+      "nomor": "2",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "adv",
+              "nama": "Adverbia",
+              "deskripsi": "kata yang menjelaskan verba, adjektiva, adverbia lain, atau kalimat"
+            },
+            {
+              "kode": "kp",
+              "nama": "kependekan",
+              "deskripsi": ""
+            }
+          ],
+          "submakna": [
+            "telah"
+          ],
+          "info": "",
+          "contoh": [
+            "hari -- larut senja"
+          ]
+        }
+      ],
+      "etimologi": null,
+      "kata_turunan": [],
+      "gabungan_kata": [],
+      "peribahasa": [],
+      "kiasan": []
+    },
+    {
+      "nama": "lah",
+      "nomor": "3",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "p",
+              "nama": "Partikel",
+              "deskripsi": "kelas kata yang meliputi kata depan, kata sambung, kata seru, kata sandang, ucapan salam"
+            },
+            {
+              "kode": "cak",
+              "nama": "Cakapan",
+              "deskripsi": "menandai kata yang digunakan dalam ragam takbaku"
+            }
+          ],
+          "submakna": [
+            "kata seru untuk memberi tekanan atau menyungguhkan"
+          ],
+          "info": "",
+          "contoh": [
+            "\u201c--, itu orangnya\u201d, katanya sambil menunjuk seseorang yang baru datang"
+          ]
+        }
+      ],
+      "etimologi": null,
+      "kata_turunan": [],
+      "gabungan_kata": [],
+      "peribahasa": [
+        "mensiang yang baru dicari, kampil \u2018lah sudah dahulu"
+      ],
+      "kiasan": []
+    }
+  ]
+}

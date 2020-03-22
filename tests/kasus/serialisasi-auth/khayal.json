@@ -1,0 +1,75 @@
+{
+  "pranala": "https://kbbi.kemdikbud.go.id/entri/khayal",
+  "entri": [
+    {
+      "nama": "kha.yal",
+      "nomor": "",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [
+        "kayal"
+      ],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "lukisan (gambar) dalam angan-angan",
+            "fantasi"
+          ],
+          "info": "",
+          "contoh": [
+            "apa yang diceritakan itu -- belaka"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "yang diangan-angankan seperti benar-benar ada"
+          ],
+          "info": "",
+          "contoh": [
+            "cerita --"
+          ]
+        }
+      ],
+      "etimologi": {
+        "kelas": [
+          "n",
+          "sg",
+          "m"
+        ],
+        "bahasa": "Arab",
+        "asal_kata": "\u062e\u064e\u064a\u064e\u0627\u0644\u064c",
+        "pelafalan": "khay\u0101l",
+        "arti": [
+          "bayang-bayang"
+        ]
+      },
+      "kata_turunan": [
+        "berkhayal",
+        "khayalan",
+        "mengkhayal",
+        "mengkhayalkan",
+        "pengkhayal",
+        "pengkhayalan",
+        "terkhayal"
+      ],
+      "gabungan_kata": [],
+      "peribahasa": [],
+      "kiasan": []
+    }
+  ]
+}

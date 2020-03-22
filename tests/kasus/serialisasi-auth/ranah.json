@@ -1,0 +1,113 @@
+{
+  "pranala": "https://kbbi.kemdikbud.go.id/entri/ranah",
+  "entri": [
+    {
+      "nama": "ra.nah",
+      "nomor": "",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "tanah rata",
+            "dataran rendah",
+            "lembah"
+          ],
+          "info": "",
+          "contoh": []
+        },
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "tanah yang berpaya-paya"
+          ],
+          "info": "",
+          "contoh": []
+        },
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "elemen atau unsur yang dibatasi",
+            "bidang disiplin"
+          ],
+          "info": "",
+          "contoh": []
+        },
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            },
+            {
+              "kode": "Ling",
+              "nama": "Linguistik",
+              "deskripsi": "-"
+            }
+          ],
+          "submakna": [
+            "lingkungan yang memungkinkan terjadinya percakapan, merupakan kombinasi antara partisipan, topik, dan tempat (misalnya keluarga, pendidikan, tempat kerja, keagamaan, dan sebagainya)"
+          ],
+          "info": "",
+          "contoh": []
+        },
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            },
+            {
+              "kode": "Psi",
+              "nama": "Psikologi",
+              "deskripsi": "-"
+            }
+          ],
+          "submakna": [
+            "bagian (satuan) perilaku manusia"
+          ],
+          "info": "",
+          "contoh": [
+            "-- afektif berbagai perilaku yang berkaitan dengan perasaan",
+            "-- kognitif perilaku yang menjadi kegiatan kognisi atau pikiran"
+          ]
+        }
+      ],
+      "etimologi": null,
+      "kata_turunan": [],
+      "gabungan_kata": [
+        "ranah afektif",
+        "ranah eminen",
+        "ranah frekuensi",
+        "ranah kognitif",
+        "ranah politik",
+        "ranah psikomotor"
+      ],
+      "peribahasa": [],
+      "kiasan": []
+    }
+  ]
+}

@@ -1,0 +1,226 @@
+{
+  "pranala": "https://kbbi.kemdikbud.go.id/entri/me-",
+  "entri": [
+    {
+      "nama": "me-",
+      "nomor": "",
+      "kata_dasar": [],
+      "pelafalan": "/m\u00ea-/",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [],
+          "submakna": [
+            "\u2192 meng-"
+          ],
+          "info": "",
+          "contoh": []
+        }
+      ],
+      "etimologi": null,
+      "kata_turunan": [],
+      "gabungan_kata": [],
+      "peribahasa": [],
+      "kiasan": []
+    },
+    {
+      "nama": "meng-",
+      "nomor": "",
+      "kata_dasar": [],
+      "pelafalan": "/m\u00eang-/",
+      "bentuk_tidak_baku": [],
+      "varian": [
+        "me-",
+        "mem-",
+        "men-",
+        "menge-",
+        "meny-"
+      ],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "prefiks pembentuk verba",
+              "nama": "-",
+              "deskripsi": "-"
+            }
+          ],
+          "submakna": [
+            "menjadi"
+          ],
+          "info": "",
+          "contoh": [
+            "mencair",
+            "menguning",
+            "mengkristal"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "prefiks pembentuk verba",
+              "nama": "-",
+              "deskripsi": "-"
+            }
+          ],
+          "submakna": [
+            "berfungsi sebagai atau menyerupai"
+          ],
+          "info": "",
+          "contoh": [
+            "menyupir",
+            "menggunung"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "prefiks pembentuk verba",
+              "nama": "-",
+              "deskripsi": "-"
+            }
+          ],
+          "submakna": [
+            "makan atau minum"
+          ],
+          "info": "",
+          "contoh": [
+            "menyatai",
+            "mengopi",
+            "mengeteh"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "prefiks pembentuk verba",
+              "nama": "-",
+              "deskripsi": "-"
+            }
+          ],
+          "submakna": [
+            "menuju"
+          ],
+          "info": "",
+          "contoh": [
+            "mengutara",
+            "melaut",
+            "menepi"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "prefiks pembentuk verba",
+              "nama": "-",
+              "deskripsi": "-"
+            }
+          ],
+          "submakna": [
+            "mencari atau mengumpulkan"
+          ],
+          "info": "",
+          "contoh": [
+            "mendamar",
+            "merumput"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "prefiks pembentuk verba",
+              "nama": "-",
+              "deskripsi": "-"
+            }
+          ],
+          "submakna": [
+            "mengeluarkan bunyi"
+          ],
+          "info": "",
+          "contoh": [
+            "mengeong",
+            "mengaum",
+            "mencicit"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "prefiks pembentuk verba",
+              "nama": "-",
+              "deskripsi": "-"
+            }
+          ],
+          "submakna": [
+            "menimbulkan kesan seperti seseorang atau sesuatu yang"
+          ],
+          "info": "",
+          "contoh": [
+            "membisu",
+            "membatu",
+            "merendah hati"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "prefiks pembentuk verba",
+              "nama": "-",
+              "deskripsi": "-"
+            }
+          ],
+          "submakna": [
+            "dasar verba"
+          ],
+          "info": "",
+          "contoh": [
+            "membaca",
+            "menulis",
+            "membajak"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "prefiks pembentuk verba",
+              "nama": "-",
+              "deskripsi": "-"
+            }
+          ],
+          "submakna": [
+            "membuat",
+            "menghasilkan"
+          ],
+          "info": "",
+          "contoh": [
+            "menyambal",
+            "menggulai",
+            "membatik"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "prefiks pembentuk verba",
+              "nama": "-",
+              "deskripsi": "-"
+            }
+          ],
+          "submakna": [
+            "menyatakan"
+          ],
+          "info": "",
+          "contoh": [
+            "mengaku"
+          ]
+        }
+      ],
+      "etimologi": null,
+      "kata_turunan": [],
+      "gabungan_kata": [],
+      "peribahasa": [],
+      "kiasan": []
+    }
+  ]
+}

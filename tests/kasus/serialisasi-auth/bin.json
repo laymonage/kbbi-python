@@ -1,0 +1,114 @@
+{
+  "pranala": "https://kbbi.kemdikbud.go.id/Cari/Hasil?frasa=bin",
+  "entri": [
+    {
+      "nama": "bin",
+      "nomor": "",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            },
+            {
+              "kode": "Ar",
+              "nama": "Arab",
+              "deskripsi": "-"
+            }
+          ],
+          "submakna": [
+            "kata untuk menyatakan anak laki-laki dari seseorang (biasa dipakai untuk keterangan antara nama seseorang dan nama ayah)",
+            "anak laki-laki dari"
+          ],
+          "info": "",
+          "contoh": [
+            "Amat -- Soleh Amat anak dari Soleh"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "p",
+              "nama": "Partikel",
+              "deskripsi": "kelas kata yang meliputi kata depan, kata sambung, kata seru, kata sandang, ucapan salam"
+            },
+            {
+              "kode": "cak",
+              "nama": "Cakapan",
+              "deskripsi": "menandai kata yang digunakan dalam ragam takbaku"
+            },
+            {
+              "kode": "Ar",
+              "nama": "Arab",
+              "deskripsi": "-"
+            }
+          ],
+          "submakna": [
+            "kata untuk menguatkan atau mengungkapkan dengan perkataan lain"
+          ],
+          "info": "",
+          "contoh": [
+            "aneh -- ajaib"
+          ]
+        }
+      ],
+      "etimologi": {
+        "kelas": [
+          "n",
+          "sg",
+          "m"
+        ],
+        "bahasa": "Arab",
+        "asal_kata": "\u0627\u0650\u0628\u0652\u0646\u064c",
+        "pelafalan": "ibn",
+        "arti": [
+          "anak lelaki"
+        ]
+      },
+      "kata_turunan": [],
+      "gabungan_kata": [],
+      "peribahasa": [],
+      "kiasan": []
+    },
+    {
+      "nama": "BIN",
+      "nomor": "",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            },
+            {
+              "kode": "sing",
+              "nama": "singkatan",
+              "deskripsi": ""
+            }
+          ],
+          "submakna": [
+            "Badan Intelijen Negara (lembaga pemerintah nonkementerian Indonesia yang bertugas di bidang intelijen)"
+          ],
+          "info": "",
+          "contoh": []
+        }
+      ],
+      "etimologi": null,
+      "kata_turunan": [],
+      "gabungan_kata": [],
+      "peribahasa": [],
+      "kiasan": []
+    }
+  ]
+}

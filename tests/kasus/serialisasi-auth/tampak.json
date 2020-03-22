@@ -1,0 +1,99 @@
+{
+  "pranala": "https://kbbi.kemdikbud.go.id/entri/tampak",
+  "entri": [
+    {
+      "nama": "tam.pak",
+      "nomor": "1",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [
+        "nampak"
+      ],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "v",
+              "nama": "Verba",
+              "deskripsi": "kata kerja"
+            }
+          ],
+          "submakna": [
+            "dapat dilihat",
+            "kelihatan"
+          ],
+          "info": "",
+          "contoh": [
+            "pulau itu sudah -- dari sini"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "v",
+              "nama": "Verba",
+              "deskripsi": "kata kerja"
+            }
+          ],
+          "submakna": [
+            "memperlihatkan diri",
+            "muncul"
+          ],
+          "info": "",
+          "contoh": [
+            "sudah lama dia tidak --"
+          ]
+        }
+      ],
+      "etimologi": null,
+      "kata_turunan": [
+        "ketampakan",
+        "menampak",
+        "menampakkan",
+        "penampakan",
+        "tampak-tampak",
+        "tampaknya",
+        "tertampak"
+      ],
+      "gabungan_kata": [],
+      "peribahasa": [],
+      "kiasan": []
+    },
+    {
+      "nama": "tam.pak",
+      "nomor": "2",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [],
+          "submakna": [
+            "\u2192 campak (2)"
+          ],
+          "info": "",
+          "contoh": []
+        }
+      ],
+      "etimologi": null,
+      "kata_turunan": [],
+      "gabungan_kata": [],
+      "peribahasa": [
+        "buka kulit, ambil (tampak) isi",
+        "datang tampak muka, pulang tampak punggung",
+        "datang tampak muka, pulang tampak punggung",
+        "hilang sepuh tampak senam",
+        "kuman di seberang lautan tampak, gajah di pelupuk mata tidak tampak",
+        "tampak gabak di hulu (gabak di hulu tanda akan hujan)",
+        "tampak tembelangnya",
+        "terpijak benang arang hitam tampak",
+        "yang tinggi tampak jauh, yang dekat jolong bersua"
+      ],
+      "kiasan": [
+        "tidak tampak batang hidungnya"
+      ]
+    }
+  ]
+}

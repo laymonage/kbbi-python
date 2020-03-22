@@ -1,0 +1,91 @@
+{
+  "pranala": "https://kbbi.kemdikbud.go.id/entri/roh",
+  "entri": [
+    {
+      "nama": "roh",
+      "nomor": "",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [
+        "ruh"
+      ],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "sesuatu (unsur) yang ada dalam jasad yang diciptakan Tuhan sebagai penyebab adanya hidup (kehidupan)",
+            "nyawa"
+          ],
+          "info": "",
+          "contoh": [
+            "jika -- sudah berpisah dari badan, berakhirlah kehidupan seseorang"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "makhluk hidup yang tidak berjasad, tetapi berpikiran dan berperasaan (malaikat, jin, setan, dan sebagainya)"
+          ],
+          "info": "",
+          "contoh": []
+        },
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            },
+            {
+              "kode": "ki",
+              "nama": "kiasan",
+              "deskripsi": ""
+            }
+          ],
+          "submakna": [
+            "semangat",
+            "spirit"
+          ],
+          "info": "",
+          "contoh": [
+            "kedamaian bagi seluruh warga sesuai dengan -- Islam"
+          ]
+        }
+      ],
+      "etimologi": {
+        "kelas": [
+          "n",
+          "sg",
+          "f/m"
+        ],
+        "bahasa": "Arab",
+        "asal_kata": "\u0631\u064f\u0648\u0652\u062d\u064c",
+        "pelafalan": "r\u016bh",
+        "arti": [
+          "tiupan",
+          "sesuatu yang membuat manusia dapat hidup"
+        ]
+      },
+      "kata_turunan": [],
+      "gabungan_kata": [
+        "roh Kudus",
+        "roh suci"
+      ],
+      "peribahasa": [],
+      "kiasan": []
+    }
+  ]
+}

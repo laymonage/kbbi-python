@@ -1,0 +1,68 @@
+{
+  "pranala": "https://kbbi.kemdikbud.go.id/entri/makin",
+  "entri": [
+    {
+      "nama": "ma.kin",
+      "nomor": "",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [
+        "mangkin",
+        "semakin"
+      ],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "adv",
+              "nama": "Adverbia",
+              "deskripsi": "kata yang menjelaskan verba, adjektiva, adverbia lain, atau kalimat"
+            }
+          ],
+          "submakna": [
+            "kian bertambah"
+          ],
+          "info": "",
+          "contoh": [
+            "tangisnya -- menjadi-jadi",
+            "pesawat itu terbang -- tinggi"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "p",
+              "nama": "Partikel",
+              "deskripsi": "kelas kata yang meliputi kata depan, kata sambung, kata seru, kata sandang, ucapan salam"
+            },
+            {
+              "kode": "kl",
+              "nama": "Klasik",
+              "deskripsi": "menandai kata yang digunakan dalam kesusastraan Melayu Klasik"
+            }
+          ],
+          "submakna": [
+            "lebih-lebih",
+            "apalagi"
+          ],
+          "info": "",
+          "contoh": [
+            "segala gembala gajah semuanya kasih akan Laksamana Khoja Hassan, -- kepada gembala Kepenjang itu jangan dikata lagi"
+          ]
+        }
+      ],
+      "etimologi": null,
+      "kata_turunan": [
+        "semakin"
+      ],
+      "gabungan_kata": [],
+      "peribahasa": [
+        "ilmu padi, makin berisi makin runduk",
+        "jika pisau tiada berbaja, makin dikikir bertambah tumpul",
+        "lagi murah, lagi menawar (makin murah, makin menawar)"
+      ],
+      "kiasan": []
+    }
+  ]
+}
