@@ -177,9 +177,12 @@ class Entri:
             return
         bentuk_tidak_baku = varian.find_all("b")
         if bentuk_tidak_baku:
-            self.bentuk_tidak_baku = "".join(
-                e.text.strip() for e in bentuk_tidak_baku
-            ).split(", ")
+            for b in bentuk_tidak_baku:
+                nama = b.find(text=True).strip().lstrip(", ")
+                nomor = b.find("sup")
+                if nomor:
+                    nama = f"{nama} ({nomor.text.strip()})"
+                self.bentuk_tidak_baku.append(nama)
         else:
             self.varian = varian.text[len("varian: ") :].strip().split(", ")
 

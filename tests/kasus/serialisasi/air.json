@@ -1,0 +1,66 @@
+{
+  "pranala": "https://kbbi.kemdikbud.go.id/entri/air",
+  "entri": [
+    {
+      "nama": "air",
+      "nomor": "",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [
+        "ki (2)"
+      ],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "cairan jernih tidak berwarna, tidak berasa, dan tidak berbau yang diperlukan dalam kehidupan manusia, hewan, dan tumbuhan yang secara kimiawi mengandung hidrogen dan oksigen"
+          ],
+          "info": "",
+          "contoh": []
+        },
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "benda cair yang biasa terdapat di sumur, sungai, danau yang mendidih pada suhu 100\u02daC"
+          ],
+          "info": "",
+          "contoh": []
+        },
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            },
+            {
+              "kode": "cak",
+              "nama": "Cakapan",
+              "deskripsi": "menandai kata yang digunakan dalam ragam takbaku"
+            }
+          ],
+          "submakna": [
+            "ronde pada pertandingan adu ayam, berdurasi lima belas menit, diawali dengan penyapuan air pada ketiak, leher, paha, dan dubur ayam agar suhu badan ayam tetap dingin atau stabil selama pertandingan"
+          ],
+          "info": "",
+          "contoh": [
+            "ayam dia kemarin menang satu -- empat menit"
+          ]
+        }
+      ]
+    }
+  ]
+}
