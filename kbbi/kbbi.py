@@ -38,9 +38,9 @@ class KBBI:
         :type auth: AutentikasiKBBI
         """
         self.nama = kueri
-        self._init_pranala()
+        self._init_lokasi()
         self._init_sesi(auth)
-        laman = self.sesi.get(f"{self.host}/{self.pranala}")
+        laman = self.sesi.get(f"{self.host}/{self.lokasi}")
         self._cek_autentikasi(laman)
         self._cek_galat(laman)
         self._init_entri(laman)
@@ -58,7 +58,7 @@ class KBBI:
     def _cek_autentikasi(self, laman):
         self.terautentikasi = "loginLink" not in laman.text
 
-    def _init_pranala(self):
+    def _init_lokasi(self):
         kasus_khusus = [
             "." in self.nama,
             "?" in self.nama,
@@ -66,9 +66,9 @@ class KBBI:
             self.nama.lower() == "bin",
         ]
         if any(kasus_khusus):
-            self.pranala = f"Cari/Hasil?frasa={quote(self.nama)}"
+            self.lokasi = f"Cari/Hasil?frasa={quote(self.nama)}"
         else:
-            self.pranala = f"entri/{quote(self.nama)}"
+            self.lokasi = f"entri/{quote(self.nama)}"
 
     def _cek_galat(self, laman):
         if "Beranda/Error" in laman.url:
@@ -104,7 +104,7 @@ class KBBI:
         :rtype: dict
         """
         return {
-            "pranala": f"{self.host}/{self.pranala}",
+            "pranala": f"{self.host}/{self.lokasi}",
             "entri": [
                 entri.serialisasi(fitur_pengguna) for entri in self.entri
             ],
@@ -501,7 +501,7 @@ class AutentikasiKBBI:
     """Gunakan fitur pengguna terdaftar."""
 
     host = "https://kbbi.kemdikbud.go.id"
-    pranala = "Account/Login"
+    lokasi = "Account/Login"
     lokasi_kuki = CONFIG_DIR / "kuki.json"
 
     def __init__(self, posel=None, sandi=None, lokasi_kuki=None):
@@ -543,7 +543,7 @@ class AutentikasiKBBI:
             self.sesi.cookies.update(json.load(kuki))
 
     def _autentikasi(self, posel, sandi):
-        laman = self.sesi.get(f"{self.host}/{self.pranala}")
+        laman = self.sesi.get(f"{self.host}/{self.lokasi}")
         token = re.findall(
             r"<input name=\"__RequestVerificationToken\".*value=\"(.*)\" />",
             laman.text,
