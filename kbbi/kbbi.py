@@ -40,7 +40,7 @@ class KBBI:
         self.nama = kueri
         self._init_pranala()
         self._init_sesi(auth)
-        laman = self.sesi.get(self.pranala)
+        laman = self.sesi.get(f"{self.host}/{self.pranala}")
         self._cek_autentikasi(laman)
         self._cek_galat(laman)
         self._init_entri(laman)
@@ -66,9 +66,9 @@ class KBBI:
             self.nama.lower() == "bin",
         ]
         if any(kasus_khusus):
-            self.pranala = f"{self.host}/Cari/Hasil?frasa={quote(self.nama)}"
+            self.pranala = f"Cari/Hasil?frasa={quote(self.nama)}"
         else:
-            self.pranala = f"{self.host}/entri/{quote(self.nama)}"
+            self.pranala = f"entri/{quote(self.nama)}"
 
     def _cek_galat(self, laman):
         if "Beranda/Error" in laman.url:
@@ -104,7 +104,7 @@ class KBBI:
         :rtype: dict
         """
         return {
-            "pranala": self.pranala,
+            "pranala": f"{self.host}/{self.pranala}",
             "entri": [
                 entri.serialisasi(fitur_pengguna) for entri in self.entri
             ],
@@ -501,6 +501,7 @@ class AutentikasiKBBI:
     """Gunakan fitur pengguna terdaftar."""
 
     host = "https://kbbi.kemdikbud.go.id"
+    pranala = "Account/Login"
     lokasi_kuki = CONFIG_DIR / "kuki.json"
 
     def __init__(self, posel=None, sandi=None, lokasi_kuki=None):
@@ -542,7 +543,7 @@ class AutentikasiKBBI:
             self.sesi.cookies.update(json.load(kuki))
 
     def _autentikasi(self, posel, sandi):
-        laman = self.sesi.get(f"{self.host}/Account/Login")
+        laman = self.sesi.get(f"{self.host}/{self.pranala}")
         token = re.findall(
             r"<input name=\"__RequestVerificationToken\".*value=\"(.*)\" />",
             laman.text,
