@@ -1,0 +1,178 @@
+{
+  "pranala": "https://kbbi.kemdikbud.go.id/entri/alam",
+  "entri": [
+    {
+      "nama": "alam",
+      "nomor": "1",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "segala yang ada di langit dan di bumi (seperti bumi, bintang, kekuatan)"
+          ],
+          "info": "",
+          "contoh": [
+            "-- sekeliling"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "lingkungan kehidupan"
+          ],
+          "info": "",
+          "contoh": []
+        },
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "segala sesuatu yang termasuk dalam satu lingkungan (golongan dan sebagainya) dan dianggap sebagai satu keutuhan"
+          ],
+          "info": "",
+          "contoh": [
+            "-- pikiran",
+            "-- tumbuh-tumbuhan"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "segala daya (gaya, kekuatan, dan sebagainya) yang menyebabkan terjadinya dan seakan-akan mengatur segala sesuatu yang ada di dunia ini"
+          ],
+          "info": "",
+          "contoh": [
+            "hukum --",
+            "ilmu --"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "yang bukan buatan manusia"
+          ],
+          "info": "",
+          "contoh": [
+            "karet --"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "dunia"
+          ],
+          "info": "",
+          "contoh": [
+            "-- semesta",
+            "syah --"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "kerajaan",
+            "daerah",
+            "negeri"
+          ],
+          "info": "",
+          "contoh": [
+            "-- Minangkabau"
+          ]
+        }
+      ]
+    },
+    {
+      "nama": "alam",
+      "nomor": "2",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "prakategorial",
+              "nama": "prakategorial",
+              "deskripsi": "kata tidak dipakai dalam bentuk dasarnya"
+            }
+          ],
+          "submakna": [
+            "cari: berpengalaman, mengalami, pengalam, pengalaman"
+          ],
+          "info": "",
+          "contoh": []
+        }
+      ]
+    },
+    {
+      "nama": "alam",
+      "nomor": "3",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "bendera (panji-panji) sebagai tanda (pada pasukan dan sebagainya)"
+          ],
+          "info": "",
+          "contoh": []
+        }
+      ]
+    }
+  ]
+}

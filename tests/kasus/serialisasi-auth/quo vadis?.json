@@ -1,0 +1,39 @@
+{
+  "pranala": "https://kbbi.kemdikbud.go.id/Cari/Hasil?frasa=quo%20vadis%3F",
+  "entri": [
+    {
+      "nama": "quo vadis?",
+      "nomor": "",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "ukp",
+              "nama": "Ungkapan",
+              "deskripsi": ""
+            },
+            {
+              "kode": "Lt",
+              "nama": "Latin",
+              "deskripsi": "-"
+            }
+          ],
+          "submakna": [
+            "hendak pergi ke mana? (dipakai untuk mengingatkan seseorang agar memperbaiki dirinya)"
+          ],
+          "info": "",
+          "contoh": []
+        }
+      ],
+      "etimologi": null,
+      "kata_turunan": [],
+      "gabungan_kata": [],
+      "peribahasa": [],
+      "kiasan": []
+    }
+  ]
+}

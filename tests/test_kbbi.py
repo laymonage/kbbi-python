@@ -20,8 +20,33 @@ def idfn(val):
 @pytest.mark.parametrize(
     "aktual_objek,ekspektasi_str", kasus["str"], indirect=True, ids=idfn
 )
-def test_str(aktual_objek, ekspektasi_str):
+def test_str_nonauth_dgn_eksp_nonauth(aktual_objek, ekspektasi_str):
     assert str(aktual_objek) == ekspektasi_str
+
+
+@pytest.mark.parametrize(
+    "aktual_objek_terautentikasi,ekspektasi_str",
+    kasus["str"],
+    indirect=True,
+    ids=idfn,
+)
+def test_str_auth_dgn_eksp_nonauth(
+    aktual_objek_terautentikasi, ekspektasi_str
+):
+    assert (
+        aktual_objek_terautentikasi.__str__(fitur_pengguna=False)
+        == ekspektasi_str
+    )
+
+
+@pytest.mark.parametrize(
+    "aktual_objek_terautentikasi,ekspektasi_str",
+    kasus["str-auth"],
+    indirect=True,
+    ids=idfn,
+)
+def test_str_auth_dgn_eksp_auth(aktual_objek_terautentikasi, ekspektasi_str):
+    assert str(aktual_objek_terautentikasi) == ekspektasi_str
 
 
 @pytest.mark.parametrize(
@@ -30,8 +55,37 @@ def test_str(aktual_objek, ekspektasi_str):
     indirect=True,
     ids=idfn,
 )
-def test_str_tanpa_contoh(aktual_objek, ekspektasi_str):
+def test_str_tanpa_contoh_nonauth_dgn_eksp_nonauth(
+    aktual_objek, ekspektasi_str
+):
     assert aktual_objek.__str__(contoh=False) == ekspektasi_str
+
+
+@pytest.mark.parametrize(
+    "aktual_objek_terautentikasi,ekspektasi_str",
+    kasus["str_tanpa_contoh"],
+    indirect=True,
+    ids=idfn,
+)
+def test_str_tanpa_contoh_auth_dgn_eksp_nonauth(
+    aktual_objek_terautentikasi, ekspektasi_str
+):
+    assert (
+        aktual_objek_terautentikasi.__str__(contoh=False, fitur_pengguna=False)
+        == ekspektasi_str
+    )
+
+
+@pytest.mark.parametrize(
+    "aktual_objek_terautentikasi,ekspektasi_str",
+    kasus["str_tanpa_contoh-auth"],
+    indirect=True,
+    ids=idfn,
+)
+def test_str_tanpa_contoh_auth_dgn_eksp_auth(
+    aktual_objek_terautentikasi, ekspektasi_str
+):
+    assert aktual_objek_terautentikasi.__str__(contoh=False) == ekspektasi_str
 
 
 @pytest.mark.parametrize(
@@ -40,5 +94,34 @@ def test_str_tanpa_contoh(aktual_objek, ekspektasi_str):
     indirect=True,
     ids=idfn,
 )
-def test_serialisasi(aktual_objek, ekspektasi_serialisasi):
+def test_serialisasi_nonauth_dgn_eksp_nonauth(
+    aktual_objek, ekspektasi_serialisasi
+):
     assert aktual_objek.serialisasi() == ekspektasi_serialisasi
+
+
+@pytest.mark.parametrize(
+    "aktual_objek_terautentikasi,ekspektasi_serialisasi",
+    kasus["serialisasi"],
+    indirect=True,
+    ids=idfn,
+)
+def test_serialisasi_auth_dgn_eksp_nonauth(
+    aktual_objek_terautentikasi, ekspektasi_serialisasi
+):
+    assert (
+        aktual_objek_terautentikasi.serialisasi(fitur_pengguna=False)
+        == ekspektasi_serialisasi
+    )
+
+
+@pytest.mark.parametrize(
+    "aktual_objek_terautentikasi,ekspektasi_serialisasi",
+    kasus["serialisasi-auth"],
+    indirect=True,
+    ids=idfn,
+)
+def test_serialisasi_auth_dgn_eksp_auth(
+    aktual_objek_terautentikasi, ekspektasi_serialisasi
+):
+    assert aktual_objek_terautentikasi.serialisasi() == ekspektasi_serialisasi

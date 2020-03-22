@@ -1,0 +1,63 @@
+{
+  "pranala": "https://kbbi.kemdikbud.go.id/entri/sage",
+  "entri": [
+    {
+      "nama": "sa.ge",
+      "nomor": "1",
+      "kata_dasar": [],
+      "pelafalan": "/sag\u00e9/",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "cerita rakyat berdasarkan cerita sejarah yang sudah ditambah imajinasi masyarakat"
+          ],
+          "info": "",
+          "contoh": []
+        }
+      ],
+      "etimologi": null,
+      "kata_turunan": [],
+      "gabungan_kata": [],
+      "peribahasa": [],
+      "kiasan": []
+    },
+    {
+      "nama": "sa.ge",
+      "nomor": "2",
+      "kata_dasar": [],
+      "pelafalan": "/sag\u00e9/",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "tanaman yang termasuk keluarga min, tingginya dapat mencapai 70 cm, daunnya berbentuk oval, keras, berbulu halus, beraroma tajam, dan biasa digunakan sebagai bumbu masakan"
+          ],
+          "info": "\u3008Salvia officinalis\u3009",
+          "contoh": []
+        }
+      ],
+      "etimologi": null,
+      "kata_turunan": [],
+      "gabungan_kata": [],
+      "peribahasa": [],
+      "kiasan": []
+    }
+  ]
+}

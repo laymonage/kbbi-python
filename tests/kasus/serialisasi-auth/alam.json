@@ -1,0 +1,259 @@
+{
+  "pranala": "https://kbbi.kemdikbud.go.id/entri/alam",
+  "entri": [
+    {
+      "nama": "alam",
+      "nomor": "1",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "segala yang ada di langit dan di bumi (seperti bumi, bintang, kekuatan)"
+          ],
+          "info": "",
+          "contoh": [
+            "-- sekeliling"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "lingkungan kehidupan"
+          ],
+          "info": "",
+          "contoh": []
+        },
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "segala sesuatu yang termasuk dalam satu lingkungan (golongan dan sebagainya) dan dianggap sebagai satu keutuhan"
+          ],
+          "info": "",
+          "contoh": [
+            "-- pikiran",
+            "-- tumbuh-tumbuhan"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "segala daya (gaya, kekuatan, dan sebagainya) yang menyebabkan terjadinya dan seakan-akan mengatur segala sesuatu yang ada di dunia ini"
+          ],
+          "info": "",
+          "contoh": [
+            "hukum --",
+            "ilmu --"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "yang bukan buatan manusia"
+          ],
+          "info": "",
+          "contoh": [
+            "karet --"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "dunia"
+          ],
+          "info": "",
+          "contoh": [
+            "-- semesta",
+            "syah --"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "kerajaan",
+            "daerah",
+            "negeri"
+          ],
+          "info": "",
+          "contoh": [
+            "-- Minangkabau"
+          ]
+        }
+      ],
+      "etimologi": {
+        "kelas": [
+          "n",
+          "sg",
+          "m"
+        ],
+        "bahasa": "Arab",
+        "asal_kata": "\u0639\u064e\u0627\u0644\u064e\u0645\u064c",
+        "pelafalan": "\u2018\u0101lam",
+        "arti": [
+          "manusia",
+          "seluruh makhluk"
+        ]
+      },
+      "kata_turunan": [
+        "beralam",
+        "kealaman"
+      ],
+      "gabungan_kata": [
+        "alam akhirat",
+        "alam arwah",
+        "alam astral",
+        "alam baka",
+        "alam barzakh",
+        "alam besar",
+        "alam fana",
+        "alam gaib",
+        "alam kabir",
+        "alam kecil",
+        "alam kekal",
+        "alam kelanggengan",
+        "alam kubur",
+        "alam malakut",
+        "alam misal",
+        "alam nabati",
+        "alam pikiran",
+        "alam rahim",
+        "alam raya",
+        "alam sagir",
+        "alam samar",
+        "alam semesta",
+        "alam semesta datar",
+        "alam semesta terbuka",
+        "alam semesta tertutup"
+      ],
+      "peribahasa": [],
+      "kiasan": []
+    },
+    {
+      "nama": "alam",
+      "nomor": "2",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "prakategorial",
+              "nama": "prakategorial",
+              "deskripsi": "kata tidak dipakai dalam bentuk dasarnya"
+            }
+          ],
+          "submakna": [
+            "cari: berpengalaman, mengalami, pengalam, pengalaman"
+          ],
+          "info": "",
+          "contoh": []
+        }
+      ],
+      "etimologi": {
+        "kelas": [
+          "n",
+          "sg",
+          "m"
+        ],
+        "bahasa": "Arab",
+        "asal_kata": "\u0639\u064e\u0644\u064e\u0645\u064c",
+        "pelafalan": "\u2018alam",
+        "arti": [
+          "gunung",
+          "tanda",
+          "lukisan pada baju",
+          "plang jalan",
+          "bendera pasukan perang"
+        ]
+      },
+      "kata_turunan": [
+        "berpengalaman",
+        "mengalami",
+        "pengalam",
+        "pengalaman"
+      ],
+      "gabungan_kata": [],
+      "peribahasa": [],
+      "kiasan": []
+    },
+    {
+      "nama": "alam",
+      "nomor": "3",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "bendera (panji-panji) sebagai tanda (pada pasukan dan sebagainya)"
+          ],
+          "info": "",
+          "contoh": []
+        }
+      ],
+      "etimologi": null,
+      "kata_turunan": [],
+      "gabungan_kata": [],
+      "peribahasa": [],
+      "kiasan": [
+        "negeri (alam) yang baka",
+        "pergi ke alam baka"
+      ]
+    }
+  ]
+}

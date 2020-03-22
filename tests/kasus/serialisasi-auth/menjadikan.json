@@ -1,0 +1,106 @@
+{
+  "pranala": "https://kbbi.kemdikbud.go.id/entri/menjadikan",
+  "entri": [
+    {
+      "nama": "men.ja.di.kan",
+      "nomor": "",
+      "kata_dasar": [
+        "jadi (1)"
+      ],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "v",
+              "nama": "Verba",
+              "deskripsi": "kata kerja"
+            }
+          ],
+          "submakna": [
+            "membuat sebagai",
+            "merupakan"
+          ],
+          "info": "",
+          "contoh": [
+            "ia ~ sakit adiknya sebagai alasan untuk tidak pergi kuliah"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "v",
+              "nama": "Verba",
+              "deskripsi": "kata kerja"
+            }
+          ],
+          "submakna": [
+            "menyebabkan"
+          ],
+          "info": "",
+          "contoh": [
+            "hal itu akan ~ orang lain marah-marah"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "v",
+              "nama": "Verba",
+              "deskripsi": "kata kerja"
+            }
+          ],
+          "submakna": [
+            "mengangkat (memilih) sebagai"
+          ],
+          "info": "",
+          "contoh": [
+            "rakyat telah ~ dia kepala desa"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "v",
+              "nama": "Verba",
+              "deskripsi": "kata kerja"
+            }
+          ],
+          "submakna": [
+            "melaksanakan (rencana, janji, dan sebagainya)"
+          ],
+          "info": "",
+          "contoh": [
+            "ia ~ penawarannya untuk membeli rumah itu"
+          ]
+        },
+        {
+          "kelas": [
+            {
+              "kode": "v",
+              "nama": "Verba",
+              "deskripsi": "kata kerja"
+            }
+          ],
+          "submakna": [
+            "menciptakan",
+            "mengadakan"
+          ],
+          "info": "",
+          "contoh": [
+            "Tuhan yang ~ langit dan bumi beserta isinya"
+          ]
+        }
+      ],
+      "etimologi": null,
+      "kata_turunan": [],
+      "gabungan_kata": [
+        "menjadikan hati"
+      ],
+      "peribahasa": [],
+      "kiasan": []
+    }
+  ]
+}
