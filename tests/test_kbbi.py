@@ -4,11 +4,14 @@ import pytest
 
 DIR_KASUS = pathlib.Path(__file__).resolve(strict=True).parent / "kasus"
 
-kasus = {
-    j.name: [(p.stem, p) for p in (DIR_KASUS / j).iterdir() if p.is_file()]
-    for j in DIR_KASUS.iterdir()
-    if j.is_dir()
-}
+kasus = {"auth": {}, "nonauth": {}}
+
+for k in kasus:
+    for jenis in (DIR_KASUS / k).iterdir():
+        if jenis.is_dir():
+            kasus[k][jenis.stem] = [
+                (f.stem, f) for f in jenis.iterdir() if f.is_file()
+            ]
 
 
 def idfn(val):
@@ -18,7 +21,10 @@ def idfn(val):
 
 
 @pytest.mark.parametrize(
-    "aktual_objek,ekspektasi_str", kasus["str"], indirect=True, ids=idfn
+    "aktual_objek,ekspektasi_str",
+    kasus["nonauth"]["str"],
+    indirect=True,
+    ids=idfn,
 )
 def test_str_nonauth_dgn_eksp_nonauth(aktual_objek, ekspektasi_str):
     assert str(aktual_objek) == ekspektasi_str
@@ -26,7 +32,7 @@ def test_str_nonauth_dgn_eksp_nonauth(aktual_objek, ekspektasi_str):
 
 @pytest.mark.parametrize(
     "aktual_objek_terautentikasi,ekspektasi_str",
-    kasus["str"],
+    kasus["nonauth"]["str"],
     indirect=True,
     ids=idfn,
 )
@@ -41,7 +47,7 @@ def test_str_auth_dgn_eksp_nonauth(
 
 @pytest.mark.parametrize(
     "aktual_objek_terautentikasi,ekspektasi_str",
-    kasus["str-auth"],
+    kasus["auth"]["str"],
     indirect=True,
     ids=idfn,
 )
@@ -51,7 +57,7 @@ def test_str_auth_dgn_eksp_auth(aktual_objek_terautentikasi, ekspektasi_str):
 
 @pytest.mark.parametrize(
     "aktual_objek,ekspektasi_str",
-    kasus["str_tanpa_contoh"],
+    kasus["nonauth"]["str_tanpa_contoh"],
     indirect=True,
     ids=idfn,
 )
@@ -63,7 +69,7 @@ def test_str_tanpa_contoh_nonauth_dgn_eksp_nonauth(
 
 @pytest.mark.parametrize(
     "aktual_objek_terautentikasi,ekspektasi_str",
-    kasus["str_tanpa_contoh"],
+    kasus["nonauth"]["str_tanpa_contoh"],
     indirect=True,
     ids=idfn,
 )
@@ -78,7 +84,7 @@ def test_str_tanpa_contoh_auth_dgn_eksp_nonauth(
 
 @pytest.mark.parametrize(
     "aktual_objek_terautentikasi,ekspektasi_str",
-    kasus["str_tanpa_contoh-auth"],
+    kasus["auth"]["str_tanpa_contoh"],
     indirect=True,
     ids=idfn,
 )
@@ -90,7 +96,7 @@ def test_str_tanpa_contoh_auth_dgn_eksp_auth(
 
 @pytest.mark.parametrize(
     "aktual_objek,ekspektasi_serialisasi",
-    kasus["serialisasi"],
+    kasus["nonauth"]["serialisasi"],
     indirect=True,
     ids=idfn,
 )
@@ -102,7 +108,7 @@ def test_serialisasi_nonauth_dgn_eksp_nonauth(
 
 @pytest.mark.parametrize(
     "aktual_objek_terautentikasi,ekspektasi_serialisasi",
-    kasus["serialisasi"],
+    kasus["nonauth"]["serialisasi"],
     indirect=True,
     ids=idfn,
 )
@@ -117,7 +123,7 @@ def test_serialisasi_auth_dgn_eksp_nonauth(
 
 @pytest.mark.parametrize(
     "aktual_objek_terautentikasi,ekspektasi_serialisasi",
-    kasus["serialisasi-auth"],
+    kasus["auth"]["serialisasi"],
     indirect=True,
     ids=idfn,
 )
