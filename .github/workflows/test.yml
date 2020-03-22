@@ -25,6 +25,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Test with pytest
+      env:
+        KBBI_POSEL: ${{ secrets.KBBI_POSEL }}
+        KBBI_SANDI: ${{ secrets.KBBI_SANDI }}
       run: |
         pip install pytest
         pytest
