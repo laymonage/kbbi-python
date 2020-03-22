@@ -1,0 +1,29 @@
+{
+  "pranala": "https://kbbi.kemdikbud.go.id/entri/asalamualaikum",
+  "entri": [
+    {
+      "nama": "asa.la.mu.a.la.i.kum",
+      "nomor": "",
+      "kata_dasar": [],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "n",
+              "nama": "Nomina",
+              "deskripsi": "kata benda"
+            }
+          ],
+          "submakna": [
+            "keselamatan (kesejahteraan, kedamaian) untukmu (biasanya diucapkan pada awal dan akhir pidato, saat bertemu dengan seseorang, dan sebagainya)"
+          ],
+          "info": "",
+          "contoh": []
+        }
+      ]
+    }
+  ]
+}

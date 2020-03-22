@@ -1,0 +1,36 @@
+{
+  "pranala": "https://kbbi.kemdikbud.go.id/entri/karbon%20dioksida",
+  "entri": [
+    {
+      "nama": "karbon dioksida",
+      "nomor": "",
+      "kata_dasar": [
+        "karbon"
+      ],
+      "pelafalan": "",
+      "bentuk_tidak_baku": [],
+      "varian": [],
+      "makna": [
+        {
+          "kelas": [
+            {
+              "kode": "Kim",
+              "nama": "Kimia",
+              "deskripsi": "-"
+            }
+          ],
+          "submakna": [
+            "senyawa karbon dengan oksigen yang berupa gas tanpa warna, lebih berat dari udara, tidak terbakar, dan larut dalam air (digunakan dalam alat pemadam kebakaran)"
+          ],
+          "info": "\u3008CO2\u3009",
+          "contoh": []
+        }
+      ],
+      "etimologi": null,
+      "kata_turunan": [],
+      "gabungan_kata": [],
+      "peribahasa": [],
+      "kiasan": []
+    }
+  ]
+}
