@@ -24,10 +24,18 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+    - name: Install package
+      run: pip install -e .
     - name: Starting test server
       run: |
         tests/server.py tests/html &
     - name: Test with pytest
       run: |
-        pip install pytest .
-        pytest
+        pip install coverage pytest
+        coverage run -m pytest
+    - name: Upload coverage to coveralls.io
+      run: |
+        pip install coveralls
+        coveralls --rcfile=setup.cfg
+      env:
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}

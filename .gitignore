@@ -1,3 +1,9 @@
+*.cover
+.coverage
+.coverage.*
+coverage.json
+coverage.xml
+htmlcov/
 .vscode/
 **__pycache__/
 build/
