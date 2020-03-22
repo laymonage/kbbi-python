@@ -13,6 +13,7 @@ DIR_INI = pathlib.Path(__file__).resolve(strict=True).parent
 DIR_KASUS = DIR_INI / "kasus"
 
 laman = [
+    "a.n.",  # entri mengandung titik
     "air",  # bentuk tidak baku mengandung nomor
     "alam",  # ada 3 entri, 2 etimologi, entri kedua berupa prakategorial
     "asalamualaikum",  # etimologi tanpa kelas
