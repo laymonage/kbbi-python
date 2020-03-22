@@ -1,14 +1,13 @@
 import json
-import os
 
 import pytest
 
-from kbbi import KBBI, AutentikasiKBBI
+from ._mock import MockAutentikasiKBBI, MockKBBI
 
 
 @pytest.fixture(scope="session")
 def autentikasi():
-    return AutentikasiKBBI(os.getenv("KBBI_POSEL"), os.getenv("KBBI_SANDI"))
+    return MockAutentikasiKBBI("foo", "bar")
 
 
 @pytest.fixture(scope="session")
@@ -46,12 +45,12 @@ def ambil_atau_simpan(dct, key, func):
 @pytest.fixture
 def aktual_objek(request, laman):
     kueri = request.param
-    return ambil_atau_simpan(laman, kueri, lambda a: KBBI(a))
+    return ambil_atau_simpan(laman, kueri, lambda a: MockKBBI(a))
 
 
 @pytest.fixture
 def aktual_objek_terautentikasi(request, autentikasi, laman_terautentikasi):
     kueri = request.param
     return ambil_atau_simpan(
-        laman_terautentikasi, kueri, lambda a: KBBI(a, autentikasi)
+        laman_terautentikasi, kueri, lambda a: MockKBBI(a, autentikasi)
     )
