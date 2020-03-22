@@ -31,8 +31,8 @@ jobs:
     - name: Lint with flake8
       run: |
         pip install flake8
-        flake8 kbbi tests --count --ignore=E203,W503 --show-source --statistics
+        flake8 --count --show-source --statistics
     - name: Lint with isort
       run: |
         pip install isort
-        isort -c -df -rc -o pytest,requests -p kbbi .
+        isort -c -df
