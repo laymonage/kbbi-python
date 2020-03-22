@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="keywords" content="kbbi, kbbi online, kbbi daring, kbbi dalam jaringan, kbbi 5, kbbi V, kbbi online terbaru, kbbi terbaru, kbbi resmi, Kamus Besar Bahasa Indonesia, Badan Bahasa, Pusat Bahasa, kamus bahasa Indonesia, kamus daring, kamus indonesia," />
+  <link rel="icon" href="/kbbi-daring-3.ico" />
+  <title>Hasil Pencarian - KBBI Daring</title>
+  <link href="/Content/css?v=DsWRYqffn1l_yiM362JpjeKWGHv3Xp66PuBRKIpyVUU1" rel="stylesheet"/>
+
+  <script src="/bundles/modernizr?v=inCVuEFe6J4Q07A0AcRsbJic_UE5MwpRMNGcOtk94TE1"></script>
+
+</head>
+<body style="font-family:Verdana, Geneva, Tahoma, sans-serif">
+  <div class="navbar navbar-inverse navbar-fixed-top"
+       style="background-color:#110063;border-color:gold">
+    <div class="container">
+      <div class="navbar-header">
+        <img src="/Content/Images/Logo-Tut-Wuri-Handayani-blue.png"
+             height="40px;" width="40px;" style="margin:5px;" />
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"
+                style="background-color:#110063;border-color:gold;">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a href="/Beranda" style="color:gold;text-decoration:none;margin-left:5px;margin-right:5px;font-size:larger">KBBI Daring</a>
+      </div>
+      <div class="navbar-collapse collapse"
+           style="background-color:#110063;color:gold;border-top-color:gold">
+        <ul class="nav navbar-nav">
+          <li><a href="/" style="color:gold">Cari</a></li>
+          <li><a href="/Beranda/SeputarLaman" style="color:gold">Seputar Laman</a></li>
+        </ul>
+        <form action="/Account/LogOff" class="navbar-right" id="logoutForm" method="post"><input name="__RequestVerificationToken" type="hidden" value="mM6evjMZsU78-wiCqnP3DJFsxzDQBfiFPvIH-KhHilXJvGRaTi3ZqSWnfxpYopHzVb1vNKW1Nv0RhdMCo-tnpXRU_4GJKYre0hXIp4thHREg-b5ZMHJ3gD3aaeArR-ZRlnhzLpppkruY3CMF-094NQ2" />    <ul class="nav navbar-nav navbar-right">
+      <li>
+        <a href="/Manage" style="color:gold" title="Lakukan Manajemen Akun">Halo sage!</a>
+      </li>
+      <li><a href="javascript:document.getElementById('logoutForm').submit()" style="color:gold">Keluar</a></li>
+    </ul>
+</form>
+      </div>
+    </div>
+  </div>
+  <div class="container body-content">
+    
+
+
+
+
+<script src="/bundles/jquery?v=2u0aRenDpYxArEyILB59ETSCA2cfQkSMlxb6jbMBqf81"></script>
+  <script>
+    $(function () {
+      $('.entrisButton').hover(
+        function () { $(this).fadeTo(1, 1); },
+        function () { $(this).fadeTo(1, 0.18); }
+      );
+    })
+  </script>
+<br />
+
+<div>
+    <h4 class="text-center">
+      <span class="glyphicon glyphicon-info-sign text-primary"></span>
+      <b>Halo sage!</b>
+      Sudahkah Anda mengecek <a href="/Manage">halaman manajemen akun Anda</a>?
+      Anda dapat melihat cara membukanya <a href="/Beranda/Bantuan#pertanyaan-1">di sini</a>.
+      Jika Anda pernah mengajukan <a href="/Manage/ProposalDibuat">usulan-usulan</a>,
+      mungkin usulan-usulan tersebut telah diproses oleh redaksi kami.
+    </h4>
+    <br />
+</div>
+
+<form action="/entri/nul" class="form-horizontal" id="searchForm" method="post" onsubmit="searchText(event)" role="form"><div class="form-group">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <div class="input-group form-control-max">
+      <input id="textBoxSearch" name="frasa" value="tampak" type="text" class="form-control form-control-max" style="margin-top:1px;" placeholder="Pencarian..." />
+      <span class="input-group-btn">
+        <span class="btn btn-primary glyphicon glyphicon-search" onclick="searchText(event)"></span>
+      </span>
+    </div>
+  </div>
+</div>
+<h3 id="errorMessageDiv"></h3>
+<script>
+  String.prototype.contains = function (it) { return this.indexOf(it) != -1; };
+  function searchText(ev) {
+    var val = $("#textBoxSearch").val();
+    ev.preventDefault();
+    if (!val) {
+      $("#errorMessageDiv").replaceWith("<h3 id=\"errorMessageDiv\"><font color=\"red\"><p class=\"text-center add-margin-top-5\"><i>Kotak pencarian tidak boleh kosong</i></p></font></h3>");
+    } else {
+      if (val.contains('.') || val.contains('?') || val.toLowerCase() == 'nul' || val.toLowerCase() == 'bin') { //for non-dependent respond
+        window.location.href = '/' + 'Cari/Hasil?frasa=' + val;
+      } else {
+        window.location.href = '/' + 'entri/' + val;
+      }
+    }
+  }
+</script>
+</form>
+
+  <hr />
+<h2 style="margin-bottom:3px">tam.pak<sup>1</sup> <small><span class="entrisButton"><a href="../DataDasarEntri/Edit?eid=81743"><span title="Ubah" class="glyphicon glyphicon-edit text-success"></span></a><a href="../DataDasarEntri/Copy?eid=81743"><span title="Usulkan entri baru berdasarkan entri ini" class="glyphicon glyphicon-duplicate" style="color:darkcyan"></span></a><a href="../DataDasarEntri/Details?eid=81743"><span title="Detail" class="glyphicon glyphicon-list-alt text-info"></span></a><span title="Sejarah redaksi - entri ini tidak memiliki sejarah redaksi" class="glyphicon glyphicon-book" style="color:lightgrey"></span><a href="https://www.google.com/#q=tampak"><span title="Cari di Google" class="glyphicon glyphicon-search text-primary"></span></a></span></small><br/><small>bentuk tidak baku: <b>nampak</b></small></h2><p><a href="http://tesaurus.kemdikbud.go.id/tematis/lema/tampak">&#x21E2; Tesaurus</a></p><ol class="last-list-child"><li><font color="red"><i><span title="Verba: kata kerja">v</span>        </i></font>dapat dilihat; kelihatan:<font color="grey"><i> </i></font><font color="grey"><i>pulau itu sudah -- dari sini</i></font><font color="red"><i></i></font></li><li><font color="red"><i><span title="Verba: kata kerja">v</span>        </i></font>memperlihatkan diri; muncul:<font color="grey"><i> </i></font><font color="grey"><i>sudah lama dia tidak --</i></font><font color="red"><i></i></font></li><li style="margin -left:-19px"><a href="../DataDasarMakna/Create?eid=81743&number=3" class="entrisButton"><span title="Usulkan makna baru" class="glyphicon glyphicon-plus-sign text-success"></span>Usulkan makna baru</a></li> </ol><h4 style="padding-top:6px;">Kata Turunan</h4><ul style="list -style: none;" class="adjusted-par"><li><a href="../../entri/ketampakan">ketampakan</a>; <a href="../../entri/menampak">menampak</a>; <a href="../../entri/menampakkan">menampakkan</a>; <a href="../../entri/penampakan">penampakan</a>; <a href="../../entri/tampak-tampak">tampak-tampak</a>; <a href="../../entri/tampaknya">tampaknya</a>; <a href="../../entri/tertampak">tertampak</a></li></ul><br/><h2 style="margin-bottom:3px">tam.pak<sup>2</sup> <small><span class="entrisButton"><a href="../DataDasarEntri/Edit?eid=81756"><span title="Ubah" class="glyphicon glyphicon-edit text-success"></span></a><a href="../DataDasarEntri/Copy?eid=81756"><span title="Usulkan entri baru berdasarkan entri ini" class="glyphicon glyphicon-duplicate" style="color:darkcyan"></span></a><a href="../DataDasarEntri/Details?eid=81756"><span title="Detail" class="glyphicon glyphicon-list-alt text-info"></span></a><span title="Sejarah redaksi - entri ini tidak memiliki sejarah redaksi" class="glyphicon glyphicon-book" style="color:lightgrey"></span><a href="https://www.google.com/#q=tampak"><span title="Cari di Google" class="glyphicon glyphicon-search text-primary"></span></a></span></small></h2><p><a href="http://tesaurus.kemdikbud.go.id/tematis/lema/tampak">&#x21E2; Tesaurus</a></p><ul style="list-style: none;" class="adjusted-par"><li><font color="red"><i>        </i></font>&rarr; <a href="../../entri/campak (2)">campak<sup>2</sup></a></li></ul><br/><h4 style="padding-top:6px;">Peribahasa <small>(mengandung [tampak])</small></h4><ul style="list-style: none;" class="adjusted-par"><li><a href="../../entri/buka%20kulit,%20ambil%20(tampak)%20isi">buka kulit, ambil (tampak) isi</a>; <a href="../../entri/datang%20tampak%20muka,%20pulang%20tampak%20punggung">datang tampak muka, pulang tampak punggung</a>; <a href="../../entri/datang%20tampak%20muka,%20pulang%20tampak%20punggung">datang tampak muka, pulang tampak punggung</a>; <a href="../../entri/hilang%20sepuh%20tampak%20senam">hilang sepuh tampak senam</a>; <a href="../../entri/kuman%20di%20seberang%20lautan%20tampak,%20gajah%20di%20pelupuk%20mata%20tidak%20tampak">kuman di seberang lautan tampak, gajah di pelupuk mata tidak tampak</a>; <a href="../../entri/tampak%20gabak%20di%20hulu%20(gabak%20di%20hulu%20tanda%20akan%20hujan)">tampak gabak di hulu (gabak di hulu tanda akan hujan)</a>; <a href="../../entri/tampak%20tembelangnya">tampak tembelangnya</a>; <a href="../../entri/terpijak%20benang%20arang%20hitam%20tampak">terpijak benang arang hitam tampak</a>; <a href="../../entri/yg%20tinggi%20tampak%20jauh,%20yg%20dekat%20jolong%20bersua">yang tinggi tampak jauh, yang dekat jolong bersua</a></li></ul><h4 style="padding-top:6px;">Kiasan <small>(mengandung [tampak])</small></h4><ul style="list-style: none;" class="adjusted-par"><li><a href="../../entri/tidak%20tampak%20batang%20hidungnya">tidak tampak batang hidungnya</a></li></ul><br/><h4><a href="/DataDasarEntri/Create" class="entrisButton"><span title="Usulkan entri baru" class="glyphicon glyphicon-plus-sign text-success"></span>Usulkan entri baru</a></h4>
+    <hr />
+    <footer>
+  <p>&copy; 2016 <a href="http://badanbahasa.kemdikbud.go.id/">Badan Pengembangan Bahasa dan Perbukuan</a>, Kementerian Pendidikan dan Kebudayaan Republik Indonesia</p>
+  <p>Versi luring: <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=yuku.kbbi5&hl=in">Android</a> | <a class="btn btn-primary" href="https://itunes.apple.com/app/kamus-besar-bahasa-indonesia/id1173573777">iOS</a>
+  || <span title="by: Ian K">Versi daring: 2.0.2.0-20191127214052</span></p>
+</footer>
+
+  </div>
+  <script src="/bundles/jquery?v=2u0aRenDpYxArEyILB59ETSCA2cfQkSMlxb6jbMBqf81"></script>
+
+  <script src="/bundles/bootstrap?v=7k-mK_Lw6GRA4MkvIrgrWipUHc3KUDohIwN2DDpspCI1"></script>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128199158-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-128199158-1');
+  </script>
+
+  <script>
+    function setSelectionRange(input, selectionStart, selectionEnd) {
+      if (input.setSelectionRange) {
+        input.focus();
+        input.setSelectionRange(selectionStart, selectionEnd);
+      }
+      else if (input.createTextRange) {
+        var range = input.createTextRange();
+        range.collapse(true);
+        range.moveEnd('character', selectionEnd);
+        range.moveStart('character', selectionStart);
+        range.select();
+      }
+    }
+
+    function setCaretToPos(input, pos) {
+      setSelectionRange(input, pos, pos);
+    }
+
+    $(document).ready(function () {
+      // Catch all events related to changes http://stackoverflow.com/questions/21215049/disable-text-entry-in-input-type-number
+      $('.number-input').on('change keyup', function () {
+        var sanitized = $(this).val().replace(/[^0-9]/g, ''); // Remove invalid characters
+        $(this).val(sanitized); // Update value
+      });
+
+      $(function () {
+        var tb = document.getElementById('textBoxSearch');
+        if (tb) {
+          var val = $("#textBoxSearch").val();
+          var caretPos = val.length;
+          setCaretToPos(tb, caretPos);
+        }
+      });
+    });
+  </script>
+
+  
+</body>
+</html>
