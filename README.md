@@ -1,5 +1,12 @@
 # kbbi-python
 
+[![pypi][pypi-badge]][pypi-package]
+[![license][license-badge]][LICENSE]
+[![Test][test-badge]][github-actions]
+[![coverage][coverage-badge]][coveralls]
+[![black][black-badge]][black]
+
+
 Modul Python untuk mengambil sebuah laman untuk kata/frasa dalam
 [KBBI Daring][kbbi].
 
@@ -290,6 +297,15 @@ dan pengembangnya tidak berafiliasi dengan
 [Python Software Foundation][psf]. Pengembang tidak bertanggung jawab atas
 penyalahgunaan yang mungkin muncul dari proyek ini.
 
+[pypi-badge]: https://img.shields.io/pypi/v/kbbi
+[pypi-package]: https://pypi.org/project/kbbi
+[license-badge]: https://img.shields.io/pypi/l/kbbi
+[test-badge]: https://github.com/laymonage/kbbi-python/workflows/Test/badge.svg
+[github-actions]: http://github.com/laymonage/kbbi-python/actions
+[coverage-badge]: https://coveralls.io/repos/github/laymonage/kbbi-python/badge.svg
+[coveralls]: https://coveralls.io/r/laymonage/kbbi-python
+[black-badge]: https://img.shields.io/badge/code%20style-black-000000.svg
+[black]: https://github.com/psf/black
 [kbbi]: https://kbbi.kemdikbud.go.id
 [requests]: https://pypi.org/project/requests
 [beautifulsoup4]: https://pypi.org/project/beautifulsoup4
