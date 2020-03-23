@@ -48,9 +48,7 @@ class KBBI:
     def _init_sesi(self, auth):
         if auth is not None:
             if not isinstance(auth, AutentikasiKBBI):
-                raise ValueError(
-                    'KBBI: "auth" harus merupakan objek AutentikasiKBBI'
-                )
+                raise ValueError("'auth' harus berupa objek AutentikasiKBBI.")
             self.sesi = auth.sesi
         else:
             self.sesi = requests.Session()
@@ -87,8 +85,6 @@ class KBBI:
                 if label.get("style") is None:
                     self.entri.append(Entri(estr, self.terautentikasi))
                     break
-                else:
-                    continue
             if label.name == "h2":
                 if label.get("style") == "color:gray":
                     continue
@@ -193,34 +189,31 @@ class Entri:
         etimologi = entri.find(text="Etimologi:")
         if etimologi is None:
             return
-        etimologi = etimologi.parent
+        etimologi = etimologi.parent.next_sibling
         etistr = ""
-        for eti in etimologi.next_siblings:
-            if eti.name == "br":
-                break
-            etistr += str(eti).strip()
+        while etimologi.name != "br":
+            etistr += str(etimologi).strip()
+            etimologi = etimologi.next_sibling
         self.etimologi = Etimologi(etistr)
 
     def _init_terkait(self, entri):
+        if not self.terautentikasi:
+            self.terkait = None
+            return
         self.terkait = {
             "kata_turunan": [],
             "gabungan_kata": [],
             "peribahasa": [],
             "kiasan": [],
         }
-        if not self.terautentikasi:
-            return
         terkait = entri.find_all("h4")
         for le in terkait:
-            if not le:
-                continue
             le_txt = le.text.strip()
             for jenis in self.terkait:
                 if jenis.replace("_", " ").title() in le_txt:
                     kumpulan = le.next_sibling
-                    if kumpulan:
-                        kumpulan = kumpulan.find_all("a")
-                        self.terkait[jenis] = [k.text for k in kumpulan if k]
+                    kumpulan = kumpulan.find_all("a")
+                    self.terkait[jenis] = [k.text for k in kumpulan if k]
 
     def _init_makna(self, entri):
         prakategorial = entri.find(color="darkgreen")
@@ -263,7 +256,6 @@ class Entri:
             )
         if len(self.makna) == 1:
             return self.makna[0].__str__(contoh=contoh)
-        return ""
 
     def _nama(self):
         hasil = self.nama
@@ -273,14 +265,12 @@ class Entri:
             hasil = f"{' » '.join(self.kata_dasar)} » {hasil}"
         return hasil
 
-    def _varian(self, varian):
-        if varian == self.bentuk_tidak_baku:
-            nama = "bentuk tidak baku"
-        elif varian == self.varian:
-            nama = "varian"
-        else:
-            return ""
-        return f"{nama}: {', '.join(varian)}"
+    def _varian(self):
+        if self.bentuk_tidak_baku:
+            return f"bentuk tidak baku: {', '.join(self.bentuk_tidak_baku)}"
+        elif self.varian:
+            return f"varian: {', '.join(self.varian)}"
+        return ""
 
     def _terkait(self):
         nama_murni = self.nama.replace(".", "")
@@ -300,9 +290,9 @@ class Entri:
         hasil = self._nama()
         if self.pelafalan:
             hasil += f"  {self.pelafalan}"
-        for var in (self.bentuk_tidak_baku, self.varian):
-            if var:
-                hasil += f"\n{self._varian(var)}"
+        varian = self._varian()
+        if varian:
+            hasil += f"\n{varian}"
         if self.terautentikasi and fitur_pengguna and self.etimologi:
             hasil += f"\nEtimologi: {self.etimologi}"
         if self.makna:
@@ -411,7 +401,7 @@ class Makna:
         return hasil
 
     def __repr__(self):
-        return f"<Makna: {'; '.join(self.submakna)}>"
+        return f"<Makna: {self._submakna()}>"
 
 
 class Etimologi:
