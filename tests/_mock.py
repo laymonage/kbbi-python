@@ -22,8 +22,11 @@ class MockAutentikasiKBBI(AutentikasiKBBI):
     host = "http://localhost:8000"
     lokasi = "Account/Login.html"
 
-    def _autentikasi(self, posel, sandi):
+    def _autentikasi(self, posel, sandi, token, buat_galat=False):
         try:
-            super()._autentikasi(posel, sandi)
-        except GagalAutentikasi:
-            pass
+            super()._autentikasi(posel, sandi, token)
+        except GagalAutentikasi as e:
+            if buat_galat:
+                raise e from e
+        else:
+            self.sesi.cookies.set(".AspNet.ApplicationCookie", "mockcookie")

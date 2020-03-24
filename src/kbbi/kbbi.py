@@ -520,7 +520,8 @@ class AutentikasiKBBI:
                     f"tetapi kuki tidak ditemukan di {self.lokasi_kuki}"
                 ) from e
         else:
-            self._autentikasi(posel, sandi)
+            token = self._ambil_token()
+            self._autentikasi(posel, sandi, token)
 
     def simpan_kuki(self):
         kuki_aspnet = self.sesi.cookies.get(".AspNet.ApplicationCookie")
@@ -532,21 +533,24 @@ class AutentikasiKBBI:
         with open(self.lokasi_kuki) as kuki:
             self.sesi.cookies.update(json.load(kuki))
 
-    def _autentikasi(self, posel, sandi):
+    def _ambil_token(self):
         laman = self.sesi.get(f"{self.host}/{self.lokasi}")
-        token = re.findall(
+        token = re.search(
             r"<input name=\"__RequestVerificationToken\".*value=\"(.*)\" />",
             laman.text,
         )
         if not token:
             raise TerjadiKesalahan()
+        return token.group(1)
+
+    def _autentikasi(self, posel, sandi, token):
         payload = {
-            "__RequestVerificationToken": token[0],
+            "__RequestVerificationToken": token,
             "Posel": posel,
             "KataSandi": sandi,
             "IngatSaya": True,
         }
-        laman = self.sesi.post(f"{self.host}/Account/Login", data=payload)
+        laman = self.sesi.post(f"{self.host}/{self.lokasi}", data=payload)
         if "Beranda/Error" in laman.url:
             raise TerjadiKesalahan()
         if "Account/Login" in laman.url:
@@ -590,7 +594,7 @@ class GagalAutentikasi(Galat):
     def __init__(self, pesan=None):
         if pesan is None:
             pesan = (
-                "Gagal melakukan autentikasi dengan alamat surel dan sandi "
+                "Gagal melakukan autentikasi dengan alamat posel dan sandi "
                 "yang diberikan."
             )
         super().__init__(pesan)

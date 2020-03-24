@@ -5,7 +5,7 @@ import pytest
 from _mock import MockAutentikasiKBBI, MockKBBI
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def autentikasi():
     return MockAutentikasiKBBI("foo", "bar")
 
