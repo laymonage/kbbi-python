@@ -565,7 +565,7 @@ class TidakDitemukan(Galat):
     """Galat ketika laman tidak ditemukan dalam KBBI."""
 
     def __init__(self, kueri):
-        super().__init__(f"{kueri} tidak ditemukan dalam KBBI!")
+        super().__init__(f"{kueri} tidak ditemukan dalam KBBI.")
 
 
 class TerjadiKesalahan(Galat):
