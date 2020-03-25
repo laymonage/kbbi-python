@@ -5,13 +5,17 @@ class MockKBBI(KBBI):
     host = "http://localhost:8000"
     _host = KBBI.host
 
-    def __init__(self, kueri, auth=None):
+    def __init__(self, kueri, auth=None, lokasi=None):
         self._auth = auth
+        self.lokasi = lokasi
         super().__init__(kueri, auth)
         self.host = self._host
-        self.lokasi = self._lokasi
+        if lokasi is None:
+            self.lokasi = self._lokasi
 
     def _init_lokasi(self):
+        if self.lokasi is not None:
+            return
         super()._init_lokasi()
         auth = "auth" if self._auth is not None else "nonauth"
         self._lokasi = self.lokasi

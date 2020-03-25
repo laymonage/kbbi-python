@@ -4,6 +4,7 @@ import pathlib
 import pytest
 
 import kbbi
+from _mock import MockKBBI
 
 
 def test_objek_auth_kelas_lain():
@@ -96,3 +97,23 @@ def test_autentikasi_berhasil(autentikasi):
         autentikasi.sesi.cookies.get(".AspNet.ApplicationCookie")
         == "mockcookie"
     )
+
+
+def test_galat_terjadi_kesalahan():
+    with pytest.raises(kbbi.TerjadiKesalahan) as e:
+        MockKBBI("coba", lokasi="Beranda/Error.html")
+    assert str(e.value) == "Terjadi kesalahan saat memproses permintaan Anda."
+
+
+def test_galat_batas_sehari():
+    with pytest.raises(kbbi.BatasSehari) as e:
+        MockKBBI("coba terus", lokasi="Beranda/BatasSehari.html")
+    assert str(e.value) == (
+        "Pencarian Anda telah mencapai batas maksimum dalam sehari."
+    )
+
+
+def test_galat_tidak_ditemukan():
+    with pytest.raises(kbbi.TidakDitemukan) as e:
+        MockKBBI("nonexistent", lokasi="entri.html")
+    assert str(e.value) == ("nonexistent tidak ditemukan dalam KBBI.")
