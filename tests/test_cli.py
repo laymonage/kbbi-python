@@ -1,4 +1,5 @@
 import pathlib
+import sys as _sys
 
 import kbbi
 
@@ -20,4 +21,16 @@ def test_bersihkan_kuki_ada(monkeypatch, capsys):
     hasil = kbbi.autentikasi(["--bersihkan"])
     tangkap = capsys.readouterr()
     assert tangkap.out == "Kuki kukiku.json berhasil dihapus.\n"
+    assert hasil == 0
+
+
+def test_autentikasi_tanpa_argumen_sama_dengan_bantuan(monkeypatch, capsys):
+    monkeypatch.setattr(_sys, "exit", lambda x: None)
+    monkeypatch.setattr(_sys, "argv", ["kbbi-autentikasi"])
+    kbbi.autentikasi(["--bantuan"])
+    tangkap = capsys.readouterr()
+    bantuan = tangkap.out
+    hasil = kbbi.autentikasi()
+    tangkap = capsys.readouterr()
+    assert tangkap.out == bantuan
     assert hasil == 0

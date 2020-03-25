@@ -656,12 +656,12 @@ def autentikasi(argv=None):
     """Program CLI untuk autentikasi."""
     if argv is None:
         argv = sys.argv[1:]
+    if argv == []:
+        argv = ["-h"]
     args = _parse_args_autentikasi(argv)
     if args.posel is None and args.sandi is None:
         if args.bersihkan:
             return _bersihkan_kuki()
-        else:
-            _parse_args_autentikasi(["-h"])
     try:
         auth = AutentikasiKBBI(args.posel, args.sandi)
     except Galat as e:
