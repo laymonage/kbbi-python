@@ -34,3 +34,15 @@ def test_autentikasi_tanpa_argumen_sama_dengan_bantuan(monkeypatch, capsys):
     tangkap = capsys.readouterr()
     assert tangkap.out == bantuan
     assert hasil == 0
+
+
+def test_autentikasi_gagal(monkeypatch, capsys):
+    monkeypatch.setattr(kbbi.AutentikasiKBBI, "host", "http://localhost:8000")
+    monkeypatch.setattr(kbbi.AutentikasiKBBI, "lokasi", "Account/Login.html")
+    hasil = kbbi.autentikasi(["posel@saya.tld", "sandi_saya"])
+    tangkap = capsys.readouterr()
+    assert tangkap.out == (
+        "Gagal melakukan autentikasi dengan alamat posel dan sandi "
+        "yang diberikan.\n"
+    )
+    assert hasil == 1
