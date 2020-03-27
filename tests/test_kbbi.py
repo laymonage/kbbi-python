@@ -117,3 +117,7 @@ def test_galat_tidak_ditemukan():
     with pytest.raises(kbbi.TidakDitemukan) as e:
         MockKBBI("nonexistent", lokasi="entri.html")
     assert str(e.value) == ("nonexistent tidak ditemukan dalam KBBI.")
+
+
+def test_ekstraksi_aman_none():
+    assert kbbi.ekstraksi_aman(None) == ""

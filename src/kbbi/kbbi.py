@@ -80,18 +80,18 @@ class KBBI:
         sup = BeautifulSoup(laman.text, "html.parser")
         estr = ""
         self.entri = []
-        for label in sup.find("hr").next_siblings:
-            if label.name == "hr":
-                if label.get("style") is None:
-                    self.entri.append(Entri(estr, self.terautentikasi))
-                    break
+        label = sup.find("hr").next_sibling
+        while not (label.name == "hr" and label.get("style") is None):
             if label.name == "h2":
-                if label.get("style") == "color:gray":
+                if label.get("style") == "color:gray":  # Lampiran
+                    label = label.next_sibling
                     continue
                 if estr:
                     self.entri.append(Entri(estr, self.terautentikasi))
-                estr = ""
+                    estr = ""
             estr += str(label).strip()
+            label = label.next_sibling
+        self.entri.append(Entri(estr, self.terautentikasi))
 
     def serialisasi(self, fitur_pengguna=True):
         """Mengembalikan hasil serialisasi objek KBBI ini.
@@ -134,8 +134,6 @@ class Entri:
 
     def _init_nama(self, judul):
         self.nama = ambil_teks_dalam_label(judul, ambil_italic=True)
-        if not self.nama:
-            self.nama = judul.find_all(text=True)[0].strip()
 
     def _init_nomor(self, judul):
         nomor = judul.find("sup", recursive=False)
@@ -254,8 +252,7 @@ class Entri:
                 f"{i}. {makna.__str__(contoh=contoh)}"
                 for i, makna in enumerate(self.makna, 1)
             )
-        if len(self.makna) == 1:
-            return self.makna[0].__str__(contoh=contoh)
+        return self.makna[0].__str__(contoh=contoh)
 
     def _nama(self):
         hasil = self.nama
@@ -456,8 +453,7 @@ class Etimologi:
     def __str__(self):
         hasil = f"[{self.bahasa}]" if self.bahasa else ""
         hasil += f" {self._kelas()}" if self.kelas else ""
-        if self.asal_kata or self.pelafalan:
-            hasil += f"  {self._asal_kata()}"
+        hasil += f"  {self._asal_kata()}"
         hasil += f": {self._arti()}" if self.arti else ""
         return hasil
 
