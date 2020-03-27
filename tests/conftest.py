@@ -96,6 +96,18 @@ def kbbi_mock(monkeypatch, request):
 
 
 @pytest.fixture
+def autentikasi_gagal(request, monkeypatch):
+    monkeypatch.setattr(MockAutentikasiKBBI, "buat_galat", True)
+    monkeypatch.setattr(kbbi.kbbi, "AutentikasiKBBI", MockAutentikasiKBBI)
+
+
+@pytest.fixture
+def autentikasi_sukses(request, monkeypatch):
+    monkeypatch.setattr(MockAutentikasiKBBI, "paksa_sukses", True)
+    monkeypatch.setattr(kbbi.kbbi, "AutentikasiKBBI", MockAutentikasiKBBI)
+
+
+@pytest.fixture
 def lokasi_kuki(monkeypatch):
     lokasi = pathlib.Path("kukifix.json")
     monkeypatch.setattr(kbbi.AutentikasiKBBI, "lokasi_kuki", lokasi)

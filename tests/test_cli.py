@@ -31,9 +31,7 @@ def test_autentikasi_tanpa_argumen_sama_dengan_bantuan(monkeypatch, capsys):
     assert hasil == 0
 
 
-def test_autentikasi_gagal(monkeypatch, capsys):
-    monkeypatch.setattr(kbbi.AutentikasiKBBI, "host", "http://localhost:8000")
-    monkeypatch.setattr(kbbi.AutentikasiKBBI, "lokasi", "Account/Login.html")
+def test_autentikasi_gagal(autentikasi_gagal, capsys):
     hasil = kbbi.autentikasi(["posel@saya.tld", "sandi_saya"])
     tangkap = capsys.readouterr()
     assert tangkap.out == (
@@ -41,6 +39,21 @@ def test_autentikasi_gagal(monkeypatch, capsys):
         "yang diberikan.\n"
     )
     assert hasil == 1
+
+
+def test_autentikasi_sukses(autentikasi_sukses, lokasi_kuki, capsys):
+    hasil = kbbi.autentikasi(["posel@saya.tld", "p4sti_sukses"])
+    tangkap = capsys.readouterr()
+    assert tangkap.out == (
+        "Autentikasi berhasil dan kuki telah disimpan di kukifix.json.\n"
+        "Kuki akan otomatis digunakan pada penggunaan KBBI berikutnya.\n"
+    )
+    assert hasil == 0
+    assert (
+        lokasi_kuki.read_text()
+        == '{".AspNet.ApplicationCookie": "mockcookie"}'
+    )
+    lokasi_kuki.unlink()
 
 
 @pytest.mark.parametrize(
