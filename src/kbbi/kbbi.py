@@ -662,6 +662,7 @@ def autentikasi(argv=None):
     if args.posel is None and args.sandi is None:
         if args.bersihkan:
             return _bersihkan_kuki()
+        return 0
     try:
         auth = AutentikasiKBBI(args.posel, args.sandi)
     except Galat as e:
