@@ -749,7 +749,7 @@ def main(argv=None):
         argv = sys.argv[1:]
     args = _parse_args_utama(argv)
     auth = None
-    if AutentikasiKBBI.lokasi_kuki.exists() and args.pengguna:
+    if AutentikasiKBBI.lokasi_kuki.exists():
         auth = AutentikasiKBBI()
     try:
         laman = KBBI(args.laman, auth)
