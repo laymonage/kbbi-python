@@ -57,9 +57,7 @@ def test_autentikasi_sukses(autentikasi_sukses, lokasi_kuki, capsys):
 
 
 @pytest.mark.parametrize(
-    "kbbi_mock,lokasi",
-    [("nonauth", "kasus/nonauth/str/alam.txt")],
-    indirect=True,
+    "kbbi_mock,lokasi", [(None, "kasus/nonauth/str/alam.txt")], indirect=True
 )
 def test_program_utama_tanpa_kuki_str_sukses(
     capsys, kbbi_mock, lokasi, tanpa_kuki
@@ -71,9 +69,7 @@ def test_program_utama_tanpa_kuki_str_sukses(
 
 
 @pytest.mark.parametrize(
-    "kbbi_mock,lokasi",
-    [("nonauth", "kasus/nonauth/str/alam.txt")],
-    indirect=True,
+    "kbbi_mock,lokasi", [(None, "kasus/nonauth/str/alam.txt")], indirect=True
 )
 def test_program_utama_dengan_kuki_nonpengguna_str_sukses(
     capsys, kbbi_mock, lokasi, kuki
@@ -86,7 +82,7 @@ def test_program_utama_dengan_kuki_nonpengguna_str_sukses(
 
 @pytest.mark.parametrize(
     "kbbi_mock,lokasi",
-    [("nonauth", "kasus/nonauth/str_tanpa_contoh/alam.txt")],
+    [(None, "kasus/nonauth/str_tanpa_contoh/alam.txt")],
     indirect=True,
 )
 def test_program_utama_tanpa_kuki_str_tanpa_contoh_sukses(
@@ -100,7 +96,7 @@ def test_program_utama_tanpa_kuki_str_tanpa_contoh_sukses(
 
 @pytest.mark.parametrize(
     "kbbi_mock,lokasi",
-    [("nonauth", "kasus/nonauth/serialisasi/alam.json")],
+    [(None, "kasus/nonauth/serialisasi/alam.json")],
     indirect=True,
 )
 def test_program_utama_tanpa_kuki_json_sukses(
@@ -151,7 +147,7 @@ def test_program_utama_dengan_kuki_json_sukses(
 
 
 @pytest.mark.parametrize(
-    "kbbi_mock", [("nonauth", "Beranda/Error.html")], indirect=True
+    "kbbi_mock", [(None, "Beranda/Error.html")], indirect=True
 )
 def test_program_utama_gagal(capsys, kbbi_mock):
     hasil = kbbi.main(["lampir"])
@@ -163,9 +159,7 @@ def test_program_utama_gagal(capsys, kbbi_mock):
 
 
 @pytest.mark.parametrize(
-    "kbbi_mock,lokasi",
-    [("nonauth", "kasus/nonauth/str/alam.txt")],
-    indirect=True,
+    "kbbi_mock,lokasi", [(None, "kasus/nonauth/str/alam.txt")], indirect=True
 )
 def test_program_utama_main(
     monkeypatch, capsys, kbbi_mock, lokasi, tanpa_kuki

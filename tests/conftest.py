@@ -68,31 +68,22 @@ def lokasi(request):
 
 
 @pytest.fixture
-def kbbi_mock(monkeypatch, request):
+def kbbi_mock(monkeypatch, request, autentikasi):
     if isinstance(request.param, (list, tuple)):
-        auth, lokasi = request.param
+        _auth, lokasi = request.param
     else:
-        auth = request.param
+        _auth = request.param
         lokasi = None
-    _host = kbbi.KBBI.host
-    __init_lokasi = kbbi.KBBI._init_lokasi
-    __init_entri = kbbi.KBBI._init_entri
+    if _auth:
+        _auth = autentikasi
 
-    def _init_lokasi(self):
-        if lokasi is None:
-            __init_lokasi(self)
-            self.lokasi = f"{auth}/{self.lokasi}.html".replace("?frasa=", "/")
-        else:
-            self.lokasi = lokasi
+    ___init__ = MockKBBI.__init__
 
-    def _init_entri(self, laman):
-        __init_entri(self, laman)
-        __init_lokasi(self)
-        self.host = _host
+    def __init__(self, kueri, auth=None):
+        ___init__(self, kueri, auth=_auth, lokasi=lokasi)
 
-    monkeypatch.setattr(kbbi.KBBI, "host", "http://localhost:8000")
-    monkeypatch.setattr(kbbi.KBBI, "_init_lokasi", _init_lokasi)
-    monkeypatch.setattr(kbbi.KBBI, "_init_entri", _init_entri)
+    monkeypatch.setattr(MockKBBI, "__init__", __init__)
+    monkeypatch.setattr(kbbi.kbbi, "KBBI", MockKBBI)
 
 
 @pytest.fixture

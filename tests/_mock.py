@@ -4,10 +4,11 @@ from kbbi import KBBI, AutentikasiKBBI, GagalAutentikasi
 class MockKBBI(KBBI):
     host = "http://localhost:8000"
     _host = KBBI.host
+    lokasi = None
 
     def __init__(self, kueri, auth=None, lokasi=None):
         self._auth = auth
-        self.lokasi = lokasi
+        self.lokasi = self.lokasi or lokasi
         super().__init__(kueri, auth)
         self.host = self._host
         if lokasi is None:
