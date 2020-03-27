@@ -761,5 +761,9 @@ def main(argv=None):
         return 0
 
 
-if __name__ == "__main__":
-    sys.exit(main())
+def init():
+    if __name__ == "__main__":
+        return sys.exit(main())
+
+
+init()

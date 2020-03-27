@@ -1,26 +1,21 @@
-import pathlib
 import sys as _sys
+
+import pytest
 
 import kbbi
 
 
-def test_bersihkan_kuki_tidak_ada(monkeypatch, capsys):
-    lokasi_kuki = pathlib.Path("kuki.json")
-    assert not lokasi_kuki.exists()
-    monkeypatch.setattr(kbbi.AutentikasiKBBI, "lokasi_kuki", lokasi_kuki)
+def test_bersihkan_kuki_tidak_ada(tanpa_kuki, capsys):
     hasil = kbbi.autentikasi(["--bersihkan"])
     tangkap = capsys.readouterr()
-    assert tangkap.out == "Kuki tidak ditemukan pada kuki.json!\n"
+    assert tangkap.out == "Kuki tidak ditemukan pada kukifix.json!\n"
     assert hasil == 1
 
 
-def test_bersihkan_kuki_ada(monkeypatch, capsys):
-    lokasi_kuki = pathlib.Path("kukiku.json")
-    lokasi_kuki.write_text("kukiku enak\n")
-    monkeypatch.setattr(kbbi.AutentikasiKBBI, "lokasi_kuki", lokasi_kuki)
+def test_bersihkan_kuki_ada(kuki, capsys):
     hasil = kbbi.autentikasi(["--bersihkan"])
     tangkap = capsys.readouterr()
-    assert tangkap.out == "Kuki kukiku.json berhasil dihapus.\n"
+    assert tangkap.out == "Kuki kukifix.json berhasil dihapus.\n"
     assert hasil == 0
 
 
@@ -46,3 +41,126 @@ def test_autentikasi_gagal(monkeypatch, capsys):
         "yang diberikan.\n"
     )
     assert hasil == 1
+
+
+@pytest.mark.parametrize(
+    "kbbi_mock,lokasi",
+    [("nonauth", "kasus/nonauth/str/alam.txt")],
+    indirect=True,
+)
+def test_program_utama_tanpa_kuki_str_sukses(
+    capsys, kbbi_mock, lokasi, tanpa_kuki
+):
+    hasil = kbbi.main(["alam"])
+    tangkap = capsys.readouterr()
+    assert tangkap.out == lokasi.read_text()
+    assert hasil == 0
+
+
+@pytest.mark.parametrize(
+    "kbbi_mock,lokasi",
+    [("nonauth", "kasus/nonauth/str/alam.txt")],
+    indirect=True,
+)
+def test_program_utama_dengan_kuki_nonpengguna_str_sukses(
+    capsys, kbbi_mock, lokasi, kuki
+):
+    hasil = kbbi.main(["alam", "--nonpengguna"])
+    tangkap = capsys.readouterr()
+    assert tangkap.out == lokasi.read_text()
+    assert hasil == 0
+
+
+@pytest.mark.parametrize(
+    "kbbi_mock,lokasi",
+    [("nonauth", "kasus/nonauth/str_tanpa_contoh/alam.txt")],
+    indirect=True,
+)
+def test_program_utama_tanpa_kuki_str_tanpa_contoh_sukses(
+    capsys, kbbi_mock, lokasi, tanpa_kuki
+):
+    hasil = kbbi.main(["alam", "--tanpa-contoh"])
+    tangkap = capsys.readouterr()
+    assert tangkap.out == lokasi.read_text()
+    assert hasil == 0
+
+
+@pytest.mark.parametrize(
+    "kbbi_mock,lokasi",
+    [("nonauth", "kasus/nonauth/serialisasi/alam.json")],
+    indirect=True,
+)
+def test_program_utama_tanpa_kuki_json_sukses(
+    capsys, kbbi_mock, lokasi, tanpa_kuki
+):
+    hasil = kbbi.main(["alam", "--json", "--indentasi", "2"])
+    tangkap = capsys.readouterr()
+    assert tangkap.out == lokasi.read_text()
+    assert hasil == 0
+
+
+@pytest.mark.parametrize(
+    "kbbi_mock,lokasi", [("auth", "kasus/auth/str/alam.txt")], indirect=True
+)
+def test_program_utama_dengan_kuki_str_sukses(capsys, kbbi_mock, lokasi, kuki):
+    hasil = kbbi.main(["alam"])
+    tangkap = capsys.readouterr()
+    assert tangkap.out == lokasi.read_text()
+    assert hasil == 0
+
+
+@pytest.mark.parametrize(
+    "kbbi_mock,lokasi",
+    [("auth", "kasus/auth/str_tanpa_contoh/alam.txt")],
+    indirect=True,
+)
+def test_program_utama_dengan_kuki_str_tanpa_contoh_sukses(
+    capsys, kbbi_mock, lokasi, kuki
+):
+    hasil = kbbi.main(["alam", "--tanpa-contoh"])
+    tangkap = capsys.readouterr()
+    assert tangkap.out == lokasi.read_text()
+    assert hasil == 0
+
+
+@pytest.mark.parametrize(
+    "kbbi_mock,lokasi",
+    [("auth", "kasus/auth/serialisasi/alam.json")],
+    indirect=True,
+)
+def test_program_utama_dengan_kuki_json_sukses(
+    capsys, kbbi_mock, lokasi, kuki
+):
+    hasil = kbbi.main(["alam", "--json", "--indentasi", "2"])
+    tangkap = capsys.readouterr()
+    assert tangkap.out == lokasi.read_text()
+    assert hasil == 0
+
+
+@pytest.mark.parametrize(
+    "kbbi_mock", [("nonauth", "Beranda/Error.html")], indirect=True
+)
+def test_program_utama_gagal(capsys, kbbi_mock):
+    hasil = kbbi.main(["lampir"])
+    tangkap = capsys.readouterr()
+    assert tangkap.out == (
+        "Terjadi kesalahan saat memproses permintaan Anda.\n"
+    )
+    assert hasil == 1
+
+
+@pytest.mark.parametrize(
+    "kbbi_mock,lokasi",
+    [("nonauth", "kasus/nonauth/str/alam.txt")],
+    indirect=True,
+)
+def test_program_utama_main(
+    monkeypatch, capsys, kbbi_mock, lokasi, tanpa_kuki
+):
+    monkeypatch.setattr(_sys, "exit", lambda x: x)
+    monkeypatch.setattr(_sys, "argv", ["kbbi", "alam"])
+    monkeypatch.setattr(kbbi.kbbi, "__name__", "__main__")
+    hasil = kbbi.init()
+    tangkap = capsys.readouterr()
+    assert tangkap.out == lokasi.read_text()
+    assert hasil == 0
