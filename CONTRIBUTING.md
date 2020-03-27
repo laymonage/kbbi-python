@@ -74,7 +74,7 @@ Apabila Anda ingin berkontribusi, silakan ikuti langkah-langkah berikut.
 
     ```bash
     $ black . -l 79
-    $ flake8 kbbi tests --ignore=E203
+    $ flake8 --exclude="venv/**"
     $ isort -rc . -sg "venv/**"
     ```
 
@@ -82,21 +82,41 @@ Apabila Anda ingin berkontribusi, silakan ikuti langkah-langkah berikut.
     dahulu (`black` dan `isort` sudah otomatis memperbaiki, tetapi `flake8`
     tidak).
 12. Jika gaya penulisan kode sudah baik, jalankan tes untuk memastikan kode
-    Anda lulus tes:
+    Anda lulus tes. Sebelum menjalankan tes, jalankan *server* untuk tes
+    terlebih dahulu:
+
+    ```bash
+    $ cd tests
+    $ ./server.py
+    ```
+
+    Selagi *server* aktif, jalankan tes:
 
     ```bash
     $ pytest
     ```
 
-13. Jika belum lulus tes, silakan perbaiki kode Anda dan lakukan `git add` dan
-    `git commit` seperlunya.
-14. Unggah pembaruan Anda:
+13. Jika kode Anda belum lulus tes, silakan perbaiki terlebih dahulu dan
+    lakukan `git add` dan `git commit` seperlunya.
+14. Jika Anda ingin menambahkan kasus uji (misal `"civitas academica"`) untuk
+    mendukung perbaikan Anda, gunakan skrip `buat_kasus.py`:
+
+    ```bash
+    $ ./buat_kasus.py "civitas academica"
+    ```
+
+    Kemudian, tambahkan kasus tersebut ke dalam `list` `laman` yang terdapat
+    di dalam `buat_kasus.py` dan sertakan deskripsi singkat mengenai kasus
+    tersebut. Jika sudah selesai, `git add` dan `git commit` semua berkas yang
+    dihasilkan beserta `buat_kasus.py` yang sudah diperbarui.
+
+15. Unggah pembaruan Anda:
 
     ```bash
     $ git push origin pembaruan-saya
     ```
 
-15. [Buat Pull Request][pr] baru dari cabang Anda ke cabang `master` repositori
+16. [Buat Pull Request][pr] baru dari cabang Anda ke cabang `master` repositori
     ini.
 
 [fork]: https://github.com/laymonage/kbbi-python/fork
