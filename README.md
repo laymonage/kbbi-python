@@ -274,6 +274,14 @@ Untuk menghapus kuki, gunakan opsi `--bersihkan` atau `-c`.
 $ kbbi-autentikasi --bersihkan
 ```
 
+Gunakan opsi `--lokasi-kuki` atau `-l` untuk menentukan lokasi kuki yang akan
+disimpan/dimuat.
+
+```
+$ kbbi-autentikasi $KBBI_POSEL $KBBI_SANDI --lokasi-kuki kukiku.json
+$ kbbi alam --lokasi-kuki kukiku.json
+```
+
 > **Catatan:**\
 > **`kbbi`** juga bisa dipanggil dengan **`python kbbi.py`**.\
 > **`kbbi-autentikasi`** juga bisa dipanggil dengan **`python -c "import kbbi; kbbi.autentikasi()"`**

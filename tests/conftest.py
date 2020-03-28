@@ -99,16 +99,20 @@ def autentikasi_sukses(request, monkeypatch):
 
 
 @pytest.fixture
-def lokasi_kuki(monkeypatch):
-    lokasi = pathlib.Path("kukifix.json")
-    monkeypatch.setattr(kbbi.AutentikasiKBBI, "lokasi_kuki", lokasi)
-    return lokasi
+def lokasi_kuki():
+    return pathlib.Path("kukifix.json")
 
 
 @pytest.fixture
-def kuki(lokasi_kuki):
-    lokasi_kuki.write_text('{".AspNet.ApplicationCookie": "kuki enak"}')
+def mock_lokasi_kuki(lokasi_kuki, monkeypatch):
+    monkeypatch.setattr(kbbi.AutentikasiKBBI, "lokasi_kuki", lokasi_kuki)
     return lokasi_kuki
+
+
+@pytest.fixture
+def kuki(mock_lokasi_kuki):
+    mock_lokasi_kuki.write_text('{".AspNet.ApplicationCookie": "kuki enak"}')
+    return mock_lokasi_kuki
 
 
 @pytest.fixture

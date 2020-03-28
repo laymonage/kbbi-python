@@ -41,7 +41,7 @@ def test_autentikasi_tanpa_posel_sandi_kuki_tidak_ada():
         kbbi.AutentikasiKBBI(lokasi_kuki="/lokasi/tidak/ada")
     assert str(e.value) == (
         "Posel dan sandi tidak diberikan, "
-        "tetapi kuki tidak ditemukan di /lokasi/tidak/ada"
+        "tetapi kuki tidak ditemukan pada /lokasi/tidak/ada"
     )
 
 

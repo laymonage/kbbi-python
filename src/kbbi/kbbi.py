@@ -500,7 +500,7 @@ class AutentikasiKBBI:
 
         :param posel: Alamat posel yang terdaftar di KBBI Daring
         :type email: str
-        :param sandi: Kata sandi untuk akun dengan alamat surel yang diberikan
+        :param sandi: Kata sandi untuk akun dengan alamat posel yang diberikan
         :type sandi: str
         :param lokasi_kuki: Lokasi kuki yang akan dimuat/disimpan
         :type lokasi_kuki: str atau PathLike
@@ -511,10 +511,7 @@ class AutentikasiKBBI:
             try:
                 self.ambil_kuki()
             except FileNotFoundError as e:
-                raise GagalAutentikasi(
-                    "Posel dan sandi tidak diberikan, "
-                    f"tetapi kuki tidak ditemukan di {self.lokasi_kuki}"
-                ) from e
+                raise KukiTidakDitemukan(self.lokasi_kuki) from e
         else:
             token = self._ambil_token()
             self._autentikasi(posel, sandi, token)
@@ -588,12 +585,24 @@ class GagalAutentikasi(Galat):
     """Galat ketika gagal melakukan autentikasi dengan KBBI."""
 
     def __init__(self, pesan=None):
-        if pesan is None:
-            pesan = (
-                "Gagal melakukan autentikasi dengan alamat posel dan sandi "
-                "yang diberikan."
+        super().__init__(
+            pesan
+            or "Gagal melakukan autentikasi dengan alamat posel dan sandi "
+            "yang diberikan."
+        )
+
+
+class KukiTidakDitemukan(GagalAutentikasi):
+    """Galat ketika lokasi kuki yang diberikan tidak ditemukan."""
+
+    def __init__(self, lokasi_kuki, posel_sandi=True):
+        if posel_sandi:
+            super().__init__(
+                f"Posel dan sandi tidak diberikan, "
+                f"tetapi kuki tidak ditemukan pada {lokasi_kuki}"
             )
-        super().__init__(pesan)
+        else:
+            super().__init__(f"Kuki tidak ditemukan pada {lokasi_kuki}!")
 
 
 def _parse_args_autentikasi(args):
@@ -619,12 +628,18 @@ def _parse_args_autentikasi(args):
         nargs="?",
     )
     parser.add_argument(
+        "--lokasi-kuki",
+        "-l",
+        help="lokasi menuju berkas kuki yang akan disimpan",
+        metavar="LOKASI",
+    )
+    parser.add_argument(
         "-h",
         "-b",
         "--help",
         "--bantuan",
-        action="help",
-        default=argparse.SUPPRESS,
+        action="store_true",
+        dest="bantuan",
         help="tampilkan pesan bantuan ini dan keluar",
     )
     parser.add_argument(
@@ -633,15 +648,14 @@ def _parse_args_autentikasi(args):
         help="bersihkan kuki yang tersimpan",
         action="store_true",
     )
-    return parser.parse_args(args)
+    return parser.parse_args(args), parser
 
 
-def _bersihkan_kuki():
-    lokasi_kuki = AutentikasiKBBI.lokasi_kuki
+def _bersihkan_kuki(lokasi_kuki):
     try:
         lokasi_kuki.unlink()
     except FileNotFoundError:
-        print(f"Kuki tidak ditemukan pada {lokasi_kuki}!")
+        print(KukiTidakDitemukan(lokasi_kuki, posel_sandi=False))
         return 1
     else:
         print(f"Kuki {lokasi_kuki} berhasil dihapus.")
@@ -652,15 +666,21 @@ def autentikasi(argv=None):
     """Program CLI untuk autentikasi."""
     if argv is None:
         argv = sys.argv[1:]
-    if argv == []:
-        argv = ["-h"]
-    args = _parse_args_autentikasi(argv)
+    args, parser = _parse_args_autentikasi(argv)
+    lokasi_kuki = AutentikasiKBBI.lokasi_kuki
+    if args.lokasi_kuki:
+        lokasi_kuki = Path(args.lokasi_kuki)
     if args.posel is None and args.sandi is None:
         if args.bersihkan:
-            return _bersihkan_kuki()
+            return _bersihkan_kuki(lokasi_kuki)
+        args.bantuan = True
+    if args.bantuan:
+        parser.print_help()
         return 0
     try:
-        auth = AutentikasiKBBI(args.posel, args.sandi)
+        auth = AutentikasiKBBI(
+            args.posel, args.sandi, lokasi_kuki=args.lokasi_kuki
+        )
     except Galat as e:
         print(e)
         return 1
@@ -671,6 +691,10 @@ def autentikasi(argv=None):
             f"{auth.lokasi_kuki}.\n"
             "Kuki akan otomatis digunakan pada penggunaan KBBI berikutnya."
         )
+        if args.lokasi_kuki:
+            print(
+                "Gunakan opsi --lokasi-kuki yang sama ketika menggunakan KBBI."
+            )
     return 0
 
 
@@ -728,6 +752,12 @@ def _parse_args_utama(args):
         type=int,
         metavar="N",
     )
+    parser.add_argument(
+        "--lokasi-kuki",
+        "-l",
+        help="lokasi menuju berkas kuki yang akan digunakan untuk autentikasi",
+        metavar="L",
+    )
     return parser.parse_args(args)
 
 
@@ -746,8 +776,14 @@ def main(argv=None):
         argv = sys.argv[1:]
     args = _parse_args_utama(argv)
     auth = None
-    if AutentikasiKBBI.lokasi_kuki.exists():
-        auth = AutentikasiKBBI()
+    lokasi_kuki = AutentikasiKBBI.lokasi_kuki
+    if args.lokasi_kuki:
+        lokasi_kuki = Path(args.lokasi_kuki)
+    if lokasi_kuki.exists():
+        auth = AutentikasiKBBI(lokasi_kuki=lokasi_kuki)
+    elif args.lokasi_kuki:
+        print(KukiTidakDitemukan(lokasi_kuki, posel_sandi=False))
+        return 1
     try:
         laman = KBBI(args.laman, auth)
     except Galat as e:
