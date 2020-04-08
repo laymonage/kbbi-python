@@ -38,6 +38,8 @@ class KBBI:
         :type auth: AutentikasiKBBI
         """
         self.nama = kueri
+        self.entri = []
+        self.saran_entri = []
         self._init_lokasi()
         self._init_sesi(auth)
         laman = self.sesi.get(f"{self.host}/{self.lokasi}")
@@ -74,12 +76,20 @@ class KBBI:
         if "Beranda/BatasSehari" in laman.url:
             raise BatasSehari()
         if "Entri tidak ditemukan." in laman.text:
-            raise TidakDitemukan(self.nama)
+            self._init_saran(laman)
+            raise TidakDitemukan(self.nama, objek=self)
+
+    def _init_saran(self, laman):
+        if "Berikut beberapa saran entri lain yang mirip." not in laman.text:
+            return
+        sup = BeautifulSoup(laman.text, "html.parser")
+        self.saran_entri = [
+            saran.text.strip() for saran in sup.find_all(class_="col-md-3")
+        ]
 
     def _init_entri(self, laman):
         sup = BeautifulSoup(laman.text, "html.parser")
         estr = ""
-        self.entri = []
         label = sup.find("hr").next_sibling
         while not (label.name == "hr" and label.get("style") is None):
             if label.name == "h2":
@@ -99,14 +109,22 @@ class KBBI:
         :returns: Dictionary hasil serialisasi
         :rtype: dict
         """
-        return {
+        kbbi = {
             "pranala": f"{self.host}/{self.lokasi}",
             "entri": [
                 entri.serialisasi(fitur_pengguna) for entri in self.entri
             ],
         }
+        if self.terautentikasi and fitur_pengguna and not self.entri:
+            kbbi["saran_entri"] = self.saran_entri
+        return kbbi
 
     def __str__(self, contoh=True, terkait=True, fitur_pengguna=True):
+        if self.terautentikasi and fitur_pengguna and self.saran_entri:
+            return (
+                "Berikut beberapa saran entri lain yang mirip.\n"
+                f"{', '.join(self.saran_entri)}"
+            )
         return "\n\n".join(
             entri.__str__(contoh, terkait, fitur_pengguna)
             for entri in self.entri
@@ -558,8 +576,9 @@ class Galat(Exception):
 class TidakDitemukan(Galat):
     """Galat ketika laman tidak ditemukan dalam KBBI."""
 
-    def __init__(self, kueri):
+    def __init__(self, kueri, objek=None):
         super().__init__(f"{kueri} tidak ditemukan dalam KBBI.")
+        self.objek = objek
 
 
 class TerjadiKesalahan(Galat):
@@ -787,6 +806,13 @@ def main(argv=None):
         return 1
     try:
         laman = KBBI(args.laman, auth)
+    except TidakDitemukan as e:
+        laman = e.objek
+        if not args.json:
+            print(e)
+        if (laman.saran_entri and args.pengguna) or args.json:
+            print(_keluaran(laman, args))
+        return 1
     except Galat as e:
         print(e)
         return 1

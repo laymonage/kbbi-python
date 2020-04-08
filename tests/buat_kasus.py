@@ -35,6 +35,8 @@ laman = [
     "sage",  # terdapat info (bahasa latin)
     "semakin",  # terdapat entri tanpa makna dan entri lain berupa rujukan
     "tampak",  # terdapat rujukan dengan nomor
+    "huk",  # saran entri lain yang mirip apabila entri tidak dapat ditemukan
+    "idn45",  # tidak ditemukan dan tidak ada saran entri lain yang mirip
 ]
 
 
@@ -124,15 +126,14 @@ def buat_semua_objek(daftar):
     auth = MockAutentikasiKBBI("foo", "bar")
     semua = {"auth": [], "nonauth": []}
     for laman in daftar:
-        semua["auth"].append(MockKBBI(laman, auth))
-        semua["nonauth"].append(MockKBBI(laman))
+        semua["auth"].append(MockKBBI._init_aman(laman, auth))
+        semua["nonauth"].append(MockKBBI._init_aman(laman))
     return semua
 
 
 def buat_semua_kasus(semua, jenis):
-    for laman, objek in semua.items():
-        for buat in jenis:
-            buat(semua)
+    for buat in jenis:
+        buat(semua)
 
 
 def main(daftar=None):

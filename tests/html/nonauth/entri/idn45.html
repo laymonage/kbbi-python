@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="keywords" content="kbbi, kbbi online, kbbi daring, kbbi dalam jaringan, kbbi 5, kbbi V, kbbi online terbaru, kbbi terbaru, kbbi resmi, Kamus Besar Bahasa Indonesia, Badan Bahasa, Pusat Bahasa, kamus bahasa Indonesia, kamus daring, kamus indonesia," />
+  <link rel="icon" href="/kbbi-daring-3.ico" />
+  <title>Hasil Pencarian - KBBI Daring</title>
+  <link href="/Content/css?v=oq5T2FgFNthYPMx1RHccxOAHAzzHSva0HzZ7iXO7RRY1" rel="stylesheet"/>
+
+  <script src="/bundles/modernizr?v=inCVuEFe6J4Q07A0AcRsbJic_UE5MwpRMNGcOtk94TE1"></script>
+
+</head>
+<body style="font-family:Verdana, Geneva, Tahoma, sans-serif">
+  <div class="navbar navbar-inverse navbar-fixed-top"
+       style="background-color:#110063;border-color:gold">
+    <div class="container">
+      <div class="navbar-header">
+        <img src="/Content/Images/Logo-Tut-Wuri-Handayani-blue.png"
+             height="40px;" width="40px;" style="margin:5px;" />
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"
+                style="background-color:#110063;border-color:gold;">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a href="/Beranda" style="color:gold;text-decoration:none;margin-left:5px;margin-right:5px;font-size:larger">KBBI Daring</a>
+      </div>
+      <div class="navbar-collapse collapse"
+           style="background-color:#110063;color:gold;border-top-color:gold">
+        <ul class="nav navbar-nav">
+          <li><a href="/" style="color:gold">Cari</a></li>
+          <li><a href="/Beranda/SeputarLaman" style="color:gold">Seputar Laman</a></li>
+                  </ul>
+          <ul class="nav navbar-nav navbar-right">
+    <li><a href="/Account/Register" id="registerLink" style="color:gold">Daftar Baru</a></li>
+    <li><a href="/Account/Login" id="loginLink" style="color:gold">Masuk</a></li>
+  </ul>
+
+      </div>
+    </div>
+  </div>
+  <div class="container body-content">
+    
+
+
+
+
+<br />
+
+<div>
+    <h4 class="text-center">
+      <span class="glyphicon glyphicon-info-sign text-primary"></span>
+      Informasi: Temukan bantuan menggunakan KBBI Daring <a href="/Beranda/Bantuan">di sini</a>.
+    </h4>
+    <br />
+</div>
+
+<form action="/entri/nul" class="form-horizontal" id="searchForm" method="post" onsubmit="searchText(event)" role="form"><div class="form-group">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <div class="input-group form-control-max">
+      <input id="textBoxSearch" name="frasa" value="idn45" type="text" class="form-control form-control-max" style="margin-top:1px;" placeholder="Pencarian..." />
+      <span class="input-group-btn">
+        <span class="btn btn-primary glyphicon glyphicon-search" onclick="searchText(event)"></span>
+      </span>
+    </div>
+  </div>
+</div>
+<h3 id="errorMessageDiv"></h3>
+<script>
+  String.prototype.contains = function (it) { return this.indexOf(it) != -1; };
+  function searchText(ev) {
+    var val = $("#textBoxSearch").val();
+    ev.preventDefault();
+    if (!val) {
+      $("#errorMessageDiv").replaceWith("<h3 id=\"errorMessageDiv\"><font color=\"red\"><p class=\"text-center add-margin-top-5\"><i>Kotak pencarian tidak boleh kosong</i></p></font></h3>");
+    } else {
+      if (val.contains('.') || val.contains('?') || val.toLowerCase() == 'nul' || val.toLowerCase() == 'bin') { //for non-dependent respond
+        window.location.href = '/' + 'Cari/Hasil?frasa=' + val;
+      } else {
+        window.location.href = '/' + 'entri/' + val;
+      }
+    }
+  }
+</script>
+</form>
+
+    <hr />
+      <h2>idn45</h2>
+      <h4 style="color:red"><span class="glyphicon glyphicon-alert text-danger"></span> Entri tidak ditemukan.</h4>
+      <p>
+        Jika Anda mengetahui makna entri [<font color="darkblue">idn45</font>], silakan memberikan usulan kepada redaksi melalui tautan di bawah (bertuliskan <span class="glyphicon glyphicon-plus-sign text-success"></span> <font color="darkgreen">Usulkan Entri Baru</font>).
+        Usulan Anda akan langsung masuk ke <span class="glyphicon glyphicon-inbox" style="color:saddlebrown"></span> meja redaksi. Jika usulan Anda telah diluluskan, usulan tersebut akan ditemukan di dalam KBBI Daring.
+      </p>
+        <hr />
+        <h4><span class="glyphicon glyphicon-info-sign text-info"></span> Pesan Redaksi</h4>
+        <p>Untuk memberikan masukan/usulan pada KBBI Daring, Anda perlu <a href="/Account/Login">masuk menggunakan akun yang terdaftar dalam laman KBBI Daring</a>.</p>
+        <p>Jika Anda belum memiliki akun yang terdaftar, silakan <a href="/Account/Register">mendaftar melalui tautan ini</a>.</p>
+        <p>Mendaftar dalam laman KBBI Daring akan</p>
+        <ul>
+          <li>memudahkan pencarian Anda melalui fitur yang hanya tersedia bagi pengguna terdaftar serta</li>
+          <li>memberikan Anda hak berpartisipasi dalam pengayaan kosakata bahasa Indonesia dengan memberikan usulan kata/makna baru atau perbaikan pada KBBI.</li>
+        </ul>
+
+    <hr />
+    <footer>
+  <p>&copy; 2016 <a href="http://badanbahasa.kemdikbud.go.id/">Badan Pengembangan dan Pembinaan Bahasa</a>, Kementerian Pendidikan dan Kebudayaan Republik Indonesia</p>
+  <p>Versi luring: <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=yuku.kbbi5&hl=in">Android</a> | <a class="btn btn-primary" href="https://itunes.apple.com/app/kamus-besar-bahasa-indonesia/id1173573777">iOS</a>
+  || <span title="by: Ian K">Versi daring: 3.0.0.0-20200508174554</span></p>
+</footer>
+
+  </div>
+  <script src="/bundles/jquery?v=2u0aRenDpYxArEyILB59ETSCA2cfQkSMlxb6jbMBqf81"></script>
+
+  <script src="/bundles/bootstrap?v=7k-mK_Lw6GRA4MkvIrgrWipUHc3KUDohIwN2DDpspCI1"></script>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128199158-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-128199158-1');
+  </script>
+
+  <script>
+    function setSelectionRange(input, selectionStart, selectionEnd) {
+      if (input.setSelectionRange) {
+        input.focus();
+        input.setSelectionRange(selectionStart, selectionEnd);
+      }
+      else if (input.createTextRange) {
+        var range = input.createTextRange();
+        range.collapse(true);
+        range.moveEnd('character', selectionEnd);
+        range.moveStart('character', selectionStart);
+        range.select();
+      }
+    }
+
+    function setCaretToPos(input, pos) {
+      setSelectionRange(input, pos, pos);
+    }
+
+    $(document).ready(function () {
+      // Catch all events related to changes http://stackoverflow.com/questions/21215049/disable-text-entry-in-input-type-number
+      $('.number-input').on('change keyup', function () {
+        var sanitized = $(this).val().replace(/[^0-9]/g, ''); // Remove invalid characters
+        $(this).val(sanitized); // Update value
+      });
+
+      $(function () {
+        var tb = document.getElementById('textBoxSearch');
+        if (tb) {
+          var val = $("#textBoxSearch").val();
+          var caretPos = val.length;
+          setCaretToPos(tb, caretPos);
+        }
+      });
+    });
+  </script>
+
+  
+</body>
+</html>
