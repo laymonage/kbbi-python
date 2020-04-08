@@ -38,6 +38,7 @@ class KBBI:
         :type auth: AutentikasiKBBI
         """
         self.nama = kueri
+        self.is_entri_saran = False
         self._init_lokasi()
         self._init_sesi(auth)
         laman = self.sesi.get(f"{self.host}/{self.lokasi}")
@@ -74,24 +75,30 @@ class KBBI:
         if "Beranda/BatasSehari" in laman.url:
             raise BatasSehari()
         if "Entri tidak ditemukan." in laman.text:
-            raise TidakDitemukan(self.nama)
+            if "Berikut beberapa saran entri lain yang mirip." in laman.text:
+                self.is_entri_saran = True
+            else:
+                raise TidakDitemukan(self.nama)
 
     def _init_entri(self, laman):
         sup = BeautifulSoup(laman.text, "html.parser")
         estr = ""
         self.entri = []
-        label = sup.find("hr").next_sibling
-        while not (label.name == "hr" and label.get("style") is None):
-            if label.name == "h2":
-                if label.get("style") == "color:gray":  # Lampiran
-                    label = label.next_sibling
-                    continue
-                if estr:
-                    self.entri.append(Entri(estr, self.terautentikasi))
-                    estr = ""
-            estr += str(label).strip()
-            label = label.next_sibling
-        self.entri.append(Entri(estr, self.terautentikasi))
+        if self.is_entri_saran == True:
+            self.entri.append(Saran(laman))
+        else :
+            label = sup.find("hr").next_sibling
+            while not (label.name == "hr" and label.get("style") is None):
+                if label.name == "h2":
+                    if label.get("style") == "color:gray":  # Lampiran
+                        label = label.next_sibling
+                        continue
+                    if estr:
+                        self.entri.append(Entri(estr, self.terautentikasi))
+                        estr = ""
+                estr += str(label).strip()
+                label = label.next_sibling
+            self.entri.append(Entri(estr, self.terautentikasi))
 
     def serialisasi(self, fitur_pengguna=True):
         """Mengembalikan hasil serialisasi objek KBBI ini.
@@ -604,6 +611,46 @@ class KukiTidakDitemukan(GagalAutentikasi):
         else:
             super().__init__(f"Kuki tidak ditemukan pada {lokasi_kuki}!")
 
+class Saran:
+    def __init__(self, laman):
+        soup = BeautifulSoup(laman.text, "html.parser")
+        self._init_info()
+        self._init_saran_entri(soup)
+
+    def _init_info(self):
+        self.info = 'Berikut beberapa saran entri lain yang mirip.'
+
+    def _init_saran_entri(self, soup):
+        self.saran_entri = {
+            "kata_lainnya": []
+        }
+        for div in soup.find_all('div', {'class': 'col-md-3'}): # note : col-md-3 hasil dari entrian lain
+            tag = str(div.a) # get element link
+            tag = tag[(tag.find(">") + 1):]
+            self.saran_entri["kata_lainnya"].append(tag[:tag.find("<")])
+
+    def _saran_entri(self):
+        hasil = ""
+        header = {
+            "kata_lainnya": "\nKata Lainnya",
+        }
+        for key, head in header.items():
+            if self.saran_entri[key]:
+                hasil += f"{head}\n{'; '.join(self.saran_entri[key])}"
+        return hasil
+
+    def serialisasi(self, fitur_pengguna=True):
+        entri = {
+            "info": self.info,
+            "saran_entri": self.saran_entri,
+        }
+        return entri
+
+    def __str__(self, contoh=True, terkait=True, fitur_pengguna=True):
+        hasil = ""
+        hasil += self.info
+        hasil += self._saran_entri()
+        return hasil
 
 def _parse_args_autentikasi(args):
     parser = argparse.ArgumentParser(
