@@ -165,8 +165,8 @@ roh Kudus; roh suci
 ```
 
 Fitur khusus pengguna yang didukung saat ini adalah etimologi, entri terkait
-(kata turunan, gabungan kata, peribahasa, dan idiom), dan batas pencarian yang
-lebih besar.
+(kata turunan, gabungan kata, peribahasa, dan idiom), saran entri terkait
+ketika entri tidak ditemukan, dan batas pencarian yang lebih besar.
 
 Untuk mendapatkan representasi `str`-nya tanpa fitur entri terkait, gunakan
 `__str__(terkait=False)`.
@@ -179,6 +179,26 @@ Etimologi: [Arab] (n) (sg) (f/m)  رُوْحٌ rūh: tiupan; sesuatu yang membua
 1. (n)  sesuatu (unsur) yang ada dalam jasad yang diciptakan Tuhan sebagai penyebab adanya hidup (kehidupan); nyawa
 2. (n)  makhluk hidup yang tidak berjasad, tetapi berpikiran dan berperasaan (malaikat, jin, setan, dan sebagainya)
 3. (n) (ki)  semangat; spirit
+```
+
+Untuk memanfaatkan fitur saran entri yang mirip apabila entri tidak dapat
+ditemukan, gunakan objek `KBBI` yang terdapat pada objek `TidakDitemukan`
+melalui atribut `objek`.
+
+```python
+>>> from kbbi import TidakDitemukan
+>>> try:
+...     huk = KBBI("huk", auth)
+... except TidakDitemukan as e:
+...     huk = e.objek
+...
+>>> print(huk)
+Berikut beberapa saran entri lain yang mirip.
+auk, buk (1), buk (2), cuk, duk, hak (1), hak (2), hak (3), hak (4), huh, hun, hus, Hut, kuk (1), kuk (2), luk, muk, suk, tuk (1), yuk (1), yuk (2), DUK, HUT, KUK, UK, hub (2), Hud, tuk (2), guk
+>>> print(huk.serialisasi())
+{'pranala': 'https://kbbi.kemdikbud.go.id/entri/huk', 'entri': [], 'saran_entri': ['auk', 'buk (1)', 'buk (2)', 'cuk', 'duk', 'hak (1)', 'hak (2)', 'hak (3)', 'hak (4)', 'huh', 'hun', 'hus', 'Hut', 'kuk (1)', 'kuk (2)', 'luk', 'muk', 'suk', 'tuk (1)', 'yuk (1)', 'yuk (2)', 'DUK', 'HUT', 'KUK', 'UK', 'hub (2)', 'Hud', 'tuk (2)', 'guk']}
+>>> print(huk.saran_entri)
+['auk', 'buk (1)', 'buk (2)', 'cuk', 'duk', 'hak (1)', 'hak (2)', 'hak (3)', 'hak (4)', 'huh', 'hun', 'hus', 'Hut', 'kuk (1)', 'kuk (2)', 'luk', 'muk', 'suk', 'tuk (1)', 'yuk (1)', 'yuk (2)', 'DUK', 'HUT', 'KUK', 'UK', 'hub (2)', 'Hud', 'tuk (2)', 'guk']
 ```
 
 Untuk menonaktifkan fitur khusus pengguna (selain batas pencarian yang lebih

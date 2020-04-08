@@ -199,3 +199,51 @@ def test_program_utama_lokasi_kuki_tidak_ada(capsys, kbbi_mock, tanpa_kuki):
     tangkap = capsys.readouterr()
     assert tangkap.out == "Kuki tidak ditemukan pada kukiku.json!\n"
     assert hasil == 1
+
+
+@pytest.mark.parametrize(
+    "kbbi_mock,lokasi", [("auth", "kasus/auth/str/huk.txt")], indirect=True
+)
+def test_tidak_ditemukan_ada_saran(capsys, kbbi_mock, lokasi):
+    hasil = kbbi.main(["huk"])
+    tangkap = capsys.readouterr()
+    assert tangkap.out == (
+        f"huk tidak ditemukan dalam KBBI.\n{lokasi.read_text()}"
+    )
+    assert hasil == 1
+
+
+@pytest.mark.parametrize(
+    "kbbi_mock,lokasi", [("auth", "kasus/auth/str/idn45.txt")], indirect=True
+)
+def test_tidak_ditemukan_tidak_ada_saran(capsys, kbbi_mock, lokasi):
+    hasil = kbbi.main(["idn45"])
+    tangkap = capsys.readouterr()
+    assert tangkap.out == (
+        f"idn45 tidak ditemukan dalam KBBI.\n{lokasi.read_text()[:-1]}"
+    )
+    assert hasil == 1
+
+
+@pytest.mark.parametrize(
+    "kbbi_mock,lokasi",
+    [("auth", "kasus/auth/serialisasi/huk.json")],
+    indirect=True,
+)
+def test_tidak_ditemukan_ada_saran_json(capsys, kbbi_mock, lokasi):
+    hasil = kbbi.main(["huk", "--json", "--indentasi", "2"])
+    tangkap = capsys.readouterr()
+    assert tangkap.out == lokasi.read_text()
+    assert hasil == 1
+
+
+@pytest.mark.parametrize(
+    "kbbi_mock,lokasi",
+    [("auth", "kasus/auth/serialisasi/idn45.json")],
+    indirect=True,
+)
+def test_tidak_ditemukan_tidak_ada_saran_json(capsys, kbbi_mock, lokasi):
+    hasil = kbbi.main(["idn45", "--json", "--indentasi", "2"])
+    tangkap = capsys.readouterr()
+    assert tangkap.out == lokasi.read_text()
+    assert hasil == 1

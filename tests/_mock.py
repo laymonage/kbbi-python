@@ -1,18 +1,31 @@
-from kbbi import KBBI, AutentikasiKBBI, GagalAutentikasi
+from kbbi import KBBI, AutentikasiKBBI, GagalAutentikasi, TidakDitemukan
 
 
 class MockKBBI(KBBI):
     host = "http://localhost:8000"
     _host = KBBI.host
-    lokasi = None
 
     def __init__(self, kueri, auth=None, lokasi=None):
         self._auth = auth
-        self.lokasi = self.lokasi or lokasi
+        self._lokasi = lokasi
+        self.lokasi = lokasi
         super().__init__(kueri, auth)
+
+    def _cek_autentikasi(self, laman):
+        super()._cek_autentikasi(laman)
+        self._kembalikan_host_lokasi()
+
+    def _kembalikan_host_lokasi(self):
         self.host = self._host
-        if lokasi is None:
-            self.lokasi = self._lokasi
+        self.lokasi = self._lokasi
+
+    @classmethod
+    def _init_aman(cls, kueri, auth=None, lokasi=None):
+        try:
+            return cls(kueri, auth, lokasi)
+        except TidakDitemukan as e:
+            e.objek._kembalikan_host_lokasi()
+            return e.objek
 
     def _init_lokasi(self):
         if self.lokasi is not None:

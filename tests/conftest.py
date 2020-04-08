@@ -47,14 +47,16 @@ def ambil_atau_simpan(dct, key, func):
 @pytest.fixture
 def aktual_objek(request, laman):
     kueri = request.param
-    return ambil_atau_simpan(laman, kueri, lambda a: MockKBBI(a))
+    return ambil_atau_simpan(laman, kueri, lambda a: MockKBBI._init_aman(a))
 
 
 @pytest.fixture
 def aktual_objek_terautentikasi(request, autentikasi, laman_terautentikasi):
     kueri = request.param
     return ambil_atau_simpan(
-        laman_terautentikasi, kueri, lambda a: MockKBBI(a, autentikasi)
+        laman_terautentikasi,
+        kueri,
+        lambda a: MockKBBI._init_aman(a, autentikasi),
     )
 
 
