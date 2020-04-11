@@ -165,7 +165,7 @@ roh Kudus; roh suci
 ```
 
 Fitur khusus pengguna yang didukung saat ini adalah etimologi, entri terkait
-(kata turunan, gabungan kata, peribahasa, dan kiasan), dan batas pencarian yang
+(kata turunan, gabungan kata, peribahasa, dan idiom), dan batas pencarian yang
 lebih besar.
 
 Untuk mendapatkan representasi `str`-nya tanpa fitur entri terkait, gunakan
