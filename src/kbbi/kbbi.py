@@ -323,10 +323,10 @@ class Makna:
             self.submakna += f" ({nomor.text.strip()})"
 
     def _init_submakna(self, makna_label):
-        rujukan = makna_label.find("a")
         entris = makna_label.find("span", class_="entrisButton")
         if entris:
             entris.extract()
+        rujukan = makna_label.find("a")
         if rujukan and not rujukan.find("span", style="color:red"):
             self._init_rujukan(rujukan)
         elif makna_label.get("color") == "darkgreen":
