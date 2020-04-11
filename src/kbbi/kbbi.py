@@ -202,7 +202,7 @@ class Entri:
             "kata_turunan": [],
             "gabungan_kata": [],
             "peribahasa": [],
-            "kiasan": [],
+            "idiom": [],
         }
         terkait = entri.find_all("h4")
         for le in terkait:
@@ -276,7 +276,7 @@ class Entri:
             "kata_turunan": "\nKata Turunan",
             "gabungan_kata": "\nGabungan Kata",
             "peribahasa": f"\nPeribahasa (mengandung [{nama_murni}])",
-            "kiasan": f"\nKiasan (mengandung [{nama_murni}])",
+            "idiom": f"\nIdiom (mengandung [{nama_murni}])",
         }
         for key, head in header.items():
             if self.terkait[key]:
