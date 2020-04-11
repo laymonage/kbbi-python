@@ -348,6 +348,7 @@ class Makna:
             kelas = kelas.find_all("span")
         if makna_label.get("color") == "darkgreen":  # prakategorial
             kelas = [makna_label]
+        kelas = kelas or []
 
         self.kelas = []
         for k in kelas:
