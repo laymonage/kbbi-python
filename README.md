@@ -292,7 +292,7 @@ Silakan lihat [CONTRIBUTING.md][CONTRIBUTING.md].
 
 ## Lisensi
 
-Proyek ini didistribusikan dengan lisensi [MIT][license].
+Proyek ini didistribusikan dengan lisensi [MIT][LICENSE].
 
 ## Penafian
 
@@ -317,9 +317,9 @@ penyalahgunaan yang mungkin muncul dari proyek ini.
 [kbbi]: https://kbbi.kemdikbud.go.id
 [requests]: https://pypi.org/project/requests
 [beautifulsoup4]: https://pypi.org/project/beautifulsoup4
-[kbbi-py]: kbbi/kbbi.py
-[CONTRIBUTING.md]: CONTRIBUTING.md
-[license]: LICENSE
+[kbbi-py]: https://github.com/laymonage/kbbi-python/raw/master/src/kbbi/kbbi.py
+[CONTRIBUTING.md]: https://github.com/laymonage/kbbi-python/blob/master/CONTRIBUTING.md
+[LICENSE]: https://github.com/laymonage/kbbi-python/blob/master/LICENSE
 [hukum]: https://kbbi.kemdikbud.go.id/Beranda/Hukum
 [badan-bahasa]: http://badanbahasa.kemdikbud.go.id
 [psf]: https://www.python.org/psf
