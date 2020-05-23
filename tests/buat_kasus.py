@@ -123,9 +123,9 @@ def unduh_html(daftar):
 def buat_semua_objek(daftar):
     auth = MockAutentikasiKBBI("foo", "bar")
     semua = {"auth": [], "nonauth": []}
-    for l in daftar:
-        semua["auth"].append(MockKBBI(l, auth))
-        semua["nonauth"].append(MockKBBI(l))
+    for laman in daftar:
+        semua["auth"].append(MockKBBI(laman, auth))
+        semua["nonauth"].append(MockKBBI(laman))
     return semua
 
 
