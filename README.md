@@ -20,8 +20,8 @@ pip install kbbi
 
 ### Manual
 
-1. Lakukan instalasi untuk paket-paket prasyarat ([`requests`][requests]
-   dan [`BeautifulSoup4`][beautifulsoup4]).
+1. Lakukan instalasi untuk paket-paket prasyarat ([`requests`][requests],
+   [`BeautifulSoup4`][beautifulsoup4], dan [`appdirs`][appdirs]).
 2. Klonakan repositori ini atau unduh [`kbbi.py`][kbbi-py].
 3. Letakkan `kbbi.py` dalam direktori yang Anda inginkan.
 
@@ -229,9 +229,9 @@ ketika membuat objek `AutentikasiKBBI`.
 
 Secara *default*, lokasi tersebut adalah:
 
-- Unix: `~/.config/kbbi/kuki.json`
+- Unix: `~/.local/share/kbbi/kuki.json`
 - Windows: `%localappdata%\laymonage\kbbi\kuki.json`
-- Mac: `~/Library/Application Support/kbbi/kuki.json`
+- macOS: `~/Library/Application Support/kbbi/kuki.json`
 
 ### Melalui CLI
 
@@ -337,6 +337,7 @@ penyalahgunaan yang mungkin muncul dari proyek ini.
 [kbbi]: https://kbbi.kemdikbud.go.id
 [requests]: https://pypi.org/project/requests
 [beautifulsoup4]: https://pypi.org/project/beautifulsoup4
+[appdirs]: https://pypi.org/project/appdirs
 [kbbi-py]: https://github.com/laymonage/kbbi-python/raw/master/src/kbbi/kbbi.py
 [CONTRIBUTING.md]: https://github.com/laymonage/kbbi-python/blob/master/CONTRIBUTING.md
 [LICENSE]: https://github.com/laymonage/kbbi-python/blob/master/LICENSE

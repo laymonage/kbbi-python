@@ -20,8 +20,8 @@ from appdirs import AppDirs
 from bs4 import BeautifulSoup
 
 APPDIR = AppDirs("kbbi", "laymonage")
-CONFIG_DIR = Path(APPDIR.user_config_dir)
-CONFIG_DIR.mkdir(parents=True, exist_ok=True)
+DATA_DIR = Path(APPDIR.user_data_dir)
+DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 
 class KBBI:
@@ -507,7 +507,7 @@ class AutentikasiKBBI:
 
     host = "https://kbbi.kemdikbud.go.id"
     lokasi = "Account/Login"
-    lokasi_kuki = CONFIG_DIR / "kuki.json"
+    lokasi_kuki = DATA_DIR / "kuki.json"
 
     def __init__(self, posel=None, sandi=None, lokasi_kuki=None):
         """Melakukan autentikasi dengan alamat posel dan sandi yang diberikan.
