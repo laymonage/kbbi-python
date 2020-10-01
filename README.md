@@ -23,7 +23,7 @@ pip install kbbi
 1. Lakukan instalasi untuk paket-paket prasyarat ([`requests`][requests],
    [`BeautifulSoup4`][beautifulsoup4], dan [`appdirs`][appdirs]).
 2. Klonakan repositori ini atau unduh [`kbbi.py`][kbbi-py].
-3. Letakkan `kbbi.py` dalam direktori yang Anda inginkan.
+3. Letakkan `kbbi.py` dalam directory yang Anda inginkan.
 
 ## Penggunaan
 
