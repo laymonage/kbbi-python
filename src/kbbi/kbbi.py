@@ -75,6 +75,8 @@ class KBBI:
             raise TerjadiKesalahan()
         if "Beranda/BatasSehari" in laman.url:
             raise BatasSehari()
+        if "Account/Banned" in laman.url:
+            raise AkunDibekukan()
         if "Entri tidak ditemukan." in laman.text:
             self._init_saran(laman)
             raise TidakDitemukan(self.nama, objek=self)
@@ -599,6 +601,19 @@ class BatasSehari(Galat):
         super().__init__(
             "Pencarian Anda telah mencapai batas maksimum dalam sehari."
         )
+
+
+class AkunDibekukan(Galat):
+    """Galat ketika Akun sedang dibekukan.
+
+    Akun dapat dibekukan secara otomatis oleh sistem keamanan KBBI Daring
+    atau secara manual oleh salah satu dari administrator
+    jika terdapat aktivitas akun yang dianggap mencurigakan.
+    Laman: https://kbbi.kemdikbud.go.id/Account/Banned
+    """
+
+    def __init__(self):
+        super().__init__("Akun ini sedang dibekukan, tidak dapat digunakan.")
 
 
 class GagalAutentikasi(Galat):

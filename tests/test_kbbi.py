@@ -113,6 +113,14 @@ def test_galat_batas_sehari():
     )
 
 
+def test_galat_akun_dibekukan():
+    with pytest.raises(kbbi.AkunDibekukan) as e:
+        MockKBBI("coba", lokasi="Account/Banned.html")
+    assert str(e.value) == (
+        "Akun ini sedang dibekukan, tidak dapat digunakan."
+    )
+
+
 def test_galat_tidak_ditemukan():
     with pytest.raises(kbbi.TidakDitemukan) as e:
         MockKBBI("nonexistent", lokasi="entri.html")
